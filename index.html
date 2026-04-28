@@ -18,7 +18,8 @@
         .match-linked { opacity: 0.4; pointer-events: none; border-color: #10b981; background: rgba(16, 185, 129, 0.1); }
         .spreadsheet { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
         .spreadsheet th { background: #1e1b4b; color: #818cf8; padding: 12px; text-align: left; border: 1px solid #334155; }
-        .spreadsheet td { padding: 10px; border: 1px solid #334155; }
+        .spreadsheet td { padding: 10px; border: 1px solid #334155; vertical-align: top; }
+        .badge-error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; display: block; margin-bottom: 4px; line-height: 1.2; }
     </style>
 </head>
 <body class="min-h-screen pb-12">
@@ -38,7 +39,8 @@
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA PARA <span class="text-indigo-500">EXAMEN</span> 2026
                 </h1>
-                <p class="text-slate-400 text-lg">Nivel de Dificultad: Medio - Docente Maureen Mora Noguera</p>
+                <p class="text-slate-400 text-lg">Preparación Semestre I - Docente Maureen Mora Noguera</p>
+                <div id="auth-status" class="mt-4 text-xs font-bold text-amber-500 uppercase tracking-widest animate-pulse">Conectando con el aula virtual...</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -79,7 +81,7 @@
                     <div id="q-answers" class="space-y-4"></div>
                     <div id="q-feedback" class="hidden mt-8 p-6 rounded-2xl border-l-8 font-bold text-lg"></div>
                     <div class="mt-12 flex justify-between items-center">
-                        <button onclick="nav('home')" class="text-slate-500 hover:text-white font-medium">✕ Salir</button>
+                        <button onclick="nav('home')" class="text-slate-500 hover:text-white font-medium transition">✕ Salir</button>
                         <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl">Siguiente ➔</button>
                     </div>
                 </div>
@@ -87,21 +89,22 @@
         </div>
 
         <div id="view-history" class="view hidden">
-            <div class="glass rounded-3xl p-8 border border-white/10">
-                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 RESULTADOS EN TIEMPO REAL</h2>
-                <div class="overflow-x-auto rounded-xl">
+            <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
+                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO DE TEMAS A REFORZAR</h2>
+                <div class="overflow-x-auto rounded-xl border border-white/5">
                     <table class="spreadsheet w-full">
                         <thead>
                             <tr>
                                 <th>Fecha / Hora</th>
                                 <th>Materia</th>
                                 <th>Nota</th>
-                                <th>Estado</th>
+                                <th>Temas a Reforzar (Preguntas Falladas)</th>
                             </tr>
                         </thead>
                         <tbody id="history-data"></tbody>
                     </table>
                 </div>
+                <p id="history-status" class="mt-6 text-center text-slate-500 text-xs italic">Cargando reportes desde la base de datos...</p>
             </div>
         </div>
 
@@ -112,10 +115,10 @@
                 <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Sincronizando...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-[0.2em]">Guardando diagnóstico en la nube...</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir Misma</button>
-                <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl">✨ Nueva Práctica</button>
+                <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica</button>
             </div>
         </div>
     </div>
@@ -125,6 +128,7 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
 
+        // --- FIREBASE CONFIG (INTEGRADA) ---
         const firebaseConfig = {
             apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
             authDomain: "practica-examen-2026.firebaseapp.com",
@@ -141,12 +145,28 @@
         const appId = "practica-examen-2026";
         let user = null;
 
-        signInAnonymously(auth).catch(e => console.error("Error Auth:", e));
+        // --- LÓGICA DE INICIO Y SESIÓN ---
+        const startApp = async () => {
+            try {
+                await signInAnonymously(auth);
+            } catch (e) {
+                console.error("Error Auth:", e);
+                document.getElementById('auth-status').innerText = "⚠️ ERROR DE CONEXIÓN";
+            }
+        };
+
         onAuthStateChanged(auth, u => {
-            user = u;
-            if(u) syncHistory();
+            if (u) {
+                user = u;
+                document.getElementById('auth-status').innerText = "✅ SISTEMA CONECTADO";
+                document.getElementById('auth-status').classList.remove('animate-pulse');
+                syncHistory();
+            }
         });
 
+        startApp();
+
+        // --- SVGs ---
         const DRAWINGS = {
             recto: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M20,10 L20,90 L90,90" fill="none" stroke="white" stroke-width="6"/><rect x="20" y="80" width="10" height="10" fill="none" stroke="cyan" stroke-width="2"/></svg>`,
             agudo: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M90,90 L10,90 L70,30" fill="none" stroke="white" stroke-width="6"/></svg>`,
@@ -157,6 +177,7 @@
             rosa: `<svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="gray" fill="none" stroke-dasharray="2"/><path d="M50,10 L55,45 L90,50 L55,55 L50,90 L45,55 L10,50 L45,45 Z" fill="indigo" stroke="white"/></svg>`
         };
 
+        // --- BANCO DE PREGUNTAS (MEDIO) ---
         const BANK = {
             "Español": [
                 { type: "select", q: "¿Cómo se llama el elemento que indica dónde ocurre la historia?", o: ["Lugar", "Personaje", "Conflicto", "Acción"], c: "Lugar" },
@@ -169,7 +190,7 @@
                 { type: "select", q: "¿Qué elemento describe el problema de la historia?", o: ["Conflicto", "Ambiente", "Acción", "Final"], c: "Conflicto" },
                 { type: "select", q: "Las mayúsculas se usan al inicio de un:", o: ["Párrafo", "Punto", "Verbo", "Adjetivo"], c: "Párrafo" },
                 { type: "select", q: "En la frase 'Juan lloró porque se cayó', ¿cuál es la causa?", o: ["Se cayó", "Juan lloró", "El niño", "El suelo"], c: "Se cayó" },
-                { type: "select", q: "Un sustantivo propio es el nombre de:", o: ["Una persona específica", "Cualquier perro", "Una mesa", "Un color"], c: "Una persona específica" },
+                { type: "select", q: "Un sustantivo propio es el nombre de:", o: ["Persona específica", "Cualquier perro", "Una mesa", "Un color"], c: "Persona específica" },
                 { type: "select", q: "¿Cómo se llama el texto hecho para actuar en teatro?", o: ["Dramatización", "Poesía", "Cuento", "Leyenda"], c: "Dramatización" },
                 { type: "select", q: "El punto y aparte sirve para separar:", o: ["Párrafos", "Palabras", "Letras", "Números"], c: "Párrafos" },
                 { type: "select", q: "¿Cuál es un ejemplo de texto expositivo?", o: ["Libro de Ciencias", "Un poema de amor", "Un chiste", "Un cuento de hadas"], c: "Libro de Ciencias" },
@@ -207,7 +228,7 @@
                 { type: "select", q: "Hueso largo de la pierna:", o: ["Fémur", "Cráneo", "Vértebra", "Costilla"], c: "Fémur" },
                 { type: "media", q: "¿Qué órgano digestivo es este?", media: "estomago", o: ["Estómago", "Boca", "Hígado", "Intestino"], c: "Estómago" },
                 { type: "select", q: "Etapa donde se expulsan los desechos:", o: ["Defecación", "Ingestión", "Absorción", "Digestión"], c: "Defecación" },
-                { type: "select", q: "Las articulaciones de la rodilla son:", o: ["Móviles", "Fijas", "Semimóviles"], c: "Móviles" },
+                { type: "select", q: "Las articulaciones de la rodilla son:", o: ["Fijas", "Móviles", "Semimóviles"], c: "Móviles" },
                 { type: "select", q: "Alimentos que nos ayudan a crecer y sanar:", o: ["Constructores", "Energéticos", "Protectores", "Venenos"], c: "Constructores" },
                 { type: "select", q: "El esófago conecta la boca con el:", o: ["Estómago", "Intestino", "Páncreas", "Hígado"], c: "Estómago" },
                 { type: "select", q: "Etapa donde los nutrientes pasan a la sangre:", o: ["Absorción", "Ingestión", "Defecación", "Trituración"], c: "Absorción" },
@@ -248,13 +269,13 @@
             ]
         };
 
+        // --- ESTADO LÓGICO ---
         let currentSubj = "";
         let qs = [];
         let curIdx = 0;
         let score = 0;
-        let currentSet = [];
-        let matchSelected = null;
-        let matchPairs = {};
+        let set = [];
+        let curFailures = [];
 
         window.nav = (v) => {
             document.querySelectorAll('.view').forEach(x => x.classList.add('hidden'));
@@ -266,12 +287,14 @@
             currentSubj = name;
             const pool = [...BANK[name]].sort(() => Math.random() - 0.5);
             qs = pool.slice(0, 20);
-            currentSet = [...qs];
+            set = [...qs];
+            curFailures = [];
             start();
         };
 
         window.restartSame = () => {
-            qs = [...currentSet];
+            qs = [...set];
+            curFailures = [];
             start();
         };
 
@@ -315,6 +338,29 @@
             }
         };
 
+        const validate = (u, c, el) => {
+            const fb = document.getElementById('q-feedback');
+            const btn = document.getElementById('btn-next');
+            const ok = u === c;
+
+            fb.classList.remove('hidden');
+            if (ok) {
+                score++;
+                fb.innerText = "¡CORRECTO! 🎯";
+                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
+            } else {
+                fb.innerText = `ERROR. Respuesta: "${c}".`;
+                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
+                curFailures.push(qs[curIdx].q);
+            }
+
+            document.getElementById('q-answers').querySelectorAll('button').forEach(x => x.disabled = true);
+            btn.classList.remove('hidden');
+        };
+
+        let matchSelected = null;
+        let matchPairs = {};
+
         const renderMatch = (q) => {
             const area = document.getElementById('q-answers');
             area.innerHTML = `<div class="grid grid-cols-2 gap-4" id="match-container">
@@ -350,33 +396,14 @@
                     if(Object.keys(matchPairs).length === q.left.length) {
                         let cCount = 0;
                         for(let k in q.pairs) if(matchPairs[k] === q.pairs[k]) cCount++;
-                        validateMatch(cCount === q.left.length);
+                        validateMatch(cCount === q.left.length, q.q);
                     }
                 };
                 document.getElementById('right-side').appendChild(b);
             });
         };
 
-        const validate = (u, c, el) => {
-            const fb = document.getElementById('q-feedback');
-            const btn = document.getElementById('btn-next');
-            const ok = u === c;
-
-            fb.classList.remove('hidden');
-            if (ok) {
-                score++;
-                fb.innerText = "¡CORRECTO! 🎯";
-                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
-            } else {
-                fb.innerText = `ERROR. Respuesta: "${c}".`;
-                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
-            }
-
-            document.getElementById('q-answers').querySelectorAll('button').forEach(x => x.disabled = true);
-            btn.classList.remove('hidden');
-        };
-
-        const validateMatch = (ok) => {
+        const validateMatch = (ok, questionText) => {
             const fb = document.getElementById('q-feedback');
             fb.classList.remove('hidden');
             if(ok) {
@@ -386,6 +413,7 @@
             } else {
                 fb.innerText = "ASOCIE INCORRECTO. Revisa bien los conceptos.";
                 fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
+                curFailures.push("Asocie: " + questionText);
             }
             document.getElementById('btn-next').classList.remove('hidden');
         };
@@ -403,39 +431,57 @@
             const finalNota = Math.round((score / qs.length) * 100);
             document.getElementById('res-score').innerText = finalNota;
             
+            // Verificamos si hay usuario ANTES de intentar escribir
             if(user) {
                 try {
+                    // RUTA ESTRICTA SEGÚN REGLAS
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), {
                         uid: user.uid,
                         materia: currentSubj,
                         nota: finalNota,
                         fecha: new Date().toLocaleString(),
+                        fallos: curFailures,
                         timestamp: serverTimestamp()
                     });
-                    document.getElementById('cloud-sync').innerText = "✅ RESULTADOS GUARDADOS";
+                    document.getElementById('cloud-sync').innerText = "✅ REPORTE SINCRONIZADO";
                 } catch(e) {
-                    document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR";
+                    console.error("Error al guardar en Firebase:", e);
+                    document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR: " + e.code;
                 }
+            } else {
+                document.getElementById('cloud-sync').innerText = "⚠️ REINTENTANDO CONEXIÓN...";
+                // Pequeño reintento si el usuario no estaba listo
+                setTimeout(finish, 2000);
             }
         };
 
         const syncHistory = () => {
+            if (!user) return;
+            // RUTA ESTRICTA SEGÚN REGLAS
             const qry = query(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), orderBy('timestamp', 'desc'));
             onSnapshot(qry, (snap) => {
                 const body = document.getElementById('history-data');
                 body.innerHTML = "";
+                document.getElementById('history-status').style.display = "none";
                 snap.forEach(doc => {
                     const d = doc.data();
+                    const fallosHTML = d.fallos && d.fallos.length > 0 
+                        ? d.fallos.map(f => `<span class="badge-error">Reforzar: ${f}</span>`).join('') 
+                        : '<span class="text-emerald-400 text-[0.7rem] font-bold">¡Dominio Total! 🏆</span>';
+                    
                     const row = `
                         <tr class="hover:bg-white/5 transition border-b border-white/5">
-                            <td class="p-4 text-xs text-slate-500">${d.fecha}</td>
+                            <td class="p-4 text-[0.7rem] text-slate-500">${d.fecha}</td>
                             <td class="p-4 font-bold text-indigo-400">${d.materia}</td>
-                            <td class="p-4 font-black ${d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400'}">${d.nota}</td>
-                            <td class="p-4 text-xs">${d.nota >= 70 ? '✅ Aprobado' : '❌ Repasar'}</td>
+                            <td class="p-4 font-black ${d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400'} text-center">${d.nota}</td>
+                            <td class="p-4">${fallosHTML}</td>
                         </tr>
                     `;
                     body.insertAdjacentHTML('beforeend', row);
                 });
+            }, (error) => {
+                console.error("Error al leer de Firebase:", error);
+                document.getElementById('history-status').innerText = "⚠️ Error de permisos en la base de datos.";
             });
         };
 
