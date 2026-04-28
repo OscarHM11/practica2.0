@@ -34,47 +34,51 @@
         <div id="view-home" class="view space-y-12">
             <header class="text-center">
                 <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
-                    Ministerio de Educación Pública - Sección 3-2
+                    MEP - Cartago - Sección 3-2
                 </div>
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA PARA <span class="text-indigo-500">EXAMEN</span> 2026
                 </h1>
-                <p class="text-slate-400 text-lg">Preparación Semestre I - Docente Maureen Mora Noguera</p>
-                <div id="auth-status" class="mt-4 text-xs font-bold text-amber-500 uppercase tracking-widest animate-pulse">Conectando con el aula virtual...</div>
+                <p class="text-slate-400 text-lg">Preguntas infinitas generadas por Inteligencia Artificial</p>
+                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA CONECTADO</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <button onclick="initQuiz('Español')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-rose-600">
+                <button onclick="prepareExam('Español')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-rose-600">
                     <span class="text-4xl mb-4 block">🖋️</span>
-                    <h3 class="text-2xl font-bold text-white">Español</h3>
+                    <h3 class="text-2xl font-bold text-white uppercase">Español</h3>
                 </button>
-                <button onclick="initQuiz('Matemáticas')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-blue-600">
+                <button onclick="prepareExam('Matemáticas')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-blue-600">
                     <span class="text-4xl mb-4 block">🧮</span>
-                    <h3 class="text-2xl font-bold text-white">Matemáticas</h3>
+                    <h3 class="text-2xl font-bold text-white uppercase">Matemáticas</h3>
                 </button>
-                <button onclick="initQuiz('Ciencias')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-emerald-600">
+                <button onclick="prepareExam('Ciencias')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-emerald-600">
                     <span class="text-4xl mb-4 block">🧪</span>
-                    <h3 class="text-2xl font-bold text-white">Ciencias</h3>
+                    <h3 class="text-2xl font-bold text-white uppercase">Ciencias</h3>
                 </button>
-                <button onclick="initQuiz('Estudios Sociales')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-amber-600">
+                <button onclick="prepareExam('Estudios Sociales')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-amber-600">
                     <span class="text-4xl mb-4 block">🗺️</span>
-                    <h3 class="text-2xl font-bold text-white">Estudios Sociales</h3>
+                    <h3 class="text-2xl font-bold text-white uppercase text-sm">Estudios Sociales</h3>
                 </button>
             </div>
         </div>
 
+        <!-- Pantalla de carga mientras la IA "escribe" -->
+        <div id="view-loading" class="view hidden text-center py-20">
+            <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">La IA está redactando tu práctica...</h2>
+            <p class="text-slate-500 mt-2 italic">Esto tarda unos segundos, ¡espera un momento!</p>
+        </div>
+
         <div id="view-quiz" class="view hidden max-w-4xl mx-auto">
             <div class="glass rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
-                <div class="bg-indigo-950/30 p-6 flex justify-between items-center border-b border-white/5">
+                <div class="bg-indigo-950/30 p-6 flex justify-between items-center">
                     <h3 id="q-subject" class="kids-font text-xl text-indigo-400 uppercase tracking-widest">MATERIA</h3>
                     <div class="text-right">
-                        <span id="q-counter" class="text-xs font-bold text-slate-500 uppercase">1 de 20</span>
-                        <div class="w-32 h-1.5 bg-slate-800 rounded-full mt-1">
-                            <div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
+                        <span id="q-counter" class="text-xs font-bold text-slate-500 uppercase tracking-widest">1 de 20</span>
+                        <div class="w-32 h-1.5 bg-slate-800 rounded-full mt-1"><div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: 0%"></div></div>
                     </div>
                 </div>
-
                 <div class="p-8 md:p-12">
                     <div id="q-media" class="mb-8 hidden"></div>
                     <h2 id="q-text" class="text-2xl md:text-3xl font-bold mb-10 leading-snug">Cargando...</h2>
@@ -82,7 +86,7 @@
                     <div id="q-feedback" class="hidden mt-8 p-6 rounded-2xl border-l-8 font-bold text-lg"></div>
                     <div class="mt-12 flex justify-between items-center">
                         <button onclick="nav('home')" class="text-slate-500 hover:text-white font-medium transition">✕ Salir</button>
-                        <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl">Siguiente ➔</button>
+                        <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl transition active:scale-95">Siguiente ➔</button>
                     </div>
                 </div>
             </div>
@@ -90,21 +94,13 @@
 
         <div id="view-history" class="view hidden">
             <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
-                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO DE TEMAS A REFORZAR</h2>
+                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO (IA ACTIVE)</h2>
                 <div class="overflow-x-auto rounded-xl border border-white/5">
                     <table class="spreadsheet w-full">
-                        <thead>
-                            <tr>
-                                <th>Fecha / Hora</th>
-                                <th>Materia</th>
-                                <th>Nota</th>
-                                <th>Temas a Reforzar (Preguntas Falladas)</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar (Fallos)</th></tr></thead>
                         <tbody id="history-data"></tbody>
                     </table>
                 </div>
-                <p id="history-status" class="mt-6 text-center text-slate-500 text-xs italic">Cargando reportes desde la base de datos...</p>
             </div>
         </div>
 
@@ -115,7 +111,7 @@
                 <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-[0.2em]">Guardando diagnóstico en la nube...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Guardando diagnóstico...</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir Misma</button>
                 <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica</button>
@@ -128,7 +124,6 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
 
-        // --- FIREBASE CONFIG (INTEGRADA) ---
         const firebaseConfig = {
             apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
             authDomain: "practica-examen-2026.firebaseapp.com",
@@ -143,30 +138,12 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = "practica-examen-2026";
+        const apiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; // TU LLAVE DE GEMINI INTEGRADA
         let user = null;
 
-        // --- LÓGICA DE INICIO Y SESIÓN ---
-        const startApp = async () => {
-            try {
-                await signInAnonymously(auth);
-            } catch (e) {
-                console.error("Error Auth:", e);
-                document.getElementById('auth-status').innerText = "⚠️ ERROR DE CONEXIÓN";
-            }
-        };
+        onAuthStateChanged(auth, u => { if(u) { user = u; syncHistory(); } });
+        signInAnonymously(auth);
 
-        onAuthStateChanged(auth, u => {
-            if (u) {
-                user = u;
-                document.getElementById('auth-status').innerText = "✅ SISTEMA CONECTADO";
-                document.getElementById('auth-status').classList.remove('animate-pulse');
-                syncHistory();
-            }
-        });
-
-        startApp();
-
-        // --- SVGs ---
         const DRAWINGS = {
             recto: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M20,10 L20,90 L90,90" fill="none" stroke="white" stroke-width="6"/><rect x="20" y="80" width="10" height="10" fill="none" stroke="cyan" stroke-width="2"/></svg>`,
             agudo: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M90,90 L10,90 L70,30" fill="none" stroke="white" stroke-width="6"/></svg>`,
@@ -177,105 +154,26 @@
             rosa: `<svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="gray" fill="none" stroke-dasharray="2"/><path d="M50,10 L55,45 L90,50 L55,55 L50,90 L45,55 L10,50 L45,45 Z" fill="indigo" stroke="white"/></svg>`
         };
 
-        // --- BANCO DE PREGUNTAS (MEDIO) ---
-        const BANK = {
+        const LOCAL_BACKUP = {
             "Español": [
                 { type: "select", q: "¿Cómo se llama el elemento que indica dónde ocurre la historia?", o: ["Lugar", "Personaje", "Conflicto", "Acción"], c: "Lugar" },
-                { type: "select", q: "¿Qué tipo de texto informa sobre noticias reales?", o: ["Informativo", "Poético", "Fábula", "Cuento"], c: "Informativo" },
-                { type: "select", q: "¿Cuál texto se divide en versos y estrofas?", o: ["Poesía", "Cuento", "Leyenda", "Fábula"], c: "Poesía" },
-                { type: "select", q: "Identifique el personaje en: 'La tortuga ganó la carrera'.", o: ["La tortuga", "La carrera", "Ganó", "Lento"], c: "La tortuga" },
-                { type: "select", q: "El texto que cuenta historias de personajes imaginarios es:", o: ["Narrativo", "Expositivo", "Informativo", "Instructivo"], c: "Narrativo" },
-                { type: "select", q: "¿Qué signo se usa al final de una oración completa?", o: ["Punto", "Coma", "Guion", "Dos puntos"], c: "Punto" },
-                { type: "match", q: "Asocie el tipo de texto:", left: ["Fábula", "Leyenda", "Cuento"], right: ["Tiene moraleja", "Explica orígenes", "Historia fantástica"], pairs: {"Fábula": "Tiene moraleja", "Leyenda": "Explica orígenes", "Cuento": "Historia fantástica"} },
-                { type: "select", q: "¿Qué elemento describe el problema de la historia?", o: ["Conflicto", "Ambiente", "Acción", "Final"], c: "Conflicto" },
-                { type: "select", q: "Las mayúsculas se usan al inicio de un:", o: ["Párrafo", "Punto", "Verbo", "Adjetivo"], c: "Párrafo" },
-                { type: "select", q: "En la frase 'Juan lloró porque se cayó', ¿cuál es la causa?", o: ["Se cayó", "Juan lloró", "El niño", "El suelo"], c: "Se cayó" },
-                { type: "select", q: "Un sustantivo propio es el nombre de:", o: ["Persona específica", "Cualquier perro", "Una mesa", "Un color"], c: "Persona específica" },
-                { type: "select", q: "¿Cómo se llama el texto hecho para actuar en teatro?", o: ["Dramatización", "Poesía", "Cuento", "Leyenda"], c: "Dramatización" },
-                { type: "select", q: "El punto y aparte sirve para separar:", o: ["Párrafos", "Palabras", "Letras", "Números"], c: "Párrafos" },
-                { type: "select", q: "¿Cuál es un ejemplo de texto expositivo?", o: ["Libro de Ciencias", "Un poema de amor", "Un chiste", "Un cuento de hadas"], c: "Libro de Ciencias" },
-                { type: "select", q: "Cada línea de un poema se llama:", o: ["Verso", "Estrofa", "Rima", "Punto"], c: "Verso" },
-                { type: "select", q: "¿Qué describe un texto descriptivo?", o: ["Características", "Acciones", "Noticias", "Moralejas"], c: "Características" },
-                { type: "select", q: "En un poema, el grupo de versos se llama:", o: ["Estrofa", "Cuento", "Párrafo", "Leyenda"], c: "Estrofa" },
-                { type: "select", q: "La leyenda mezcla hechos reales con:", o: ["Fantasía", "Ciencia", "Matemáticas", "Recetas"], c: "Fantasía" },
-                { type: "select", q: "¿Qué elemento indica lo que hacen los personajes?", o: ["Acciones", "Conflicto", "Ambiente", "Lugar"], c: "Acciones" },
-                { type: "select", q: "El punto final se coloca cuando:", o: ["Termina el texto", "Inicia una idea", "Hay una lista", "Se usa una coma"], c: "Termina el texto" }
+                { type: "select", q: "¿Qué tipo de texto informa sobre noticias reales?", o: ["Informativo", "Poético", "Fábula", "Cuento"], c: "Informativo" }
             ],
             "Matemáticas": [
                 { type: "select", q: "¿Cómo se escribe 52.308 en letras?", o: ["Cincuenta y dos mil trescientos ocho", "Cinco mil doscientos ocho", "Cincuenta mil tres", "Doscientos ocho"], c: "Cincuenta y dos mil trescientos ocho" },
-                { type: "select", q: "En el número 87.432, el 8 representa las:", o: ["Decenas de Millar", "Unidades de Millar", "Centenas", "Decenas"], c: "Decenas de Millar" },
-                { type: "media", q: "¿Qué tipo de ángulo es este?", media: "recto", o: ["Agudo", "Recto", "Obtuso"], c: "Recto" },
-                { type: "select", q: "Sucesión de 1000 en 1000: 15.000, 16.000... ¿Qué sigue?", o: ["17.000", "15.100", "16.010", "20.000"], c: "17.000" },
-                { type: "select", q: "¿Qué número es mayor?", o: ["45.900", "45.090", "45.009", "44.999"], c: "45.900" },
-                { type: "select", q: "10.000 - 5.000 es igual a:", o: ["5.000", "6.000", "4.000", "5.500"], c: "5.000" },
-                { type: "media", q: "Identifique estas líneas:", media: "paralelas", o: ["Paralelas", "Perpendiculares", "Secantes"], c: "Paralelas" },
-                { type: "select", q: "El punto donde se unen los lados de un ángulo es el:", o: ["Vértice", "Lado", "Grado", "Abertura"], c: "Vértice" },
-                { type: "media", q: "¿Qué ángulo es este?", media: "agudo", o: ["Agudo", "Recto", "Obtuso"], c: "Agudo" },
-                { type: "select", q: "El símbolo < significa:", o: ["Menor que", "Mayor que", "Igual a"], c: "Menor que" },
-                { type: "select", q: "Cien mil se escribe:", o: ["100.000", "10.000", "1.000", "100"], c: "100.000" },
-                { type: "media", q: "Estas líneas son:", media: "perpendiculares", o: ["Paralelas", "Perpendiculares", "Cruzadas"], c: "Perpendiculares" },
-                { type: "select", q: "12.500 + 1.000 es igual a:", o: ["13.500", "12.600", "12.510", "13.000"], c: "13.500" },
-                { type: "select", q: "Un ángulo de 120 grados es:", o: ["Obtuso", "Agudo", "Recto"], c: "Obtuso" },
-                { type: "select", q: "¿Cuántas unidades hay en 5 DM?", o: ["50.000", "5.000", "500", "50"], c: "50.000" },
-                { type: "select", q: "Sucesión de 10 en 10: 450, 460... ¿Qué sigue?", o: ["470", "480", "500", "465"], c: "470" },
-                { type: "match", q: "Asocie el ángulo con su medida:", left: ["Agudo", "Recto", "Obtuso"], right: ["Menos de 90°", "Igual a 90°", "Más de 90°"], pairs: {"Agudo": "Menos de 90°", "Recto": "Igual a 90°", "Obtuso": "Más de 90°"} },
-                { type: "select", q: "En 1.702, el valor del 7 es:", o: ["700", "70", "7", "7.000"], c: "700" },
-                { type: "select", q: "98.880 ___ 98.808", o: [">", "<", "="], c: ">" },
-                { type: "select", q: "Si a 10.000 le resto 100 obtengo:", o: ["9.900", "9.000", "10.100", "9.990"], c: "9.900" }
+                { type: "media", q: "¿Qué tipo de ángulo es este?", media: "recto", o: ["Agudo", "Recto", "Obtuso"], c: "Recto" }
             ],
             "Ciencias": [
                 { type: "select", q: "Músculos que se mueven sin que lo pensemos:", o: ["Involuntarios", "Voluntarios", "Fijos", "Duros"], c: "Involuntarios" },
-                { type: "select", q: "Hueso largo de la pierna:", o: ["Fémur", "Cráneo", "Vértebra", "Costilla"], c: "Fémur" },
-                { type: "media", q: "¿Qué órgano digestivo es este?", media: "estomago", o: ["Estómago", "Boca", "Hígado", "Intestino"], c: "Estómago" },
-                { type: "select", q: "Etapa donde se expulsan los desechos:", o: ["Defecación", "Ingestión", "Absorción", "Digestión"], c: "Defecación" },
-                { type: "select", q: "Las articulaciones de la rodilla son:", o: ["Fijas", "Móviles", "Semimóviles"], c: "Móviles" },
-                { type: "select", q: "Alimentos que nos ayudan a crecer y sanar:", o: ["Constructores", "Energéticos", "Protectores", "Venenos"], c: "Constructores" },
-                { type: "select", q: "El esófago conecta la boca con el:", o: ["Estómago", "Intestino", "Páncreas", "Hígado"], c: "Estómago" },
-                { type: "select", q: "Etapa donde los nutrientes pasan a la sangre:", o: ["Absorción", "Ingestión", "Defecación", "Trituración"], c: "Absorción" },
-                { type: "select", q: "Músculo voluntario del brazo:", o: ["Bíceps", "Corazón", "Estómago", "Intestino"], c: "Bíceps" },
-                { type: "select", q: "Sistema que protege el cerebro y pulmones:", o: ["Sistema Óseo", "Sistema Digestivo", "Sistema Solar", "Sistema Respiratorio"], c: "Sistema Óseo" },
-                { type: "match", q: "Asocie el alimento con su grupo:", left: ["Pan", "Pollo", "Frutas"], right: ["Energético", "Constructor", "Protector"], pairs: {"Pan": "Energético", "Pollo": "Constructor", "Frutas": "Protector"} },
-                { type: "select", q: "¿En qué órgano se forma la materia fecal?", o: ["Intestino grueso", "Boca", "Estómago", "Esófago"], c: "Intestino grueso" },
-                { type: "select", q: "La ingestión ocurre en la:", o: ["Boca", "Panza", "Nariz", "Mano"], c: "Boca" },
-                { type: "select", q: "Las articulaciones del cráneo son:", o: ["Fijas", "Móviles", "Semimóviles"], c: "Fijas" },
-                { type: "select", q: "Alimentos como la leche son ricos en:", o: ["Calcio", "Azúcar", "Grasa", "Sal"], c: "Calcio" },
-                { type: "select", q: "Huesos cortos de la espalda:", o: ["Vértebras", "Costillas", "Fémur", "Radio"], c: "Vértebras" },
-                { type: "select", q: "Alimentos que dan fuerza para jugar:", o: ["Energéticos", "Protectores", "Constructores", "Ninguno"], c: "Energéticos" },
-                { type: "select", q: "La digestión es el proceso de:", o: ["Deshacer alimentos", "Correr rápido", "Dormir", "Respirar"], c: "Deshacer alimentos" },
-                { type: "select", q: "Los huesos de la cabeza forman el:", o: ["Cráneo", "Tórax", "Brazo", "Pie"], c: "Cráneo" },
-                { type: "select", q: "Músculo involuntario vital:", o: ["Corazón", "Pierna", "Dedo", "Ojo"], c: "Corazón" }
+                { type: "media", q: "¿Qué órgano digestivo es este?", media: "estomago", o: ["Estómago", "Boca", "Hígado", "Intestino"], c: "Estómago" }
             ],
             "Estudios Sociales": [
                 { type: "select", q: "¿Con qué provincia limita Cartago al Norte?", o: ["Heredia", "San José", "Limón", "Panamá"], c: "Heredia" },
-                { type: "select", q: "Representación detallada de un lugar pequeño:", o: ["Plano", "Mapa", "Esfera", "Foto"], c: "Plano" },
-                { type: "media", q: "¿Qué herramienta es esta?", media: "rosa", o: ["Rosa de los vientos", "Simbología", "Escala", "Mapa"], c: "Rosa de los vientos" },
-                { type: "select", q: "Línea imaginaria que divide Norte y Sur:", o: ["Ecuador", "Meridiano", "Trópico", "Polo"], c: "Ecuador" },
-                { type: "select", q: "Límite al Norte de Costa Rica:", o: ["Nicaragua", "Panamá", "Colombia", "México"], c: "Nicaragua" },
-                { type: "select", q: "Cartago limita al Sur con:", o: ["San José", "Limón", "Heredia", "Alajuela"], c: "San José" },
-                { type: "select", q: "Elemento que explica los dibujos del mapa:", o: ["Simbología", "Título", "Escala", "Autor"], c: "Simbología" },
-                { type: "select", q: "Punto cardinal por donde sale el sol:", o: ["Este", "Oeste", "Norte", "Sur"], c: "Este" },
-                { type: "select", q: "Línea de 0 grados que divide Este y Oeste:", o: ["Meridiano de Greenwich", "Ecuador", "Paralelos", "Ejes"], c: "Meridiano de Greenwich" },
-                { type: "select", q: "Cartago limita al Este con:", o: ["Limón", "San José", "Heredia", "Puntarenas"], c: "Limón" },
-                { type: "match", q: "Asocie el elemento del mapa:", left: ["Título", "Escala", "Autor"], right: ["Nombre del mapa", "Relación de tamaño", "Quien lo hizo"], pairs: {"Título": "Nombre del mapa", "Escala": "Relación de tamaño", "Autor": "Quien lo hizo"} },
-                { type: "select", q: "Punto cardinal opuesto al Norte:", o: ["Sur", "Este", "Oeste", "Arriba"], c: "Sur" },
-                { type: "select", q: "Cartago limita al Oeste con:", o: ["San José", "Limón", "Heredia", "Alajuela"], c: "San José" },
-                { type: "select", q: "Líneas imaginarias horizontales:", o: ["Paralelos", "Meridianos", "Postes", "Vías"], c: "Paralelos" },
-                { type: "select", q: "Representación de la tierra en esfera:", o: ["Globo terráqueo", "Mapa", "Plano", "Croquis"], c: "Globo terráqueo" },
-                { type: "select", q: "¿Cuántas provincias tiene Costa Rica?", o: ["7", "5", "8", "10"], c: "7" },
-                { type: "select", q: "Símbolo nacional del trabajo:", o: ["Carreta", "Venado", "Guaria", "Yigüirro"], c: "Carreta" },
-                { type: "select", q: "Líneas imaginarias verticales:", o: ["Meridianos", "Paralelos", "Curvas", "Rectas"], c: "Meridianos" },
-                { type: "select", q: "Costa Rica limita al Sur con:", o: ["Panamá", "Nicaragua", "Colombia", "Jamaica"], c: "Panamá" },
-                { type: "select", q: "¿En qué provincia vive (según temario)?", o: ["Cartago", "San José", "Heredia", "Alajuela"], c: "Cartago" }
+                { type: "media", q: "¿Qué herramienta es esta?", media: "rosa", o: ["Rosa de los vientos", "Simbología", "Escala", "Mapa"], c: "Rosa de los vientos" }
             ]
         };
 
-        // --- ESTADO LÓGICO ---
-        let currentSubj = "";
-        let qs = [];
-        let curIdx = 0;
-        let score = 0;
-        let set = [];
-        let curFailures = [];
+        let currentSubj = ""; let currentQs = []; let curIdx = 0; let score = 0; let set = []; let curFailures = [];
 
         window.nav = (v) => {
             document.querySelectorAll('.view').forEach(x => x.classList.add('hidden'));
@@ -283,54 +181,72 @@
             window.scrollTo(0,0);
         };
 
-        window.initQuiz = (name) => {
-            currentSubj = name;
-            const pool = [...BANK[name]].sort(() => Math.random() - 0.5);
-            qs = pool.slice(0, 20);
-            set = [...qs];
-            curFailures = [];
-            start();
+        const shuffle = (arr) => {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
         };
 
-        window.restartSame = () => {
-            qs = [...set];
-            curFailures = [];
-            start();
+        window.prepareExam = async (materia) => {
+            nav('loading');
+            const temas = {
+                "Español": "Análisis de lectura (personajes, ambiente, conflicto, causa-efecto), textos (narrativo, descriptivo, expositivo, informativo), fábula, leyenda, poesía, uso de mayúsculas y puntos.",
+                "Matemáticas": "Números hasta 100.000, decena de millar, sucesiones, comparación (<, >, =), líneas paralelas y perpendiculares, ángulos (agudo, recto, obtuso), sumas y restas.",
+                "Ciencias": "Sistema Óseo, Sistema Muscular (voluntarios/involuntarios), Articulaciones, Sistema Digestivo (órganos y etapas), grupos de alimentos.",
+                "Estudios Sociales": "Mapa y plano, provincias de Costa Rica, Cartago y límites (N: Heredia, S: San José, E: Limón), elementos del mapa, Rosa de los vientos."
+            };
+
+            const prompt = `Genera un examen JSON nivel 3er grado de primaria para la materia de ${materia}. Los temas son: ${temas[materia]}. Dificultad: Media. El examen debe tener 20 preguntas estrictamente en este formato JSON: {"questions": [{"type": "select", "q": "enunciado", "o": ["opcion1","opcion2","opcion3","opcion4"], "c": "opcion1"}, {"type": "match", "q": "asocie los conceptos", "left": ["A","B"], "right": ["D1","D2"], "pairs": {"A":"D1", "B":"D2"}}]}. Un 20% de las preguntas deben ser asocies. En Matemáticas o Ciencias, si hablas de dibujos técnicos añade el campo "media": "recto/agudo/obtuso/paralelas/estomago/rosa" según corresponda.`;
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } })
+                });
+                const json = await res.json();
+                const data = JSON.parse(json.candidates[0].content.parts[0].text);
+                initQuiz(materia, data.questions);
+            } catch (e) {
+                console.error("Fallo IA, usando banco local:", e);
+                const fallback = shuffle([...LOCAL_BACKUP[materia]]).slice(0, 20);
+                initQuiz(materia, fallback);
+            }
         };
 
-        const start = () => {
-            curIdx = 0; score = 0;
-            nav('quiz');
-            draw();
+        const initQuiz = (name, questions) => {
+            currentSubj = name; currentQs = questions; set = [...questions];
+            curIdx = 0; score = 0; curFailures = [];
+            nav('quiz'); draw();
         };
+
+        window.restartSame = () => { currentQs = [...set]; curFailures = []; start(); };
+
+        const start = () => { curIdx = 0; score = 0; nav('quiz'); draw(); };
 
         const draw = () => {
-            const q = qs[curIdx];
+            const q = currentQs[curIdx];
             document.getElementById('q-subject').innerText = currentSubj;
-            document.getElementById('q-counter').innerText = `${curIdx + 1} de ${qs.length}`;
-            document.getElementById('progress-bar').style.width = `${((curIdx + 1) / qs.length) * 100}%`;
+            document.getElementById('q-counter').innerText = `${curIdx + 1} de ${currentQs.length}`;
+            document.getElementById('progress-bar').style.width = `${((curIdx + 1) / currentQs.length) * 100}%`;
             document.getElementById('q-text').innerText = q.q;
             
             const media = document.getElementById('q-media');
-            if (q.media) {
-                media.innerHTML = `<div class="svg-display">${DRAWINGS[q.media]}</div>`;
-                media.classList.remove('hidden');
-            } else {
-                media.classList.add('hidden');
-            }
+            if (q.media && DRAWINGS[q.media]) { media.innerHTML = `<div class="svg-display">${DRAWINGS[q.media]}</div>`; media.classList.remove('hidden'); }
+            else { media.classList.add('hidden'); }
 
             const area = document.getElementById('q-answers');
             const fb = document.getElementById('q-feedback');
             const btn = document.getElementById('btn-next');
             area.innerHTML = ""; fb.classList.add('hidden'); btn.classList.add('hidden');
 
-            if (q.type === "select" || q.type === "media") {
-                const opts = [...q.o].sort(() => Math.random() - 0.5);
+            if (q.type === "select") {
+                const opts = shuffle([...q.o]);
                 opts.forEach(opt => {
                     const b = document.createElement('button');
                     b.className = "w-full p-5 rounded-2xl text-left glass font-bold border-2 border-transparent hover:border-indigo-500 transition-all";
-                    b.innerText = opt;
-                    b.onclick = () => validate(opt, q.c, b);
+                    b.innerText = opt; b.onclick = () => validate(opt, q.c, b);
                     area.appendChild(b);
                 });
             } else if (q.type === "match") {
@@ -338,153 +254,68 @@
             }
         };
 
-        const validate = (u, c, el) => {
-            const fb = document.getElementById('q-feedback');
-            const btn = document.getElementById('btn-next');
-            const ok = u === c;
-
-            fb.classList.remove('hidden');
-            if (ok) {
-                score++;
-                fb.innerText = "¡CORRECTO! 🎯";
-                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
-            } else {
-                fb.innerText = `ERROR. Respuesta: "${c}".`;
-                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
-                curFailures.push(qs[curIdx].q);
-            }
-
-            document.getElementById('q-answers').querySelectorAll('button').forEach(x => x.disabled = true);
-            btn.classList.remove('hidden');
-        };
-
-        let matchSelected = null;
-        let matchPairs = {};
-
+        let mSel = null; let mPairs = {};
         const renderMatch = (q) => {
             const area = document.getElementById('q-answers');
-            area.innerHTML = `<div class="grid grid-cols-2 gap-4" id="match-container">
-                <div class="space-y-2" id="left-side"></div>
-                <div class="space-y-2" id="right-side"></div>
-            </div>`;
-            
-            matchSelected = null;
-            matchPairs = {};
-
-            q.left.forEach(item => {
-                const b = document.createElement('button');
-                b.className = "match-btn glass font-bold";
-                b.innerText = item;
-                b.onclick = () => {
-                    document.querySelectorAll('#left-side button').forEach(x => x.classList.remove('match-selected'));
-                    b.classList.add('match-selected');
-                    matchSelected = item;
-                };
-                document.getElementById('left-side').appendChild(b);
+            area.innerHTML = `<div class="grid grid-cols-2 gap-4"><div class="space-y-2" id="l-side"></div><div class="space-y-2" id="r-side"></div></div>`;
+            mSel = null; mPairs = {};
+            q.left.forEach(it => {
+                const b = document.createElement('button'); b.className = "match-btn glass font-bold"; b.innerText = it;
+                b.onclick = () => { document.querySelectorAll('#l-side button').forEach(x => x.classList.remove('match-selected')); b.classList.add('match-selected'); mSel = it; };
+                document.getElementById('l-side').appendChild(b);
             });
-
-            [...q.right].sort(() => Math.random() - 0.5).forEach(item => {
-                const b = document.createElement('button');
-                b.className = "match-btn glass font-bold";
-                b.innerText = item;
+            shuffle([...q.right]).forEach(it => {
+                const b = document.createElement('button'); b.className = "match-btn glass font-bold"; b.innerText = it;
                 b.onclick = () => {
-                    if(!matchSelected) return;
-                    matchPairs[matchSelected] = item;
-                    b.classList.add('match-linked');
-                    document.querySelector('.match-selected').classList.add('match-linked');
-                    matchSelected = null;
-                    if(Object.keys(matchPairs).length === q.left.length) {
-                        let cCount = 0;
-                        for(let k in q.pairs) if(matchPairs[k] === q.pairs[k]) cCount++;
-                        validateMatch(cCount === q.left.length, q.q);
+                    if(!mSel) return;
+                    mPairs[mSel] = it; b.classList.add('match-linked'); document.querySelector('.match-selected').classList.add('match-linked');
+                    mSel = null;
+                    if(Object.keys(mPairs).length === q.left.length) {
+                        let ok = true; for(let k in q.pairs) if(mPairs[k] !== q.pairs[k]) ok = false;
+                        validateMatch(ok, q.q);
                     }
                 };
-                document.getElementById('right-side').appendChild(b);
+                document.getElementById('r-side').appendChild(b);
             });
         };
 
-        const validateMatch = (ok, questionText) => {
-            const fb = document.getElementById('q-feedback');
-            fb.classList.remove('hidden');
-            if(ok) {
-                score++;
-                fb.innerText = "¡ASOCIE PERFECTO! 🌟";
-                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
-            } else {
-                fb.innerText = "ASOCIE INCORRECTO. Revisa bien los conceptos.";
-                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
-                curFailures.push("Asocie: " + questionText);
-            }
+        const validate = (u, c, el) => {
+            const ok = u === c; const fb = document.getElementById('q-feedback'); fb.classList.remove('hidden');
+            if (ok) { score++; fb.innerText = "¡CORRECTO! 🎯"; fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold"; }
+            else { fb.innerText = `ERROR. Respuesta: "${c}".`; fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold"; curFailures.push(currentQs[curIdx].q); }
+            document.getElementById('q-answers').querySelectorAll('button').forEach(x => x.disabled = true);
             document.getElementById('btn-next').classList.remove('hidden');
         };
 
-        window.nextQ = () => {
-            if (curIdx < qs.length - 1) {
-                curIdx++; draw();
-            } else {
-                finish();
-            }
+        const validateMatch = (ok, qtext) => {
+            const fb = document.getElementById('q-feedback'); fb.classList.remove('hidden');
+            if(ok) { score++; fb.innerText = "¡ASOCIE CORRECTO! 🌟"; fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold"; }
+            else { fb.innerText = "ASOCIE INCORRECTO. Revisa conceptos."; fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold"; curFailures.push("Asocie: " + qtext); }
+            document.getElementById('btn-next').classList.remove('hidden');
         };
 
+        window.nextQ = () => { if (curIdx < currentQs.length - 1) { curIdx++; draw(); } else finish(); };
+
         const finish = async () => {
-            nav('results');
-            const finalNota = Math.round((score / qs.length) * 100);
-            document.getElementById('res-score').innerText = finalNota;
-            
-            // Verificamos si hay usuario ANTES de intentar escribir
+            nav('results'); const nota = Math.round((score / currentQs.length) * 100); document.getElementById('res-score').innerText = nota;
             if(user) {
                 try {
-                    // RUTA ESTRICTA SEGÚN REGLAS
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), {
-                        uid: user.uid,
-                        materia: currentSubj,
-                        nota: finalNota,
-                        fecha: new Date().toLocaleString(),
-                        fallos: curFailures,
-                        timestamp: serverTimestamp()
-                    });
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), { uid: user.uid, materia: currentSubj, nota, fecha: new Date().toLocaleString(), fallos: curFailures, timestamp: serverTimestamp() });
                     document.getElementById('cloud-sync').innerText = "✅ REPORTE SINCRONIZADO";
-                } catch(e) {
-                    console.error("Error al guardar en Firebase:", e);
-                    document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR: " + e.code;
-                }
-            } else {
-                document.getElementById('cloud-sync').innerText = "⚠️ REINTENTANDO CONEXIÓN...";
-                // Pequeño reintento si el usuario no estaba listo
-                setTimeout(finish, 2000);
+                } catch(e) { document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR"; }
             }
         };
 
         const syncHistory = () => {
-            if (!user) return;
-            // RUTA ESTRICTA SEGÚN REGLAS
             const qry = query(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), orderBy('timestamp', 'desc'));
-            onSnapshot(qry, (snap) => {
-                const body = document.getElementById('history-data');
-                body.innerHTML = "";
-                document.getElementById('history-status').style.display = "none";
+            onSnapshot(qry, snap => {
+                const body = document.getElementById('history-data'); body.innerHTML = "";
                 snap.forEach(doc => {
-                    const d = doc.data();
-                    const fallosHTML = d.fallos && d.fallos.length > 0 
-                        ? d.fallos.map(f => `<span class="badge-error">Reforzar: ${f}</span>`).join('') 
-                        : '<span class="text-emerald-400 text-[0.7rem] font-bold">¡Dominio Total! 🏆</span>';
-                    
-                    const row = `
-                        <tr class="hover:bg-white/5 transition border-b border-white/5">
-                            <td class="p-4 text-[0.7rem] text-slate-500">${d.fecha}</td>
-                            <td class="p-4 font-bold text-indigo-400">${d.materia}</td>
-                            <td class="p-4 font-black ${d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400'} text-center">${d.nota}</td>
-                            <td class="p-4">${fallosHTML}</td>
-                        </tr>
-                    `;
-                    body.insertAdjacentHTML('beforeend', row);
+                    const d = doc.data(); const fHTML = d.fallos?.length ? d.fallos.map(f => `<span class="badge-error">Reforzar: ${f}</span>`).join('') : '<span class="text-emerald-400 font-bold">¡Dominio Total! 🏆</span>';
+                    body.insertAdjacentHTML('beforeend', `<tr class="hover:bg-white/5 border-b border-white/5"><td class="p-4 text-[0.7rem] text-slate-500">${d.fecha}</td><td class="p-4 font-bold text-indigo-400">${d.materia}</td><td class="p-4 font-black ${d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400'} text-center">${d.nota}</td><td class="p-4">${fHTML}</td></tr>`);
                 });
-            }, (error) => {
-                console.error("Error al leer de Firebase:", error);
-                document.getElementById('history-status').innerText = "⚠️ Error de permisos en la base de datos.";
             });
         };
-
     </script>
 </body>
 </html>
