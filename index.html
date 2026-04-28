@@ -13,11 +13,11 @@
         .btn-materia { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .btn-materia:hover { transform: translateY(-4px); filter: brightness(1.2); }
         .svg-display { background: #ffffff05; border-radius: 1.5rem; padding: 30px; display: flex; align-items: center; justify-content: center; min-height: 220px; border: 1px dashed rgba(255,255,255,0.1); }
-        .match-btn { cursor: pointer; border: 2px solid #334155; transition: all 0.2s; text-align: left; padding: 1rem; border-radius: 1rem; width: 100%; font-size: 0.875rem; color: white; }
+        .match-btn { cursor: pointer; border: 2px solid #334155; transition: all 0.2s; text-align: left; padding: 1rem; border-radius: 1rem; width: 100%; font-size: 0.875rem; color: white; line-height: 1.2; }
         .match-selected { border-color: #6366f1; background: rgba(99, 102, 241, 0.2); }
         .match-linked { opacity: 0.4; pointer-events: none; border-color: #10b981; background: rgba(16, 185, 129, 0.1); }
         .spreadsheet { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-        .spreadsheet th { background: #1e1b4b; color: #818cf8; padding: 12px; text-align: left; border: 1px solid #334155; }
+        .spreadsheet th { background: #1e1b4b; color: #818cf8; padding: 12px; text-align: left; border: 1px solid #334155; text-transform: uppercase; }
         .spreadsheet td { padding: 10px; border: 1px solid #334155; vertical-align: top; }
         .badge-error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; display: block; margin-bottom: 4px; line-height: 1.2; }
     </style>
@@ -31,16 +31,17 @@
             <button onclick="nav('history')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">📊 Hoja de Resultados</button>
         </nav>
 
+        <!-- Pantalla Inicio -->
         <div id="view-home" class="view space-y-12">
             <header class="text-center">
                 <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
-                    MEP - Cartago - Sección 3-2
+                    MEP - Escuela Primaria - Sección 3-2
                 </div>
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA PARA <span class="text-indigo-500">EXAMEN</span> 2026
                 </h1>
-                <p class="text-slate-400 text-lg">Preguntas infinitas generadas por Inteligencia Artificial</p>
-                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA CONECTADO</div>
+                <p class="text-slate-400 text-lg">Banco de 100 Preguntas + IA Infinita - Docente Maureen Mora</p>
+                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA LISTO</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -63,13 +64,14 @@
             </div>
         </div>
 
-        <!-- Pantalla de carga mientras la IA "escribe" -->
+        <!-- Pantalla Carga -->
         <div id="view-loading" class="view hidden text-center py-20">
             <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">La IA está redactando tu práctica...</h2>
-            <p class="text-slate-500 mt-2 italic">Esto tarda unos segundos, ¡espera un momento!</p>
+            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">Preparando 20 retos para ti...</h2>
+            <p class="text-slate-500 mt-2 italic">Esto tarda unos segundos mientras la IA redacta el examen.</p>
         </div>
 
+        <!-- Pantalla Quiz -->
         <div id="view-quiz" class="view hidden max-w-4xl mx-auto">
             <div class="glass rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
                 <div class="bg-indigo-950/30 p-6 flex justify-between items-center">
@@ -92,18 +94,20 @@
             </div>
         </div>
 
+        <!-- Pantalla Historial -->
         <div id="view-history" class="view hidden">
             <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
-                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO (IA ACTIVE)</h2>
+                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO SECCIÓN 3-2</h2>
                 <div class="overflow-x-auto rounded-xl border border-white/5">
                     <table class="spreadsheet w-full">
-                        <thead><tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar (Fallos)</th></tr></thead>
+                        <thead><tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar (Fallos Detectados)</th></tr></thead>
                         <tbody id="history-data"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Resultados Finales -->
         <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[4rem] p-16 shadow-2xl border-t-8 border-indigo-500">
             <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
             <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
@@ -111,7 +115,7 @@
                 <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Guardando diagnóstico...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-[0.2em]">Guardando diagnóstico en la nube...</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir Misma</button>
                 <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica</button>
@@ -138,7 +142,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = "practica-examen-2026";
-        const apiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; // TU LLAVE DE GEMINI INTEGRADA
+        const geminiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; 
         let user = null;
 
         onAuthStateChanged(auth, u => { if(u) { user = u; syncHistory(); } });
@@ -149,30 +153,123 @@
             agudo: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M90,90 L10,90 L70,30" fill="none" stroke="white" stroke-width="6"/></svg>`,
             obtuso: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M10,90 L60,90 L10,30" fill="none" stroke="white" stroke-width="6"/></svg>`,
             paralelas: `<svg width="120" height="120" viewBox="0 0 100 100"><line x1="10" y1="30" x2="90" y2="30" stroke="white" stroke-width="6"/><line x1="10" y1="65" x2="90" y2="65" stroke="white" stroke-width="6"/></svg>`,
-            perpendiculares: `<svg width="120" height="120" viewBox="0 0 100 100"><line x1="50" y1="10" x2="50" y2="90" stroke="white" stroke-width="6"/><line x1="10" y1="50" x2="90" y2="50" stroke="white" stroke-width="6"/></svg>`,
             estomago: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M30,20 C10,40 30,80 60,70 C80,60 90,30 60,10 C50,5 40,10 30,20" fill="#f87171" stroke="white" stroke-width="2"/></svg>`,
             rosa: `<svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="gray" fill="none" stroke-dasharray="2"/><path d="M50,10 L55,45 L90,50 L55,55 L50,90 L45,55 L10,50 L45,45 Z" fill="indigo" stroke="white"/></svg>`
         };
 
-        const LOCAL_BACKUP = {
+        // --- BANCO ROBUSTO DE RESPALDO (25 PREGUNTAS POR MATERIA) ---
+        const MASTER_BANK = {
             "Español": [
                 { type: "select", q: "¿Cómo se llama el elemento que indica dónde ocurre la historia?", o: ["Lugar", "Personaje", "Conflicto", "Acción"], c: "Lugar" },
-                { type: "select", q: "¿Qué tipo de texto informa sobre noticias reales?", o: ["Informativo", "Poético", "Fábula", "Cuento"], c: "Informativo" }
+                { type: "select", q: "¿Qué tipo de texto informa sobre noticias reales?", o: ["Informativo", "Poético", "Fábula", "Cuento"], c: "Informativo" },
+                { type: "select", q: "¿Cuál texto se divide en versos y estrofas?", o: ["Poesía", "Cuento", "Leyenda", "Fábula"], c: "Poesía" },
+                { type: "select", q: "Identifique el personaje principal: 'El león perdonó al ratón'.", o: ["El león y el ratón", "La moraleja", "El bosque", "El rugido"], c: "El león y el ratón" },
+                { type: "select", q: "El texto narrativo se caracteriza por:", o: ["Contar hechos", "Describir colores", "Informar noticias", "Dar instrucciones"], c: "Contar hechos" },
+                { type: "select", q: "El texto que deja una moraleja es la:", o: ["Fábula", "Poesía", "Leyenda", "Noticia"], c: "Fábula" },
+                { type: "select", q: "Un sustantivo propio es:", o: ["Cartago", "provincia", "mesa", "escuela"], c: "Cartago" },
+                { type: "select", q: "¿Cuál signo indica una pausa corta?", o: ["Coma", "Punto", "Guion", "Dos puntos"], c: "Coma" },
+                { type: "select", q: "El texto descriptivo dice:", o: ["Cómo es algo", "Qué pasó", "Quién ganó", "Una noticia"], c: "Cómo es algo" },
+                { type: "select", q: "¿Qué es el desenlace?", o: ["El final", "El inicio", "El problema", "El lugar"], c: "El final" },
+                { type: "select", q: "En un poema, el conjunto de versos es:", o: ["Estrofa", "Cuento", "Verso", "Libro"], c: "Estrofa" },
+                { type: "select", q: "Distinga el efecto: 'Comió mucho y le dolió la panza'.", o: ["Le dolió la panza", "Comió mucho", "El niño", "La comida"], c: "Le dolió la panza" },
+                { type: "select", q: "¿Qué texto se escribe para actuar?", o: ["Dramatización", "Fábula", "Noticia", "Poema"], c: "Dramatización" },
+                { type: "select", q: "¿En qué parte del cuento se presenta el problema?", o: ["Nudo", "Inicio", "Desenlace", "Título"], c: "Nudo" },
+                { type: "select", q: "Las mayúsculas se usan después de:", o: ["Un punto", "Una coma", "Un espacio", "Una tilde"], c: "Un punto" },
+                { type: "select", q: "Una rima es cuando las palabras:", o: ["Suenan igual al final", "Son muy largas", "Son verbos", "Son nombres"], c: "Suenan igual al final" },
+                { type: "select", q: "¿Cuál es un tipo de texto literario?", o: ["La leyenda", "La receta", "El manual", "El diccionario"], c: "La leyenda" },
+                { type: "select", q: "El punto y aparte se usa para:", o: ["Cambiar de párrafo", "Separar oraciones", "Terminar el texto", "Hacer una lista"], c: "Cambiar de párrafo" },
+                { type: "select", q: "Identifique la causa: 'Se quemó la tostada porque se distrajo'.", o: ["Se distrajo", "Se quemó la tostada", "La cocina", "El pan"], c: "Se distrajo" },
+                { type: "match", q: "Asocie el elemento del cuento:", left: ["Personaje", "Ambiente", "Acción"], right: ["Realiza los hechos", "Lugar y tiempo", "Lo que sucede"], pairs: {"Personaje": "Realiza los hechos", "Ambiente": "Lugar y tiempo", "Acción": "Lo que sucede"} },
+                { type: "select", q: "¿Cómo se llama el inicio de un cuento?", o: ["Introducción", "Conflicto", "Nudo", "Moraleja"], c: "Introducción" },
+                { type: "select", q: "Un ejemplo de fábula es:", o: ["La liebre y la tortuga", "La llorona", "Cenicienta", "Noticias del día"], c: "La liebre y la tortuga" },
+                { type: "select", q: "¿Qué signo cierra una idea completa?", o: ["Punto y seguido", "Coma", "Guion", "Dos puntos"], c: "Punto y seguido" },
+                { type: "select", q: "El sustantivo propio 'Costa Rica' inicia con:", o: ["Mayúscula", "Minúscula", "Número", "Símbolo"], c: "Mayúscula" },
+                { type: "select", q: "La función de la poesía es expresar:", o: ["Sentimientos", "Instrucciones", "Reglas", "Noticias"], c: "Sentimientos" }
             ],
             "Matemáticas": [
                 { type: "select", q: "¿Cómo se escribe 52.308 en letras?", o: ["Cincuenta y dos mil trescientos ocho", "Cinco mil doscientos ocho", "Cincuenta mil tres", "Doscientos ocho"], c: "Cincuenta y dos mil trescientos ocho" },
-                { type: "media", q: "¿Qué tipo de ángulo es este?", media: "recto", o: ["Agudo", "Recto", "Obtuso"], c: "Recto" }
+                { type: "select", q: "En el número 87.432, el 8 representa las:", o: ["Decenas de Millar", "Unidades de Millar", "Centenas", "Decenas"], c: "Decenas de Millar" },
+                { type: "media", q: "¿Qué tipo de ángulo es este?", media: "recto", o: ["Recto", "Agudo", "Obtuso"], c: "Recto" },
+                { type: "select", q: "Sucesión de 1000 en 1000: 15.000, 16.000... ¿Qué sigue?", o: ["17.000", "15.100", "16.010", "20.000"], c: "17.000" },
+                { type: "select", q: "¿Qué número es mayor?", o: ["45.900", "45.090", "45.009", "44.999"], c: "45.900" },
+                { type: "select", q: "10.000 - 3.000 es:", o: ["7.000", "6.000", "5.000", "8.000"], c: "7.000" },
+                { type: "media", q: "Estas líneas son:", media: "paralelas", o: ["Paralelas", "Perpendiculares", "Cruzadas"], c: "Paralelas" },
+                { type: "select", q: "El punto donde se unen los lados de un ángulo es:", o: ["Vértice", "Lado", "Centro", "Grado"], c: "Vértice" },
+                { type: "media", q: "¿Qué ángulo es este?", media: "agudo", o: ["Agudo", "Recto", "Obtuso"], c: "Agudo" },
+                { type: "select", q: "Cien mil se escribe:", o: ["100.000", "10.000", "1.000", "100"], c: "100.000" },
+                { type: "select", q: "Un ángulo de 120 grados es:", o: ["Obtuso", "Agudo", "Recto"], c: "Obtuso" },
+                { type: "select", q: "¿Cuántas unidades hay en 9 DM?", o: ["90.000", "9.000", "900", "90"], c: "90.000" },
+                { type: "select", q: "Sucesión de 10 en 10: 450, 460... ¿Qué sigue?", o: ["470", "480", "500", "465"], c: "470" },
+                { type: "match", q: "Asocie el ángulo con su medida:", left: ["Agudo", "Recto", "Obtuso"], right: ["Menos de 90°", "Igual a 90°", "Más de 90°"], pairs: {"Agudo": "Menos de 90°", "Recto": "Igual a 90°", "Obtuso": "Más de 90°"} },
+                { type: "select", q: "En 1.702, el valor del 7 es:", o: ["700", "70", "7", "7.000"], c: "700" },
+                { type: "select", q: "98.880 ___ 98.808", o: [">", "<", "="], c: ">" },
+                { type: "select", q: "Si a 10.000 le resto 100 obtengo:", o: ["9.900", "9.000", "10.100", "9.990"], c: "9.900" },
+                { type: "select", q: "El número 40.501 se lee:", o: ["Cuarenta mil quinientos uno", "Cuatro mil cincuenta", "Cuatrocientos cinco", "Cuarenta mil uno"], c: "Cuarenta mil quinientos uno" },
+                { type: "select", q: "¿Cuál es el valor del dígito 5 en 5.120?", o: ["5.000", "500", "50", "5"], c: "5.000" },
+                { type: "select", q: "Un ángulo de 90 grados es un ángulo:", o: ["Recto", "Agudo", "Obtuso", "Plano"], c: "Recto" },
+                { type: "select", q: "En 12.450, el dígito de las DM es:", o: ["1", "2", "4", "5"], c: "1" },
+                { type: "select", q: "Resuelva: 25.000 + 15.000 =", o: ["40.000", "35.000", "30.000", "50.000"], c: "40.000" },
+                { type: "select", q: "Sucesión de 100 en 100: 1.200, 1.300... ¿Qué sigue?", o: ["1.400", "1.210", "2.000", "1.500"], c: "1.400" },
+                { type: "select", q: "Un ángulo obtuso mide:", o: ["Más de 90", "Menos de 90", "Exacto 90", "Cero"], c: "Más de 90" },
+                { type: "select", q: "Si tengo 4 Unidades de Millar, tengo:", o: ["4.000 unidades", "400 unidades", "40.000 unidades", "40 unidades"], c: "4.000 unidades" }
             ],
             "Ciencias": [
                 { type: "select", q: "Músculos que se mueven sin que lo pensemos:", o: ["Involuntarios", "Voluntarios", "Fijos", "Duros"], c: "Involuntarios" },
-                { type: "media", q: "¿Qué órgano digestivo es este?", media: "estomago", o: ["Estómago", "Boca", "Hígado", "Intestino"], c: "Estómago" }
+                { type: "select", q: "Hueso largo de la pierna:", o: ["Fémur", "Cráneo", "Vértebra", "Costilla"], c: "Fémur" },
+                { type: "media", q: "¿Qué órgano digestivo es este?", media: "estomago", o: ["Estómago", "Boca", "Hígado", "Intestino"], c: "Estómago" },
+                { type: "select", q: "Etapa donde se expulsan los desechos:", o: ["Defecación", "Ingestión", "Absorción", "Digestión"], c: "Defecación" },
+                { type: "select", q: "Las articulaciones de la rodilla son:", o: ["Móviles", "Fijas", "Semimóviles"], c: "Móviles" },
+                { type: "select", q: "Alimentos que nos ayudan a crecer y sanar:", o: ["Constructores", "Energéticos", "Protectores", "Venenos"], c: "Constructores" },
+                { type: "select", q: "El esófago conecta la boca con el:", o: ["Estómago", "Intestino", "Páncreas", "Hígado"], c: "Estómago" },
+                { type: "select", q: "Etapa donde los nutrientes pasan a la sangre:", o: ["Absorción", "Ingestión", "Defecación", "Trituración"], c: "Absorción" },
+                { type: "select", q: "Músculo voluntario del brazo:", o: ["Bíceps", "Corazón", "Estómago", "Intestino"], c: "Bíceps" },
+                { type: "select", q: "Sistema que protege el cerebro:", o: ["Sistema Óseo", "Sistema Digestivo", "Sistema Solar", "Sistema Respiratorio"], c: "Sistema Óseo" },
+                { type: "match", q: "Asocie el alimento con su grupo:", left: ["Pan", "Pollo", "Frutas"], right: ["Energético", "Constructor", "Protector"], pairs: {"Pan": "Energético", "Pollo": "Constructor", "Frutas": "Protector"} },
+                { type: "select", q: "¿En qué órgano se forma la materia fecal?", o: ["Intestino grueso", "Boca", "Estómago", "Esófago"], c: "Intestino grueso" },
+                { type: "select", q: "La ingestión ocurre en la:", o: ["Boca", "Nariz", "Mano", "Panza"], c: "Boca" },
+                { type: "select", q: "Las articulaciones del cráneo son:", o: ["Fijas", "Móviles", "Semimóviles"], c: "Fijas" },
+                { type: "select", q: "Alimentos como la leche son ricos en:", o: ["Calcio", "Azúcar", "Grasa", "Sal"], c: "Calcio" },
+                { type: "select", q: "Huesos cortos de la espalda:", o: ["Vértebras", "Costillas", "Fémur", "Radio"], c: "Vértebras" },
+                { type: "select", q: "Alimentos que dan fuerza para jugar:", o: ["Energéticos", "Protectores", "Constructores", "Ninguno"], c: "Energéticos" },
+                { type: "select", q: "La digestión es el proceso de:", o: ["Deshacer alimentos", "Correr rápido", "Dormir", "Respirar"], c: "Deshacer alimentos" },
+                { type: "select", q: "Los huesos de la cabeza forman el:", o: ["Cráneo", "Tórax", "Brazo", "Pie"], c: "Cráneo" },
+                { type: "select", q: "Músculo involuntario vital:", o: ["Corazón", "Pierna", "Dedo", "Ojo"], c: "Corazón" },
+                { type: "select", q: "Un hábito para cuidar los huesos es:", o: ["Hacer ejercicio", "Comer dulces", "Dormir tarde", "No tomar agua"], c: "Hacer ejercicio" },
+                { type: "select", q: "El fémur es un hueso:", o: ["Largo", "Corto", "Plano", "Blando"], c: "Largo" },
+                { type: "select", q: "El sistema óseo sirve para:", o: ["Sostener el cuerpo", "Ver colores", "Oler flores", "Comer"], c: "Sostener el cuerpo" },
+                { type: "select", q: "Las falanges son huesos de:", o: ["Los dedos", "La cabeza", "La espalda", "Las piernas"], c: "Los dedos" },
+                { type: "select", q: "Alimentos reparadores sirven para:", o: ["Cerrar heridas", "Tener sueño", "Ver mejor", "Oír mejor"], c: "Cerrar heridas" }
             ],
             "Estudios Sociales": [
                 { type: "select", q: "¿Con qué provincia limita Cartago al Norte?", o: ["Heredia", "San José", "Limón", "Panamá"], c: "Heredia" },
-                { type: "media", q: "¿Qué herramienta es esta?", media: "rosa", o: ["Rosa de los vientos", "Simbología", "Escala", "Mapa"], c: "Rosa de los vientos" }
+                { type: "select", q: "Representación detallada de un lugar pequeño:", o: ["Plano", "Mapa", "Esfera", "Foto"], c: "Plano" },
+                { type: "media", q: "¿Qué herramienta es esta?", media: "rosa", o: ["Rosa de los vientos", "Simbología", "Escala", "Mapa"], c: "Rosa de los vientos" },
+                { type: "select", q: "Línea imaginaria que divide Norte y Sur:", o: ["Ecuador", "Meridiano", "Trópico", "Polo"], c: "Ecuador" },
+                { type: "select", q: "Límite al Norte de Costa Rica:", o: ["Nicaragua", "Panamá", "Colombia", "México"], c: "Nicaragua" },
+                { type: "select", q: "Cartago limita al Sur con:", o: ["San José", "Limón", "Heredia", "Alajuela"], c: "San José" },
+                { type: "select", q: "Elemento que explica los dibujos del mapa:", o: ["Simbología", "Título", "Escala", "Autor"], c: "Simbología" },
+                { type: "select", q: "Punto cardinal por donde sale el sol:", o: ["Este", "Oeste", "Norte", "Sur"], c: "Este" },
+                { type: "select", q: "Línea de 0 grados que divide Este y Oeste:", o: ["Meridiano de Greenwich", "Ecuador", "Paralelos", "Ejes"], c: "Meridiano de Greenwich" },
+                { type: "select", q: "Cartago limita al Este con:", o: ["Limón", "San José", "Heredia", "Puntarenas"], c: "Limón" },
+                { type: "match", q: "Asocie el elemento del mapa:", left: ["Título", "Escala", "Autor"], right: ["Nombre del mapa", "Relación de tamaño", "Quien lo hizo"], pairs: {"Título": "Nombre del mapa", "Escala": "Relación de tamaño", "Autor": "Quien lo hizo"} },
+                { type: "select", q: "Punto cardinal opuesto al Norte:", o: ["Sur", "Este", "Oeste", "Arriba"], c: "Sur" },
+                { type: "select", q: "Cartago limita al Oeste con:", o: ["San José", "Limón", "Heredia", "Alajuela"], c: "San José" },
+                { type: "select", q: "Líneas imaginarias horizontales:", o: ["Paralelos", "Meridianos", "Postes", "Vías"], c: "Paralelos" },
+                { type: "select", q: "Representación de la tierra en esfera:", o: ["Globo terráqueo", "Mapa", "Plano", "Croquis"], c: "Globo terráqueo" },
+                { type: "select", q: "¿Cuántas provincias tiene Costa Rica?", o: ["7", "5", "8", "10"], c: "7" },
+                { type: "select", q: "Símbolo nacional del trabajo:", o: ["Carreta", "Venado", "Guaria", "Yigüirro"], c: "Carreta" },
+                { type: "select", q: "Líneas imaginarias verticales:", o: ["Meridianos", "Paralelos", "Curvas", "Rectas"], c: "Meridianos" },
+                { type: "select", q: "Costa Rica limita al Sur con:", o: ["Panamá", "Nicaragua", "Colombia", "Jamaica"], c: "Panamá" },
+                { type: "select", q: "¿En qué provincia vive (según temario)?", o: ["Cartago", "San José", "Heredia", "Alajuela"], c: "Cartago" },
+                { type: "select", q: "El punto cardinal por donde se oculta el sol:", o: ["Oeste", "Este", "Norte", "Sur"], c: "Oeste" },
+                { type: "select", q: "La línea del Ecuador marca los cero grados de:", o: ["Latitud", "Longitud", "Altura", "Calor"], c: "Latitud" },
+                { type: "select", q: "Costa Rica está en el continente:", o: ["América", "Europa", "Asia", "África"], c: "América" },
+                { type: "select", q: "¿Cuál provincia tiene costa en el Caribe?", o: ["Limón", "Guanacaste", "Puntarenas", "San José"], c: "Limón" },
+                { type: "select", q: "La escala gráfica parece una:", o: ["Regla graduada", "Rosa", "Flecha", "Nube"], c: "Regla graduada" }
             ]
         };
 
+        // --- LÓGICA CORE ---
         let currentSubj = ""; let currentQs = []; let curIdx = 0; let score = 0; let set = []; let curFailures = [];
 
         window.nav = (v) => {
@@ -181,37 +278,41 @@
             window.scrollTo(0,0);
         };
 
-        const shuffle = (arr) => {
-            for (let i = arr.length - 1; i > 0; i--) {
+        const shuffle = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
+                [array[i], array[j]] = [array[j], array[i]];
             }
-            return arr;
+            return array;
         };
 
         window.prepareExam = async (materia) => {
             nav('loading');
+            const randomSeed = Date.now(); 
             const temas = {
-                "Español": "Análisis de lectura (personajes, ambiente, conflicto, causa-efecto), textos (narrativo, descriptivo, expositivo, informativo), fábula, leyenda, poesía, uso de mayúsculas y puntos.",
-                "Matemáticas": "Números hasta 100.000, decena de millar, sucesiones, comparación (<, >, =), líneas paralelas y perpendiculares, ángulos (agudo, recto, obtuso), sumas y restas.",
-                "Ciencias": "Sistema Óseo, Sistema Muscular (voluntarios/involuntarios), Articulaciones, Sistema Digestivo (órganos y etapas), grupos de alimentos.",
-                "Estudios Sociales": "Mapa y plano, provincias de Costa Rica, Cartago y límites (N: Heredia, S: San José, E: Limón), elementos del mapa, Rosa de los vientos."
+                "Español": "Análisis literario (personajes, ambiente, conflicto, causa-efecto), textos (narrativo, descriptivo, expositivo), fábula, leyenda, poesía, mayúsculas y puntos.",
+                "Matemáticas": "Decenas de millar, valor posicional, sucesiones (10, 100, 1000), comparación (<, >, =), líneas paralelas y perpendiculares, ángulos (recto, agudo, obtuso).",
+                "Ciencias": "Sistema óseo y muscular, articulaciones, sistema digestivo (etapas), grupos de alimentos.",
+                "Estudios Sociales": "Mapa, plano, límites de Cartago (N: Heredia, S: San José, E: Limón), elementos del mapa, Rosa de los vientos."
             };
 
-            const prompt = `Genera un examen JSON nivel 3er grado de primaria para la materia de ${materia}. Los temas son: ${temas[materia]}. Dificultad: Media. El examen debe tener 20 preguntas estrictamente en este formato JSON: {"questions": [{"type": "select", "q": "enunciado", "o": ["opcion1","opcion2","opcion3","opcion4"], "c": "opcion1"}, {"type": "match", "q": "asocie los conceptos", "left": ["A","B"], "right": ["D1","D2"], "pairs": {"A":"D1", "B":"D2"}}]}. Un 20% de las preguntas deben ser asocies. En Matemáticas o Ciencias, si hablas de dibujos técnicos añade el campo "media": "recto/agudo/obtuso/paralelas/estomago/rosa" según corresponda.`;
+            const prompt = `Genera un examen ÚNICO de EXACTAMENTE 20 preguntas nivel 3er grado primaria para ${materia}. Temas: ${temas[materia]}. Dificultad: Media. Formato JSON: {"questions": [{"type": "select", "q": "...", "o": ["A","B","C","D"], "c": "A"}, {"type": "match", "q": "Unir términos", "left": ["X","Y"], "right": ["D1","D2"], "pairs": {"X":"D1"}}]}. Incluye 2 asocies. Semilla aleatoria: ${randomSeed}.`;
 
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } })
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiKey}`, {
+                    method: 'POST', body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json", temperature: 1 } })
                 });
                 const json = await res.json();
                 const data = JSON.parse(json.candidates[0].content.parts[0].text);
-                initQuiz(materia, data.questions);
+                if (data.questions && data.questions.length >= 15) {
+                    initQuiz(materia, data.questions.slice(0, 20));
+                    return;
+                }
+                throw new Error("IA incompleta");
             } catch (e) {
-                console.error("Fallo IA, usando banco local:", e);
-                const fallback = shuffle([...LOCAL_BACKUP[materia]]).slice(0, 20);
-                initQuiz(materia, fallback);
+                console.log("Activando banco maestro barajado.");
+                const robustPool = shuffle([...MASTER_BANK[materia]]).slice(0, 20);
+                initQuiz(materia, robustPool);
             }
         };
 
@@ -221,9 +322,7 @@
             nav('quiz'); draw();
         };
 
-        window.restartSame = () => { currentQs = [...set]; curFailures = []; start(); };
-
-        const start = () => { curIdx = 0; score = 0; nav('quiz'); draw(); };
+        window.restartSame = () => { currentQs = [...set]; curIdx = 0; score = 0; curFailures = []; nav('quiz'); draw(); };
 
         const draw = () => {
             const q = currentQs[curIdx];
@@ -238,8 +337,7 @@
 
             const area = document.getElementById('q-answers');
             const fb = document.getElementById('q-feedback');
-            const btn = document.getElementById('btn-next');
-            area.innerHTML = ""; fb.classList.add('hidden'); btn.classList.add('hidden');
+            area.innerHTML = ""; fb.classList.add('hidden'); document.getElementById('btn-next').classList.add('hidden');
 
             if (q.type === "select") {
                 const opts = shuffle([...q.o]);
@@ -272,7 +370,11 @@
                     mSel = null;
                     if(Object.keys(mPairs).length === q.left.length) {
                         let ok = true; for(let k in q.pairs) if(mPairs[k] !== q.pairs[k]) ok = false;
-                        validateMatch(ok, q.q);
+                        if(!ok) curFailures.push(q.q); else score++;
+                        const fbk = document.getElementById('q-feedback');
+                        fbk.innerText = ok ? "¡ASOCIE CORRECTO! 🎯" : "ASOCIE INCORRECTO ❌";
+                        fbk.className = "mt-8 p-6 rounded-2xl border-l-8 font-bold text-lg " + (ok ? "bg-emerald-500/10 border-emerald-500 text-emerald-400" : "bg-rose-500/10 border-rose-500 text-rose-400");
+                        fbk.classList.remove('hidden'); document.getElementById('btn-next').classList.remove('hidden');
                     }
                 };
                 document.getElementById('r-side').appendChild(b);
@@ -284,13 +386,6 @@
             if (ok) { score++; fb.innerText = "¡CORRECTO! 🎯"; fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold"; }
             else { fb.innerText = `ERROR. Respuesta: "${c}".`; fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold"; curFailures.push(currentQs[curIdx].q); }
             document.getElementById('q-answers').querySelectorAll('button').forEach(x => x.disabled = true);
-            document.getElementById('btn-next').classList.remove('hidden');
-        };
-
-        const validateMatch = (ok, qtext) => {
-            const fb = document.getElementById('q-feedback'); fb.classList.remove('hidden');
-            if(ok) { score++; fb.innerText = "¡ASOCIE CORRECTO! 🌟"; fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold"; }
-            else { fb.innerText = "ASOCIE INCORRECTO. Revisa conceptos."; fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold"; curFailures.push("Asocie: " + qtext); }
             document.getElementById('btn-next').classList.remove('hidden');
         };
 
@@ -311,7 +406,8 @@
             onSnapshot(qry, snap => {
                 const body = document.getElementById('history-data'); body.innerHTML = "";
                 snap.forEach(doc => {
-                    const d = doc.data(); const fHTML = d.fallos?.length ? d.fallos.map(f => `<span class="badge-error">Reforzar: ${f}</span>`).join('') : '<span class="text-emerald-400 font-bold">¡Dominio Total! 🏆</span>';
+                    const d = doc.data(); 
+                    const fHTML = d.fallos?.length ? d.fallos.map(f => `<span class="badge-error">Reforzar: ${f}</span>`).join('') : '<span class="text-emerald-400 font-bold italic">¡Dominio Total! 🏆</span>';
                     body.insertAdjacentHTML('beforeend', `<tr class="hover:bg-white/5 border-b border-white/5"><td class="p-4 text-[0.7rem] text-slate-500">${d.fecha}</td><td class="p-4 font-bold text-indigo-400">${d.materia}</td><td class="p-4 font-black ${d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400'} text-center">${d.nota}</td><td class="p-4">${fHTML}</td></tr>`);
                 });
             });
