@@ -13,7 +13,7 @@
         .btn-materia { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .btn-materia:hover { transform: translateY(-4px); filter: brightness(1.2); }
         .svg-display { background: #ffffff05; border-radius: 1.5rem; padding: 30px; display: flex; align-items: center; justify-content: center; min-height: 220px; border: 1px dashed rgba(255,255,255,0.1); }
-        .match-btn { cursor: pointer; border: 2px solid #334155; transition: all 0.2s; text-align: left; padding: 1rem; border-radius: 1rem; width: 100%; font-size: 0.875rem; }
+        .match-btn { cursor: pointer; border: 2px solid #334155; transition: all 0.2s; text-align: left; padding: 1rem; border-radius: 1rem; width: 100%; font-size: 0.875rem; color: white; }
         .match-selected { border-color: #6366f1; background: rgba(99, 102, 241, 0.2); }
         .match-linked { opacity: 0.4; pointer-events: none; border-color: #10b981; background: rgba(16, 185, 129, 0.1); }
         .spreadsheet { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
@@ -25,13 +25,11 @@
 
     <div id="app" class="max-w-6xl mx-auto px-4 pt-8">
         
-        <!-- Navegación -->
         <nav class="flex justify-center gap-4 mb-12">
             <button onclick="nav('home')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">🏠 Inicio</button>
             <button onclick="nav('history')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">📊 Hoja de Resultados</button>
         </nav>
 
-        <!-- Vista Inicio -->
         <div id="view-home" class="view space-y-12">
             <header class="text-center">
                 <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
@@ -40,7 +38,7 @@
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA PARA <span class="text-indigo-500">EXAMEN</span> 2026
                 </h1>
-                <p class="text-slate-400 text-lg">Temario I Semestre - Docente: Maureen Mora Noguera</p>
+                <p class="text-slate-400 text-lg">Nivel de Dificultad: Medio - Docente Maureen Mora Noguera</p>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -63,14 +61,13 @@
             </div>
         </div>
 
-        <!-- Vista Quiz -->
         <div id="view-quiz" class="view hidden max-w-4xl mx-auto">
             <div class="glass rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
                 <div class="bg-indigo-950/30 p-6 flex justify-between items-center border-b border-white/5">
                     <h3 id="q-subject" class="kids-font text-xl text-indigo-400 uppercase tracking-widest">MATERIA</h3>
                     <div class="text-right">
                         <span id="q-counter" class="text-xs font-bold text-slate-500 uppercase">1 de 20</span>
-                        <div class="w-32 h-1.5 bg-slate-700 rounded-full mt-1">
+                        <div class="w-32 h-1.5 bg-slate-800 rounded-full mt-1">
                             <div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: 0%"></div>
                         </div>
                     </div>
@@ -82,25 +79,24 @@
                     <div id="q-answers" class="space-y-4"></div>
                     <div id="q-feedback" class="hidden mt-8 p-6 rounded-2xl border-l-8 font-bold text-lg"></div>
                     <div class="mt-12 flex justify-between items-center">
-                        <button onclick="nav('home')" class="text-slate-500 hover:text-white font-medium transition">✕ Salir</button>
-                        <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl transition active:scale-95">Siguiente ➔</button>
+                        <button onclick="nav('home')" class="text-slate-500 hover:text-white font-medium">✕ Salir</button>
+                        <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl">Siguiente ➔</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Hoja de Resultados -->
         <div id="view-history" class="view hidden">
             <div class="glass rounded-3xl p-8 border border-white/10">
-                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 HOJA DE RESULTADOS (MODO MEDIO)</h2>
-                <div class="overflow-x-auto rounded-xl border border-white/5">
+                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 RESULTADOS EN TIEMPO REAL</h2>
+                <div class="overflow-x-auto rounded-xl">
                     <table class="spreadsheet w-full">
                         <thead>
                             <tr>
                                 <th>Fecha / Hora</th>
                                 <th>Materia</th>
                                 <th>Nota</th>
-                                <th>Resultado</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody id="history-data"></tbody>
@@ -109,21 +105,19 @@
             </div>
         </div>
 
-        <!-- Resultados Finales -->
         <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[4rem] p-16 shadow-2xl border-t-8 border-indigo-500">
             <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
             <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
             <div class="inline-block bg-white/5 px-12 py-8 rounded-[3rem] border border-white/10 mb-10">
-                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Final</span>
+                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-widest">Sincronizando con base de datos...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Sincronizando...</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir Misma</button>
-                <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica</button>
+                <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl">✨ Nueva Práctica</button>
             </div>
         </div>
-
     </div>
 
     <script type="module">
@@ -131,7 +125,6 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
 
-        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
             authDomain: "practica-examen-2026.firebaseapp.com",
@@ -154,7 +147,6 @@
             if(u) syncHistory();
         });
 
-        // --- SVGs SIN TEXTOS ---
         const DRAWINGS = {
             recto: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M20,10 L20,90 L90,90" fill="none" stroke="white" stroke-width="6"/><rect x="20" y="80" width="10" height="10" fill="none" stroke="cyan" stroke-width="2"/></svg>`,
             agudo: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M90,90 L10,90 L70,30" fill="none" stroke="white" stroke-width="6"/></svg>`,
@@ -165,7 +157,6 @@
             rosa: `<svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="gray" fill="none" stroke-dasharray="2"/><path d="M50,10 L55,45 L90,50 L55,55 L50,90 L45,55 L10,50 L45,45 Z" fill="indigo" stroke="white"/></svg>`
         };
 
-        // --- BANCO DE PREGUNTAS (80 total - NIVEL MEDIO) ---
         const BANK = {
             "Español": [
                 { type: "select", q: "¿Cómo se llama el elemento que indica dónde ocurre la historia?", o: ["Lugar", "Personaje", "Conflicto", "Acción"], c: "Lugar" },
@@ -257,8 +248,7 @@
             ]
         };
 
-        // --- LÓGICA APP ---
-        let subj = "";
+        let currentSubj = "";
         let qs = [];
         let curIdx = 0;
         let score = 0;
@@ -273,7 +263,7 @@
         };
 
         window.initQuiz = (name) => {
-            subj = name;
+            currentSubj = name;
             const pool = [...BANK[name]].sort(() => Math.random() - 0.5);
             qs = pool.slice(0, 20);
             currentSet = [...qs];
@@ -293,7 +283,7 @@
 
         const draw = () => {
             const q = qs[curIdx];
-            document.getElementById('q-subject').innerText = subj;
+            document.getElementById('q-subject').innerText = currentSubj;
             document.getElementById('q-counter').innerText = `${curIdx + 1} de ${qs.length}`;
             document.getElementById('progress-bar').style.width = `${((curIdx + 1) / qs.length) * 100}%`;
             document.getElementById('q-text').innerText = q.q;
@@ -337,7 +327,7 @@
 
             q.left.forEach(item => {
                 const b = document.createElement('button');
-                b.className = "match-btn glass font-bold text-white";
+                b.className = "match-btn glass font-bold";
                 b.innerText = item;
                 b.onclick = () => {
                     document.querySelectorAll('#left-side button').forEach(x => x.classList.remove('match-selected'));
@@ -349,7 +339,7 @@
 
             [...q.right].sort(() => Math.random() - 0.5).forEach(item => {
                 const b = document.createElement('button');
-                b.className = "match-btn glass font-bold text-white";
+                b.className = "match-btn glass font-bold";
                 b.innerText = item;
                 b.onclick = () => {
                     if(!matchSelected) return;
@@ -360,7 +350,7 @@
                     if(Object.keys(matchPairs).length === q.left.length) {
                         let cCount = 0;
                         for(let k in q.pairs) if(matchPairs[k] === q.pairs[k]) cCount++;
-                        validateMatch(cCount === q.left.length, q.left.length);
+                        validateMatch(cCount === q.left.length);
                     }
                 };
                 document.getElementById('right-side').appendChild(b);
@@ -417,14 +407,13 @@
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), {
                         uid: user.uid,
-                        materia: subj,
+                        materia: currentSubj,
                         nota: finalNota,
                         fecha: new Date().toLocaleString(),
                         timestamp: serverTimestamp()
                     });
                     document.getElementById('cloud-sync').innerText = "✅ RESULTADOS GUARDADOS";
                 } catch(e) {
-                    console.error("Error saving:", e);
                     document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR";
                 }
             }
