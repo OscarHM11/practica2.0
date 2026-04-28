@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica para examen 2026 | Sección 3-2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Balsamiq+Sans:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #080c17; color: #f1f5f9; }
+        .kids-font { font-family: 'Balsamiq Sans', cursive; }
+        .glass { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .input-custom { background: #1e293b; border: 2px solid #334155; transition: all 0.3s; color: white; width: 100%; padding: 1rem; border-radius: 1rem; }
+        .input-custom:focus { border-color: #6366f1; outline: none; box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
+        .btn-materia { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-materia:hover { transform: translateY(-4px); filter: brightness(1.2); }
+        .svg-display { background: #ffffff05; border-radius: 1.5rem; padding: 30px; display: flex; align-items: center; justify-content: center; min-height: 220px; border: 1px dashed rgba(255,255,255,0.1); }
+        .spreadsheet { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        .spreadsheet th { background: #1e1b4b; color: #818cf8; padding: 12px; text-align: left; border: 1px solid #334155; }
+        .spreadsheet td { padding: 10px; border: 1px solid #334155; }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+
+    <div id="app" class="max-w-6xl mx-auto px-4 pt-8">
+        
+        <!-- Navegación -->
+        <nav class="flex justify-center gap-4 mb-12">
+            <button onclick="nav('home')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">🏠 Inicio</button>
+            <button onclick="nav('history')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">📊 Hoja de Resultados</button>
+        </nav>
+
+        <!-- Vista Inicio -->
+        <div id="view-home" class="view space-y-12">
+            <header class="text-center">
+                <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
+                    Ministerio de Educación Pública - Sección 3-2
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase">
+                    PRÁCTICA PARA <span class="text-indigo-500">EXAMEN</span> 2026
+                </h1>
+                <p class="text-slate-400 text-lg">Temario I Semestre - Docente: Maureen Mora Noguera</p>
+            </header>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <button onclick="initQuiz('Español')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-rose-600">
+                    <span class="text-4xl mb-4 block">🖋️</span>
+                    <h3 class="text-2xl font-bold text-white">Español</h3>
+                </button>
+                <button onclick="initQuiz('Matemáticas')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-blue-600">
+                    <span class="text-4xl mb-4 block">🧮</span>
+                    <h3 class="text-2xl font-bold text-white">Matemáticas</h3>
+                </button>
+                <button onclick="initQuiz('Ciencias')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-emerald-600">
+                    <span class="text-4xl mb-4 block">🧪</span>
+                    <h3 class="text-2xl font-bold text-white">Ciencias</h3>
+                </button>
+                <button onclick="initQuiz('Estudios Sociales')" class="btn-materia glass p-8 rounded-[2.5rem] text-left border-b-8 border-amber-600">
+                    <span class="text-4xl mb-4 block">🗺️</span>
+                    <h3 class="text-2xl font-bold text-white">Estudios Sociales</h3>
+                </button>
+            </div>
+        </div>
+
+        <!-- Vista Quiz -->
+        <div id="view-quiz" class="view hidden max-w-4xl mx-auto">
+            <div class="glass rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
+                <div class="bg-indigo-950/30 p-6 flex justify-between items-center border-b border-white/5">
+                    <h3 id="q-subject" class="kids-font text-xl text-indigo-400 uppercase tracking-widest">MATERIA</h3>
+                    <div class="text-right">
+                        <span id="q-counter" class="text-xs font-bold text-slate-500 uppercase">1 de 20</span>
+                        <div class="w-32 h-1.5 bg-slate-800 rounded-full mt-1">
+                            <div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 md:p-12">
+                    <div id="q-media" class="mb-8 hidden"></div>
+                    <h2 id="q-text" class="text-2xl md:text-3xl font-bold mb-10 leading-snug">Cargando...</h2>
+                    <div id="q-answers" class="space-y-4"></div>
+                    <div id="q-feedback" class="hidden mt-8 p-6 rounded-2xl border-l-8 font-bold text-lg"></div>
+                    <div class="mt-12 flex justify-between items-center">
+                        <button onclick="nav('home')" class="text-slate-500 hover:text-white font-medium transition">✕ Salir</button>
+                        <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl transition active:scale-95">Siguiente ➔</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hoja de Resultados -->
+        <div id="view-history" class="view hidden">
+            <div class="glass rounded-3xl p-8 border border-white/10">
+                <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 HOJA DE RESULTADOS (SYNC EXAMEN 2026)</h2>
+                <div class="overflow-x-auto rounded-xl border border-white/5">
+                    <table class="spreadsheet w-full">
+                        <thead>
+                            <tr>
+                                <th>Fecha / Hora</th>
+                                <th>ID Usuario</th>
+                                <th>Materia</th>
+                                <th>Nota</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-data"></tbody>
+                    </table>
+                </div>
+                <p id="history-status" class="mt-4 text-center text-slate-500 text-xs italic">Cargando datos desde la nube...</p>
+            </div>
+        </div>
+
+        <!-- Resultados Finales -->
+        <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[4rem] p-16 shadow-2xl border-t-8 border-indigo-500">
+            <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
+            <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
+            <div class="inline-block bg-white/5 px-12 py-8 rounded-[3rem] border border-white/10 mb-10">
+                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
+                <span id="res-score" class="text-8xl font-black text-white">0</span>
+            </div>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-widest">Sincronizando con base de datos...</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir Misma</button>
+                <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition shadow-indigo-600/20">✨ Nueva Práctica</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+
+        // --- FIREBASE CONFIG (INTEGRADA) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
+            authDomain: "practica-examen-2026.firebaseapp.com",
+            projectId: "practica-examen-2026",
+            storageBucket: "practica-examen-2026.firebasestorage.app",
+            messagingSenderId: "1063177516735",
+            appId: "1:1063177516735:web:65915c315c447ae855780a",
+            measurementId: "G-58XTTL579R"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = "practica-examen-2026";
+        let user = null;
+
+        // --- SOLUCIÓN ERROR AUTH ---
+        signInAnonymously(auth).catch(e => {
+            console.error("Error Auth:", e);
+            if(e.code === 'auth/configuration-not-found') {
+                alert("ATENCIÓN: Debes habilitar el método 'Anónimo' en la consola de Firebase > Authentication.");
+            }
+        });
+
+        onAuthStateChanged(auth, u => {
+            user = u;
+            if(u) syncHistory();
+        });
+
+        // --- MOTOR SVG ---
+        const DRAWINGS = {
+            recto: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M20,10 L20,90 L90,90" fill="none" stroke="white" stroke-width="6"/><rect x="20" y="80" width="10" height="10" fill="none" stroke="cyan" stroke-width="2"/></svg>`,
+            agudo: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M90,90 L10,90 L70,30" fill="none" stroke="white" stroke-width="6"/></svg>`,
+            obtuso: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M10,90 L60,90 L10,30" fill="none" stroke="white" stroke-width="6"/></svg>`,
+            paralelas: `<svg width="120" height="120" viewBox="0 0 100 100"><line x1="10" y1="30" x2="90" y2="30" stroke="white" stroke-width="6"/><line x1="10" y1="65" x2="90" y2="65" stroke="white" stroke-width="6"/></svg>`,
+            perpendiculares: `<svg width="120" height="120" viewBox="0 0 100 100"><line x1="50" y1="10" x2="50" y2="90" stroke="white" stroke-width="6"/><line x1="10" y1="50" x2="90" y2="50" stroke="white" stroke-width="6"/></svg>`,
+            estomago: `<svg width="120" height="120" viewBox="0 0 100 100"><path d="M30,20 C10,40 30,80 60,70 C80,60 90,30 60,10 C50,5 40,10 30,20" fill="#f87171" stroke="white" stroke-width="2"/></svg>`,
+            rosa: `<svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="gray" fill="none" stroke-dasharray="2"/><path d="M50,10 L55,45 L90,50 L55,55 L50,90 L45,55 L10,50 L45,45 Z" fill="indigo" stroke="white"/></svg>`
+        };
+
+        // --- BANCO DE PREGUNTAS (80 total) ---
+        const BANK = {
+            "Español": [
+                { type: "write", q: "Escriba el elemento que describe el conflicto o problema central de una historia:", c: "Conflicto" },
+                { type: "select", q: "¿Cuál es el tipo de texto que informa objetivamente sobre temas de la realidad?", o: ["Narrativo", "Expositivo", "Literario", "Descriptivo"], c: "Expositivo" },
+                { type: "write", q: "¿Cómo se llama el texto literario escrito en versos y estrofas?", c: "Poesía" },
+                { type: "select", q: "Identifique la causa en: 'Sofía sacó 100 porque estudió cada tarde'.", o: ["Sofía sacó 100", "Estudió cada tarde", "El examen", "La nota"], c: "Estudió cada tarde" },
+                { type: "write", q: "¿Qué nombre recibe el lugar y el tiempo donde ocurren las acciones?", c: "Ambiente" },
+                { type: "select", q: "Un texto que usa muchos adjetivos para decir cómo es un objeto es:", o: ["Narrativo", "Descriptivo", "Expositivo", "Informativo"], c: "Descriptivo" },
+                { type: "write", q: "¿Cómo se llaman los personajes principales de una fábula?", c: "Animales" },
+                { type: "select", q: "La leyenda se diferencia del cuento porque:", o: ["Es real", "Explica el origen de algo", "No tiene personajes", "Es muy larga"], c: "Explica el origen de algo" },
+                { type: "write", q: "Escriba el nombre de cada línea de un poema:", c: "Verso" },
+                { type: "select", q: "Signo de puntuación que se usa para cerrar un párrafo:", o: ["Coma", "Punto y seguido", "Punto y aparte", "Dos puntos"], c: "Punto y aparte" },
+                { type: "write", q: "Escriba el nombre del elemento que indica quién realiza los hechos:", c: "Personaje" },
+                { type: "select", q: "El texto expositivo se encuentra comúnmente en:", o: ["Cuentos de hadas", "Libros escolares", "Poemas", "Fábulas"], c: "Libros escolares" },
+                { type: "write", q: "¿Qué nombre recibe la enseñanza que deja una fábula?", c: "Moraleja" },
+                { type: "explain", q: "Explique la importancia de las mayúsculas en sustantivos propios.", c: "Distinguen nombres específicos de personas o lugares del resto de nombres comunes." },
+                { type: "select", q: "¿Cuál es el efecto en: 'Llovió mucho y el patio se inundó'?", o: ["Llovió mucho", "El patio se inundó", "El agua", "La lluvia"], c: "El patio se inundó" },
+                { type: "write", q: "¿Cómo se llaman los textos hechos para ser actuados?", c: "Dramatización" },
+                { type: "select", q: "Un texto narrativo sirve para:", o: ["Contar hechos", "Describir colores", "Informar noticias", "Dar instrucciones"], c: "Contar hechos" },
+                { type: "write", q: "¿Qué nombre recibe el conjunto de versos?", c: "Estrofa" },
+                { type: "select", q: "El punto final se coloca:", o: ["Al inicio", "Entre párrafos", "Al terminar todo el texto", "Después de una coma"], c: "Al terminar todo el texto" },
+                { type: "write", q: "Escriba el tipo de texto que usa rimas:", c: "Poesía" }
+            ],
+            "Matemáticas": [
+                { type: "write", q: "¿Cómo se escribe en números: Cincuenta y dos mil trescientos ocho?", c: "52308" },
+                { type: "select", q: "En el número 87.432, ¿qué cifra representa las DM?", o: ["7", "8", "4", "3"], c: "8" },
+                { type: "media", q: "¿Qué tipo de ángulo es este?", media: "recto", o: ["Agudo", "Recto", "Obtuso"], c: "Recto" },
+                { type: "write", q: "Sucesión de 1000 en 1000: 15.000, 16.000, 17.000... ¿Qué sigue?", c: "18000" },
+                { type: "select", q: "¿Cuál es el valor posicional del 9 en 94.000?", o: ["900", "9.000", "90.000", "90"], c: "90.000" },
+                { type: "write", q: "Resuelva: 45.000 - 27.485 =", c: "17515" },
+                { type: "media", q: "¿Cómo se llaman estas líneas?", media: "paralelas", o: ["Paralelas", "Perpendiculares", "Secantes"], c: "Paralelas" },
+                { type: "write", q: "¿Cómo se llama el punto donde se unen los lados de un ángulo?", c: "Vértice" },
+                { type: "media", q: "¿Qué ángulo es este?", media: "agudo", o: ["Agudo", "Recto", "Obtuso"], c: "Agudo" },
+                { type: "select", q: "El símbolo > significa:", o: ["Menor que", "Mayor que", "Igual a"], c: "Mayor que" },
+                { type: "write", q: "¿Cómo se escribe 100.000 en letras?", c: "Cien mil" },
+                { type: "media", q: "Identifique estas líneas:", media: "perpendiculares", o: ["Paralelas", "Perpendiculares", "Oblicuas"], c: "Perpendiculares" },
+                { type: "write", q: "Resuelva: 12.500 + 8.950 =", c: "21450" },
+                { type: "select", q: "Un ángulo de 135 grados es:", o: ["Agudo", "Recto", "Obtuso"], c: "Obtuso" },
+                { type: "write", q: "¿Cuántas unidades hay en 5 DM?", c: "50000" },
+                { type: "select", q: "Sucesión de 10 en 10: 450, 460, 470... ¿Qué sigue?", o: ["475", "480", "500", "490"], c: "480" },
+                { type: "write", q: "Número formado por: 3 UM, 5 C, 0 D, 2 U", c: "3502" },
+                { type: "select", q: "Símbolo correcto: 45.090 ___ 45.900", o: [">", "<", "="], c: "<" },
+                { type: "write", q: "¿Cuál es el valor del dígito 7 en 1.702?", c: "700" },
+                { type: "select", q: "Si resto 100 a 10.000 obtengo:", o: ["9.900", "9.000", "10.100", "9.990"], c: "9.900" }
+            ],
+            "Ciencias": [
+                { type: "write", q: "¿Cómo se llaman los músculos que se mueven sin control?", c: "Involuntarios" },
+                { type: "select", q: "El fémur es un ejemplo de hueso:", o: ["Plano", "Corto", "Largo", "Curvo"], c: "Largo" },
+                { type: "media", q: "¿Qué órgano digestivo es este?", media: "estomago", o: ["Hígado", "Estómago", "Páncreas", "Recto"], c: "Estómago" },
+                { type: "write", q: "Etapa donde se expulsan los desechos sólidos:", c: "Defecación" },
+                { type: "select", q: "Las articulaciones de la rodilla son:", o: ["Fijas", "Móviles", "Semimóviles"], c: "Móviles" },
+                { type: "write", q: "¿Cómo se llaman los alimentos que reparan tejidos?", c: "Constructores" },
+                { type: "select", q: "El esófago conecta la boca con:", o: ["El intestino", "El estómago", "Los pulmones", "El hígado"], c: "El estómago" },
+                { type: "write", q: "Etapa donde los nutrientes pasan a la sangre:", c: "Absorción" },
+                { type: "select", q: "Un ejemplo de músculo voluntario es:", o: ["Corazón", "Bíceps", "Estómago", "Intestino"], c: "Bíceps" },
+                { type: "write", q: "¿Qué sistema protege el cerebro?", c: "Sistema óseo" },
+                { type: "select", q: "Alimentos como frutas y verduras son:", o: ["Energéticos", "Protectores", "Constructores", "Ninguno"], c: "Protectores" },
+                { type: "write", q: "¿En qué órgano se forma la materia fecal?", c: "Intestino grueso" },
+                { type: "select", q: "La ingestión ocurre en:", o: ["La boca", "El estómago", "El intestino", "El recto"], c: "La boca" },
+                { type: "write", q: "¿Cómo se llaman las articulaciones del cráneo?", c: "Fijas" },
+                { type: "select", q: "Las vértebras de la espalda son huesos:", o: ["Largos", "Cortos", "Planos", "Curvos"], c: "Cortos" },
+                { type: "select", q: "Los alimentos que dan energía inmediata son:", o: ["Energéticos", "Constructores", "Protectores", "Venenos"], c: "Energéticos" },
+                { type: "write", q: "Nombre del proceso de deshacer los alimentos:", c: "Digestión" },
+                { type: "select", q: "Para cuidar los huesos debemos tomar:", o: ["Café", "Refresco", "Leche", "Té"], c: "Leche" },
+                { type: "write", q: "¿Cómo se llaman los huesos de la cabeza?", c: "Cráneo" },
+                { type: "select", q: "Músculo involuntario vital:", o: ["Dedo", "Pierna", "Corazón", "Brazo"], c: "Corazón" }
+            ],
+            "Estudios Sociales": [
+                { type: "write", q: "¿Con qué provincia limita Cartago hacia el NORTE?", c: "Heredia" },
+                { type: "select", q: "Un plano representa lugares:", o: ["Grandes como países", "Pequeños con detalle", "Toda la tierra", "Líneas imaginarias"], c: "Pequeños con detalle" },
+                { type: "media", q: "¿Qué herramienta es esta?", media: "rosa", o: ["Simbología", "Escala", "Rosa de los vientos", "Meridiano"], c: "Rosa de los vientos" },
+                { type: "write", q: "Línea imaginaria que divide Norte y Sur:", c: "Ecuador" },
+                { type: "select", q: "Costa Rica limita al Norte con:", o: ["Panamá", "Nicaragua", "Colombia", "México"], c: "Nicaragua" },
+                { type: "write", q: "¿Con qué provincia limita Cartago hacia el SUR?", c: "San José" },
+                { type: "select", q: "Elemento que explica los dibujos del mapa:", o: ["Título", "Escala", "Simbología", "Autor"], c: "Simbología" },
+                { type: "write", q: "¿Cuál es el punto cardinal por donde sale el sol?", c: "Este" },
+                { type: "select", q: "Línea de 0 grados que divide Este y Oeste:", o: ["Ecuador", "Meridiano de Greenwich", "Trópico", "Círculo"], c: "Meridiano de Greenwich" },
+                { type: "write", q: "¿Con qué provincia limita Cartago hacia el ESTE?", c: "Limón" },
+                { type: "select", q: "La escala que es una línea graduada es:", o: ["Gráfica", "Numérica", "Visual", "Escrita"], c: "Gráfica" },
+                { type: "write", q: "¿Cuál es el punto cardinal opuesto al Norte?", c: "Sur" },
+                { type: "select", q: "Cartago limita hacia el OESTE con:", o: ["San José", "Limón", "Heredia", "Alajuela"], c: "San José" },
+                { type: "write", q: "¿Cómo se llaman las líneas horizontales imaginarias?", c: "Paralelos" },
+                { type: "select", q: "Mapa de toda la Tierra en una esfera:", o: ["Plano", "Mapa político", "Globo terráqueo", "Símbolo"], c: "Globo terráqueo" },
+                { type: "write", q: "¿Cuántas provincias tiene Costa Rica?", c: "7" },
+                { type: "select", q: "Símbolo nacional del trabajo:", o: ["Yigüirro", "Carreta", "Guaria", "Venado"], c: "Carreta" },
+                { type: "write", q: "¿Cómo se llaman las líneas verticales imaginarias?", c: "Meridianos" },
+                { type: "select", q: "Costa Rica limita al Sur con:", o: ["Nicaragua", "Panamá", "Colombia", "España"], c: "Panamá" },
+                { type: "write", q: "Escriba el nombre de la provincia donde vive (según temario):", c: "Cartago" }
+            ]
+        };
+
+        // --- ESTADO ---
+        let currentSubj = "";
+        let qs = [];
+        let curIdx = 0;
+        let curScore = 0;
+        let details = [];
+        let set = [];
+
+        window.nav = (view) => {
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            document.getElementById(`view-${view}`).classList.remove('hidden');
+            window.scrollTo(0,0);
+        };
+
+        window.initQuiz = (name) => {
+            currentSubj = name;
+            const pool = [...BANK[name]].sort(() => Math.random() - 0.5);
+            qs = pool.slice(0, 20);
+            set = [...qs];
+            details = [];
+            start();
+        };
+
+        window.restartSame = () => {
+            qs = [...set];
+            details = [];
+            start();
+        };
+
+        const start = () => {
+            curIdx = 0; curScore = 0;
+            nav('quiz');
+            draw();
+        };
+
+        const draw = () => {
+            const q = qs[curIdx];
+            document.getElementById('q-subject').innerText = currentSubj;
+            document.getElementById('q-counter').innerText = `${curIdx + 1} de ${qs.length}`;
+            document.getElementById('progress-bar').style.width = `${((curIdx + 1) / qs.length) * 100}%`;
+            document.getElementById('q-text').innerText = q.q;
+            
+            const media = document.getElementById('q-media');
+            if (q.media) {
+                media.innerHTML = `<div class="svg-display">${DRAWINGS[q.media]}</div>`;
+                media.classList.remove('hidden');
+            } else {
+                media.classList.add('hidden');
+            }
+
+            const area = document.getElementById('q-answers');
+            const fb = document.getElementById('q-feedback');
+            const btn = document.getElementById('btn-next');
+            area.innerHTML = ""; fb.classList.add('hidden'); btn.classList.add('hidden');
+
+            if (q.type === "select" || q.type === "media") {
+                const opts = [...q.o].sort(() => Math.random() - 0.5);
+                opts.forEach(opt => {
+                    const b = document.createElement('button');
+                    b.className = "w-full p-5 rounded-2xl text-left glass font-bold border-2 border-transparent hover:border-indigo-500 transition-all";
+                    b.innerText = opt;
+                    b.onclick = () => check(opt, q.c, b);
+                    area.appendChild(b);
+                });
+            } else if (q.type === "write") {
+                const div = document.createElement('div');
+                div.className = "space-y-4";
+                div.innerHTML = `
+                    <input type="text" id="ans-in" class="input-custom" placeholder="Escriba aquí...">
+                    <button id="val-btn" class="w-full bg-indigo-600 p-5 rounded-2xl font-bold text-white shadow-lg">Validar</button>
+                `;
+                area.appendChild(div);
+                const input = document.getElementById('ans-in');
+                input.focus();
+                document.getElementById('val-btn').onclick = () => check(input.value, q.c, input);
+                input.onkeypress = (e) => { if(e.key === 'Enter') check(e.target.value, q.c, e.target); };
+            } else if (q.type === "explain") {
+                const div = document.createElement('div');
+                div.className = "space-y-4";
+                div.innerHTML = `
+                    <textarea id="ans-txt" class="input-custom h-32" placeholder="Redacte su explicación..."></textarea>
+                    <button id="val-btn-exp" class="w-full bg-indigo-600 p-5 rounded-2xl font-bold text-white shadow-lg">Enviar</button>
+                `;
+                area.appendChild(div);
+                document.getElementById('val-btn-exp').onclick = () => {
+                    curScore++;
+                    details.push({ q: q.q, ok: true });
+                    nextQ();
+                };
+            }
+        };
+
+        window.check = (u, c, el) => {
+            const fb = document.getElementById('q-feedback');
+            const btn = document.getElementById('btn-next');
+            const norm = (s) => s.toString().toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const ok = norm(u) === norm(c);
+
+            fb.classList.remove('hidden');
+            if (ok) {
+                curScore++;
+                fb.innerText = "¡CORRECTO! 🎯";
+                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
+            } else {
+                fb.innerText = `ERROR. Respuesta oficial: "${c}".`;
+                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
+            }
+
+            details.push({ q: qs[curIdx].q, ok });
+            document.getElementById('q-answers').querySelectorAll('button, input').forEach(x => x.disabled = true);
+            btn.classList.remove('hidden');
+        };
+
+        window.nextQ = () => {
+            if (curIdx < qs.length - 1) {
+                curIdx++; draw();
+            } else {
+                finish();
+            }
+        };
+
+        const finish = async () => {
+            nav('results');
+            const finalNota = Math.round((curScore / qs.length) * 100);
+            document.getElementById('res-score').innerText = finalNota;
+            
+            if(user) {
+                try {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), {
+                        uid: user.uid,
+                        materia: currentSubj,
+                        nota: finalNota,
+                        fecha: new Date().toLocaleString(),
+                        detalle: details,
+                        timestamp: serverTimestamp()
+                    });
+                    document.getElementById('cloud-sync').innerText = "✅ RESULTADOS GUARDADOS EN LA NUBE";
+                } catch(e) {
+                    console.error("Error saving:", e);
+                    document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR";
+                }
+            } else {
+                document.getElementById('cloud-sync').innerText = "⚠️ MODO LOCAL: Habilita Authentication Anónimo en Firebase";
+            }
+        };
+
+        const syncHistory = () => {
+            const qry = query(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), orderBy('timestamp', 'desc'));
+            onSnapshot(qry, (snap) => {
+                const body = document.getElementById('history-data');
+                body.innerHTML = "";
+                document.getElementById('history-status').style.display = "none";
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const row = `
+                        <tr class="hover:bg-white/5 transition border-b border-white/5">
+                            <td class="p-4 text-xs text-slate-500">${d.fecha}</td>
+                            <td class="p-4 font-mono text-[10px] text-slate-600">${d.uid}</td>
+                            <td class="p-4 font-bold text-indigo-400">${d.materia}</td>
+                            <td class="p-4 font-black ${d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400'}">${d.nota}</td>
+                            <td class="p-4">
+                                <details class="text-[10px] text-slate-500 cursor-pointer">
+                                    <summary>Ver detalle</summary>
+                                    <ul class="mt-2 space-y-1">
+                                        ${d.detalle.map(r => `<li>${r.ok ? '✅' : '❌'} ${r.q.substring(0,30)}...</li>`).join('')}
+                                    </ul>
+                                </details>
+                            </td>
+                        </tr>
+                    `;
+                    body.insertAdjacentHTML('beforeend', row);
+                });
+            }, (error) => {
+                console.error("Firestore error:", error);
+                document.getElementById('history-status').innerText = "Error cargando datos: Revisa permisos en Firestore.";
+            });
+        };
+
+    </script>
+</body>
+</html>
