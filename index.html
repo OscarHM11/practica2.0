@@ -13,7 +13,7 @@
         .btn-option { width: 100%; text-align: left; padding: 1.25rem; border-radius: 1rem; border: 2px solid transparent; background: rgba(255,255,255,0.05); transition: all 0.2s; font-weight: 600; color: white; line-height: 1.4; }
         .btn-option:hover:not(:disabled) { background: rgba(99, 102, 241, 0.1); border-color: #6366f1; }
         .correct { border-color: #10b981 !important; background: rgba(16, 185, 129, 0.2) !important; color: #34d399; }
-        .incorrect { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.2) !important; color: #f87171; }
+        .incorrect { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.15) !important; color: #f87171; }
         .spreadsheet { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .spreadsheet th { background: #1e1b4b; color: #818cf8; padding: 12px; text-align: left; border: 1px solid #334155; text-transform: uppercase; }
         .spreadsheet td { padding: 12px; border: 1px solid #334155; vertical-align: top; }
@@ -29,7 +29,7 @@
             <button onclick="nav('history')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">📊 Hoja de Resultados</button>
         </nav>
 
-        <!-- Pantalla Inicio -->
+        <!-- Vista Inicio -->
         <div id="view-home" class="view space-y-12">
             <header class="text-center">
                 <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
@@ -38,24 +38,24 @@
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA PARA <span class="text-indigo-500">EXAMEN</span> 2026
                 </h1>
-                <p class="text-slate-400 text-lg italic">Temario I Semestre - Docente Maureen Mora Noguera</p>
+                <p class="text-slate-400 text-lg italic">Evaluación Inteligente 100% Texto - Docente Maureen Mora</p>
                 <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA CONECTADO</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <button onclick="startProcess('Español')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-rose-600 hover:scale-105 transition">
+                <button onclick="prepareExam('Español')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-rose-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🖋️</span>
                     <h3 class="text-2xl font-bold text-white uppercase">Español</h3>
                 </button>
-                <button onclick="startProcess('Matemáticas')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition">
+                <button onclick="prepareExam('Matemáticas')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🧮</span>
                     <h3 class="text-2xl font-bold text-white uppercase">Matemáticas</h3>
                 </button>
-                <button onclick="startProcess('Ciencias')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-emerald-600 hover:scale-105 transition">
+                <button onclick="prepareExam('Ciencias')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-emerald-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🧪</span>
                     <h3 class="text-2xl font-bold text-white uppercase">Ciencias</h3>
                 </button>
-                <button onclick="startProcess('Estudios Sociales')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition">
+                <button onclick="prepareExam('Estudios Sociales')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🗺️</span>
                     <h3 class="text-2xl font-bold text-white uppercase">Estudios Sociales</h3>
                 </button>
@@ -65,8 +65,8 @@
         <!-- Pantalla de Carga -->
         <div id="view-loading" class="view hidden text-center py-20">
             <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">Generando Retos Nuevos...</h2>
-            <p class="text-slate-500 mt-2 italic">Asegurando que las preguntas sean diferentes a la vez anterior.</p>
+            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">Generando 20 preguntas nuevas...</h2>
+            <p class="text-slate-500 mt-2 italic">Asegurando que esta práctica sea totalmente única.</p>
         </div>
 
         <!-- Pantalla Quiz -->
@@ -100,7 +100,7 @@
                 <div class="overflow-x-auto rounded-xl border border-white/5">
                     <table class="spreadsheet w-full">
                         <thead>
-                            <tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar</th></tr>
+                            <tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar (Fallos)</th></tr>
                         </thead>
                         <tbody id="history-data"></tbody>
                     </table>
@@ -113,10 +113,10 @@
             <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
             <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
             <div class="inline-block bg-white/5 px-12 py-8 rounded-[3rem] border border-white/10 mb-10">
-                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Final</span>
+                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Guardando diagnóstico...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-[0.2em]">Guardando diagnóstico...</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir Esta</button>
                 <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica</button>
@@ -142,6 +142,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const appId = "practica-examen-2026";
         const geminiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; 
         let user = null;
 
@@ -149,118 +150,118 @@
         signInAnonymously(auth);
 
         // --- BANCO ROBUSTO REAL (25 preguntas pedagógicas por materia) ---
-        const REAL_MASTER_BANK = {
+        const MASTER_TEXT_BANK = {
             "Español": [
-                { q: "¿Qué elemento del cuento describe el lugar y el tiempo?", o: ["Ambiente", "Personaje", "Conflicto", "Acción"], c: "Ambiente" },
-                { q: "¿Qué texto literario deja siempre una moraleja o enseñanza?", o: ["Fábula", "Leyenda", "Cuento", "Noticia"], c: "Fábula" },
-                { q: "¿Cómo se llama el personaje principal de una historia?", o: ["Protagonista", "Narrador", "Autor", "Villano"], c: "Protagonista" },
-                { q: "Identifique la causa en: 'El niño se mojó porque no llevó paraguas'.", o: ["No llevó paraguas", "Se mojó el niño", "Llovió mucho", "El paraguas era azul"], c: "No llevó paraguas" },
-                { q: "Un sustantivo propio de un lugar de Costa Rica es:", o: ["Cartago", "provincia", "maestra", "escuela"], c: "Cartago" },
-                { q: "¿Qué signo de puntuación se usa para cerrar un párrafo?", o: ["Punto y aparte", "Coma", "Dos puntos", "Punto y seguido"], c: "Punto y aparte" },
-                { q: "¿Cómo se llama cada línea de un poema?", o: ["Verso", "Estrofa", "Rima", "Párrafo"], c: "Verso" },
-                { q: "¿En qué parte del cuento se resuelve el problema?", o: ["Desenlace", "Nudo", "Inicio", "Portada"], c: "Desenlace" },
-                { q: "¿Qué texto explica el origen de algo combinando realidad y fantasía?", o: ["Leyenda", "Manual", "Receta", "Diccionario"], c: "Leyenda" },
-                { q: "¿Cuál palabra debe ir siempre con mayúscula inicial?", o: ["Maureen", "docente", "clase", "pizarra"], c: "Maureen" },
-                { q: "El punto y seguido se utiliza para:", o: ["Separar oraciones", "Cambiar de tema", "Terminar el libro", "Hacer una lista"], c: "Separar oraciones" },
-                { q: "¿Qué texto tiene como objetivo informar objetivamente?", o: ["Expositivo", "Narrativo", "Poético", "Ficticio"], c: "Expositivo" },
-                { q: "El grupo de versos en una poesía se llama:", o: ["Estrofa", "Cuento", "Verso", "Libro"], c: "Estrofa" },
-                { q: "Identifique el efecto: 'Comió muchos dulces y le dio dolor de panza'.", o: ["Le dio dolor de panza", "Comió muchos dulces", "El dulce", "El niño"], c: "Le dio dolor de panza" },
-                { q: "¿Qué parte del cuento presenta el problema?", o: ["Nudo", "Inicio", "Desenlace", "Título"], c: "Nudo" },
-                { q: "¿Cuál signo indica una pausa corta en la lectura?", o: ["Coma", "Punto", "Guion", "Dos puntos"], c: "Coma" },
-                { q: "El texto descriptivo sirve para:", o: ["Decir cómo es algo", "Contar un chiste", "Dar noticias", "Hacer rimas"], c: "Decir cómo es algo" },
-                { q: "Las rimas son sonidos iguales al final de los:", o: ["Versos", "Títulos", "Párrafos", "Capítulos"], c: "Versos" },
-                { q: "Un ejemplo de sustantivo común es:", o: ["perro", "Costa Rica", "Luis", "Cartago"], c: "perro" },
-                { q: "¿Qué texto se escribe para ser representado por actores?", o: ["Dramatización", "Fábula", "Poema", "Noticia"], c: "Dramatización" },
-                { q: "El punto final se usa cuando:", o: ["Termina todo el texto", "Inicia una idea", "Hay una lista", "Se usa una coma"], c: "Termina todo el texto" },
-                { q: "¿Quién cuenta la historia en un cuento?", o: ["Narrador", "Personaje", "Autor", "Lector"], c: "Narrador" },
-                { q: "Las mayúsculas se usan después de un:", o: ["Punto", "Coma", "Espacio", "Acento"], c: "Punto" },
-                { q: "¿Qué es una moraleja?", o: ["Una enseñanza", "Un personaje", "Un tipo de rima", "El título"], c: "Una enseñanza" },
-                { q: "Un texto que da pasos para armar algo es:", o: ["Instructivo", "Poético", "Leyenda", "Cuento"], c: "Instructivo" }
+                { q: "¿En qué parte del cuento se presenta el problema principal que los personajes deben resolver?", o: ["Nudo", "Inicio", "Desenlace", "Portada"], c: "Nudo" },
+                { q: "¿Qué tipo de texto narra historias cortas donde los personajes suelen ser animales y dejan una moraleja?", o: ["Fábula", "Leyenda", "Noticia", "Poesía"], c: "Fábula" },
+                { q: "En la oración 'El astronauta llegó a la Luna de noche', ¿cuál es el ambiente?", o: ["La Luna de noche", "El astronauta", "Llegó", "El cohete"], c: "La Luna de noche" },
+                { q: "¿Qué signo de puntuación se utiliza para cerrar un párrafo y empezar una idea distinta?", o: ["Punto y aparte", "Coma", "Dos puntos", "Punto y seguido"], c: "Punto y aparte" },
+                { q: "Identifique el sustantivo propio en la siguiente lista:", o: ["Costa Rica", "provincia", "maestra", "niño"], c: "Costa Rica" },
+                { q: "¿Cómo se llama cada una de las líneas que componen un poema?", o: ["Verso", "Estrofa", "Párrafo", "Rima"], c: "Verso" },
+                { q: "El texto que narra hechos reales del mundo de forma objetiva se llama:", o: ["Informativo", "Narrativo", "Poético", "Ficticio"], c: "Informativo" },
+                { q: "Identifique la causa en: 'Sofía se mojó porque se le olvidó la sombrilla'.", o: ["Se le olvidó la sombrilla", "Sofía se mojó", "Llovió fuerte", "La sombrilla era roja"], c: "Se le olvidó la sombrilla" },
+                { q: "¿Cuál es el objetivo principal de un texto descriptivo?", o: ["Decir cómo es algo o alguien", "Contar un chiste", "Dar noticias", "Hacer rimas"], c: "Decir cómo es algo o alguien" },
+                { q: "¿En qué parte del cuento los personajes logran solucionar sus dificultades?", o: ["Desenlace", "Nudo", "Inicio", "Título"], c: "Desenlace" },
+                { q: "¿Cómo se llama el grupo de versos en una poesía?", o: ["Estrofa", "Cuento", "Verso", "Libro"], c: "Estrofa" },
+                { q: "La leyenda se diferencia del cuento porque busca explicar el origen de algo combinando realidad con:", o: ["Fantasía", "Matemáticas", "Ingeniería", "Deportes"], c: "Fantasía" },
+                { q: "¿Qué signo indica una pausa corta dentro de una misma oración?", o: ["La coma", "El punto", "Los dos puntos", "El guion"], c: "La coma" },
+                { q: "¿Qué tipo de texto se escribe especialmente para ser representado por actores en un escenario?", o: ["Dramatización", "Fábula", "Poesía", "Leyenda"], c: "Dramatización" },
+                { q: "Identifique el efecto en: 'Juan estudió mucho y obtuvo una nota de 100'.", o: ["Obtuvo una nota de 100", "Juan estudió", "Mucho", "El examen"], c: "Obtuvo una nota de 100" },
+                { q: "¿Cuál de estas palabras debe escribirse siempre con mayúscula inicial?", o: ["Cartago", "clase", "pizarra", "docente"], c: "Cartago" },
+                { q: "¿Quién es el personaje encargado de contar la historia en un texto narrativo?", o: ["El narrador", "El autor", "El villano", "El protagonista"], c: "El narrador" },
+                { q: "Las rimas se encuentran principalmente en el género:", o: ["Poético", "Informativo", "Instructivo", "Diccionario"], c: "Poético" },
+                { q: "¿Qué parte de la estructura del cuento presenta a los personajes y el lugar?", o: ["Inicio", "Nudo", "Desenlace", "Final"], c: "Inicio" },
+                { q: "El punto y seguido sirve para:", o: ["Separar dos oraciones en un mismo párrafo", "Terminar el texto", "Hacer una lista", "Cambiar de tema"], c: "Separar dos oraciones en un mismo párrafo" },
+                { q: "Un ejemplo de sustantivo común es:", o: ["perro", "Maureen", "San José", "Costa Rica"], c: "perro" },
+                { q: "La enseñanza que deja la fábula al final se llama:", o: ["Moraleja", "Rima", "Estrofa", "Verso"], c: "Moraleja" },
+                { q: "Un texto que da instrucciones paso a paso para armar un juguete es un texto:", o: ["Instructivo", "Poético", "Leyenda", "Cuento"], c: "Instructivo" },
+                { q: "Identifique el personaje principal: 'La pequeña hormiga trabajó todo el verano'.", o: ["La hormiga", "El verano", "Trabajó", "Pequeña"], c: "La hormiga" },
+                { q: "El punto final se coloca cuando:", o: ["Se termina todo el texto", "Inicia una idea", "Hay una lista", "Se usa una coma"], c: "Se termina todo el texto" }
             ],
             "Matemáticas": [
                 { q: "¿Cómo se escribe el número cincuenta y dos mil trescientos ocho?", o: ["52.308", "5.238", "520.308", "5.308"], c: "52.308" },
                 { q: "En el número 87.432, ¿qué cifra representa las Decenas de Millar?", o: ["8", "7", "4", "3"], c: "8" },
-                { q: "¿Cómo se llama el ángulo que mide exactamente 90 grados?", o: ["Recto", "Agudo", "Obtuso", "Plano"], c: "Recto" },
+                { q: "¿Cómo se llama el ángulo que mide exactamente 90 grados?", o: ["Ángulo recto", "Ángulo agudo", "Ángulo obtuso", "Ángulo llano"], c: "Ángulo recto" },
                 { q: "En la sucesión: 15.000, 16.000, 17.000... ¿Qué número sigue?", o: ["18.000", "17.100", "17.010", "20.000"], c: "18.000" },
-                { q: "¿Cuál número es MAYOR?", o: ["45.900", "45.099", "45.009", "44.999"], c: "45.900" },
-                { q: "Resuelva: 10.000 - 4.500 =", o: ["5.500", "6.500", "5.000", "4.500"], c: "5.500" },
-                { q: "¿Cómo se llaman las líneas que nunca se cruzan?", o: ["Paralelas", "Perpendiculares", "Secantes", "Curvas"], c: "Paralelas" },
-                { q: "El punto donde se unen los dos lados de un ángulo se llama:", o: ["Vértice", "Lado", "Centro", "Grado"], c: "Vértice" },
-                { q: "Un ángulo que mide MENOS de 90 grados es:", o: ["Agudo", "Recto", "Obtuso", "Grande"], c: "Agudo" },
-                { q: "¿Cuántas Unidades de Millar hay en el número 90.000?", o: ["90", "9", "900", "9.000"], c: "90" },
+                { q: "¿Cuál número es MAYOR entre 45.900 y 45.099?", o: ["45.900", "45.099", "Son iguales", "44.999"], c: "45.900" },
+                { q: "Resuelva mentalmente la resta: 10.000 - 3.000 =", o: ["7.000", "6.000", "5.000", "8.000"], c: "7.000" },
+                { q: "¿Cómo se llaman las líneas rectas que nunca se cruzan por más que se estiren?", o: ["Líneas paralelas", "Líneas perpendiculares", "Líneas secantes", "Líneas curvas"], c: "Líneas paralelas" },
+                { q: "El punto exacto donde se unen los dos lados de un ángulo se llama:", o: ["Vértice", "Lado", "Centro", "Grado"], c: "Vértice" },
+                { q: "Un ángulo que mide MENOS de 90 grados es un:", o: ["Ángulo agudo", "Ángulo recto", "Ángulo obtuso", "Ángulo grande"], c: "Ángulo agudo" },
+                { q: "¿Cuántas Unidades de Millar (UM) hay en el número 90.000?", o: ["90", "9", "900", "9.000"], c: "90" },
                 { q: "Cien mil se escribe en números como:", o: ["100.000", "10.000", "1.000", "1.000.000"], c: "100.000" },
-                { q: "En el número 1.702, ¿cuál es el valor posicional del 7?", o: ["700", "70", "7", "7.000"], c: "700" },
-                { q: "Resuelva: 25.000 + 15.000 =", o: ["40.000", "35.000", "30.000", "50.000"], c: "40.000" },
-                { q: "Un ángulo que mide MÁS de 90 grados es:", o: ["Obtuso", "Agudo", "Recto", "Pequeño"], c: "Obtuso" },
-                { q: "Sucesión de 10 en 10: 450, 460, 470... ¿Qué sigue?", o: ["480", "490", "500", "475"], c: "480" },
-                { q: "¿Qué símbolo es el correcto? 32.400 ___ 32.040", o: [">", "<", "=", "+"], c: ">" },
-                { q: "Si tengo 5 Decenas de Millar, tengo un total de:", o: ["50.000 unidades", "5.000 unidades", "500 unidades", "50 unidades"], c: "50.000 unidades" },
-                { q: "En el número 92.451, la cifra de las centenas es:", o: ["4", "2", "9", "5"], c: "4" },
-                { q: "Si a 10.000 le resto 100 obtengo:", o: ["9.900", "9.000", "10.100", "9.990"], c: "9.900" },
-                { q: "Las líneas que al cruzarse forman una cruz perfecta (+) son:", o: ["Perpendiculares", "Paralelas", "Curvas", "Largas"], c: "Perpendiculares" },
-                { q: "El instrumento para medir la amplitud de los ángulos es el:", o: ["Transportador", "Regla", "Compás", "Metro"], c: "Transportador" },
-                { q: "¿Cuántas unidades hay en 3 Unidades de Millar?", o: ["3.000", "300", "30", "30.000"], c: "3.000" },
-                { q: "El número 40.501 se lee:", o: ["Cuarenta mil quinientos uno", "Cuatro mil cincuenta", "Cuatrocientos cinco", "Cuarenta mil uno"], c: "Cuarenta mil quinientos uno" },
-                { q: "Un ángulo de 180 grados se llama:", o: ["Llano", "Recto", "Agudo", "Obtuso"], c: "Llano" },
-                { q: "En 78.901, ¿cuál dígito ocupa las Decenas?", o: ["0", "9", "8", "7"], c: "0" }
+                { q: "En el número 1.702, ¿cuál es el valor posicional del dígito 7?", o: ["700", "70", "7", "7.000"], c: "700" },
+                { q: "Resuelva la suma: 25.000 + 15.000 =", o: ["40.000", "35.000", "30.000", "50.000"], c: "40.000" },
+                { q: "Un ángulo que mide MÁS de 90 grados pero menos de 180 es un:", o: ["Ángulo obtuso", "Ángulo agudo", "Ángulo recto", "Ángulo pequeño"], c: "Ángulo obtuso" },
+                { q: "En la sucesión de 10 en 10: 450, 460, 470... ¿Qué número sigue?", o: ["480", "490", "500", "475"], c: "480" },
+                { q: "¿Qué símbolo matemático es el correcto para comparar: 32.400 ___ 32.040?", o: [">", "<", "=", "+"], c: ">" },
+                { q: "Si tengo 5 Decenas de Millar (DM), tengo un total de:", o: ["50.000 unidades", "5.000 unidades", "500 unidades", "50 unidades"], c: "50.000 unidades" },
+                { q: "En el número 92.451, ¿cuál dígito ocupa la posición de la centena?", o: ["4", "2", "9", "5"], c: "4" },
+                { q: "Si a 10.000 le resto 100, el resultado es:", o: ["9.900", "9.000", "10.100", "9.990"], c: "9.900" },
+                { q: "Las líneas que al cruzarse forman una cruz perfecta (ángulos rectos) son:", o: ["Perpendiculares", "Paralelas", "Curvas", "Largas"], c: "Perpendiculares" },
+                { q: "El instrumento que usamos para medir la amplitud de los ángulos se llama:", o: ["Transportador", "Regla", "Compás", "Metro"], c: "Transportador" },
+                { q: "¿Cuántas unidades simples hay en 3 Unidades de Millar?", o: ["3.000", "300", "30", "30.000"], c: "3.000" },
+                { q: "El número 40.501 se lee correctamente como:", o: ["Cuarenta mil quinientos uno", "Cuatro mil cincuenta", "Cuatrocientos cinco", "Cuarenta mil uno"], c: "Cuarenta mil quinientos uno" },
+                { q: "Un ángulo de 180 grados se llama:", o: ["Ángulo llano", "Ángulo recto", "Ángulo agudo", "Ángulo obtuso"], c: "Ángulo llano" },
+                { q: "En el número 78.901, ¿cuál dígito ocupa las Decenas?", o: ["0", "9", "8", "7"], c: "0" }
             ],
             "Ciencias": [
-                { q: "¿Cómo se llaman los músculos que se mueven solos (corazón, estómago)?", o: ["Involuntarios", "Voluntarios", "Fijos", "Duros"], c: "Involuntarios" },
-                { q: "El fémur es un ejemplo de hueso:", o: ["Largo", "Corto", "Plano", "Curvo"], c: "Largo" },
-                { q: "¿En qué órgano inicia el proceso de la digestión?", o: ["Boca", "Estómago", "Intestino", "Esófago"], c: "Boca" },
-                { q: "La etapa donde el cuerpo expulsa los desechos sólidos se llama:", o: ["Defecación", "Ingestión", "Absorción", "Digestión"], c: "Defecación" },
-                { q: "¿Qué sistema del cuerpo protege órganos como el cerebro?", o: ["Sistema Óseo", "Sistema Solar", "Sistema Respiratorio", "Sistema Muscular"], c: "Sistema Óseo" },
-                { q: "Las articulaciones de la rodilla y el codo son:", o: ["Móviles", "Fijas", "Semimóviles", "Inmóviles"], c: "Móviles" },
-                { q: "Los alimentos que nos ayudan a crecer y reparar tejidos son:", o: ["Constructores", "Energéticos", "Protectores", "Grasas"], c: "Constructores" },
-                { q: "El tubo muscular que conecta la boca con el estómago es el:", o: ["Esófago", "Intestino", "Páncreas", "Pulmón"], c: "Esófago" },
-                { q: "La etapa donde los nutrientes pasan a la sangre ocurre en el:", o: ["Intestino delgado", "Estómago", "Boca", "Hígado"], c: "Intestino delgado" },
-                { q: "Un ejemplo de músculo voluntario es el:", o: ["Bíceps", "Corazón", "Estómago", "Intestino"], c: "Bíceps" },
-                { q: "¿En qué órgano se forma la materia fecal?", o: ["Intestino grueso", "Boca", "Estómago", "Esófago"], c: "Intestino grueso" },
-                { q: "Alimentos como frutas y verduras pertenecen al grupo:", o: ["Protectores", "Energéticos", "Constructores", "Ninguno"], c: "Protectores" },
-                { q: "Las articulaciones del cráneo no tienen movimiento, se llaman:", o: ["Fijas", "Móviles", "Semimóviles", "Rápidas"], c: "Fijas" },
-                { q: "Alimentos como la leche y el queso son ricos en:", o: ["Calcio", "Azúcar", "Grasa", "Sal"], c: "Calcio" },
-                { q: "Las vértebras de la espalda son huesos de tipo:", o: ["Cortos", "Largos", "Planos", "Blandos"], c: "Cortos" },
-                { q: "Los alimentos que dan fuerza inmediata para jugar (pan, arroz) son:", o: ["Energéticos", "Protectores", "Constructores", "Dulces"], c: "Energéticos" },
-                { q: "La digestión es el proceso de:", o: ["Deshacer alimentos", "Correr rápido", "Dormir", "Respirar"], c: "Deshacer alimentos" },
-                { q: "Los huesos de la cabeza forman el:", o: ["Cráneo", "Tórax", "Brazo", "Pie"], c: "Cráneo" },
-                { q: "Músculo involuntario vital que bombea sangre:", o: ["Corazón", "Pierna", "Dedo", "Ojo"], c: "Corazón" },
-                { q: "Un hábito para cuidar los huesos es:", o: ["Hacer ejercicio", "Comer dulces", "Dormir tarde", "No tomar agua"], c: "Hacer ejercicio" },
-                { q: "¿Qué órgano produce jugos gástricos?", o: ["Estómago", "Boca", "Páncreas", "Intestino"], c: "Estómago" },
-                { q: "Las costillas son huesos que protegen el:", o: ["Corazón", "Cerebro", "Pie", "Dedo"], c: "Corazón" },
-                { q: "Las falanges son los huesos de los:", o: ["Dedos", "Ojos", "Dientes", "Cabellos"], c: "Dedos" },
-                { q: "Hueso plano que se encuentra en el pecho:", o: ["Esternón", "Fémur", "Húmero", "Radio"], c: "Esternón" },
-                { q: "Un alimento reparador sirve para:", o: ["Sanar heridas", "Tener sueño", "Ver mejor", "Oír mejor"], c: "Sanar heridas" }
+                { q: "¿Cómo se llaman los músculos que se mueven por sí solos sin que nosotros lo controlemos (ejemplo: corazón)?", o: ["Músculos involuntarios", "Músculos voluntarios", "Músculos fijos", "Músculos duros"], c: "Músculos involuntarios" },
+                { q: "El hueso más largo del cuerpo humano, ubicado en la pierna, se llama:", o: ["Fémur", "Cráneo", "Vértebra", "Costilla"], c: "Fémur" },
+                { q: "¿En qué órgano de nuestro cuerpo inicia formalmente el proceso de la digestión?", o: ["Boca", "Estómago", "Intestino", "Esófago"], c: "Boca" },
+                { q: "La etapa final de la digestión donde el cuerpo expulsa los desechos sólidos se llama:", o: ["Defecación", "Ingestión", "Absorción", "Digestión"], c: "Defecación" },
+                { q: "¿Qué sistema del cuerpo tiene la función de proteger órganos vitales como el cerebro?", o: ["Sistema Óseo", "Sistema Solar", "Sistema Respiratorio", "Sistema Muscular"], c: "Sistema Óseo" },
+                { q: "Las articulaciones de la rodilla y el codo, que permiten mucho movimiento, son:", o: ["Móviles", "Fijas", "Semimóviles", "Inmóviles"], c: "Móviles" },
+                { q: "Los alimentos que nos ayudan a crecer y a reparar nuestros tejidos cuando nos herimos son los:", o: ["Constructores", "Energéticos", "Protectores", "Grasas"], c: "Constructores" },
+                { q: "¿Cómo se llama el tubo muscular largo que conecta la boca con el estómago?", o: ["Esófago", "Intestino", "Páncreas", "Pulmón"], c: "Esófago" },
+                { q: "La etapa donde los nutrientes de la comida pasan a la sangre ocurre principalmente en el:", o: ["Intestino delgado", "Estómago", "Boca", "Hígado"], c: "Intestino delgado" },
+                { q: "Un ejemplo de músculo voluntario (que movemos cuando queremos) es el:", o: ["Bíceps", "Corazón", "Estómago", "Páncreas"], c: "Bíceps" },
+                { q: "¿En qué órgano de la digestión se forma la materia fecal?", o: ["Intestino grueso", "Boca", "Hígado", "Esófago"], c: "Intestino grueso" },
+                { q: "Alimentos como frutas y verduras pertenecen al grupo de los:", o: ["Protectores", "Energéticos", "Constructores", "Ninguno"], c: "Protectores" },
+                { q: "Las articulaciones del cráneo no tienen nada de movimiento, por eso se llaman:", o: ["Fijas", "Móviles", "Semimóviles", "Rápidas"], c: "Fijas" },
+                { q: "Alimentos como la leche, el yogur y el queso son muy ricos en:", o: ["Calcio", "Azúcar", "Grasa", "Sal"], c: "Calcio" },
+                { q: "Las vértebras que forman nuestra espalda son huesos de tipo:", o: ["Cortos", "Largos", "Planos", "Blandos"], c: "Cortos" },
+                { q: "Los alimentos que nos dan fuerza inmediata para correr y jugar (como el pan y el arroz) son:", o: ["Energéticos", "Protectores", "Constructores", "Dulces"], c: "Energéticos" },
+                { q: "El proceso mediante el cual el cuerpo deshace los alimentos para sacar nutrientes se llama:", o: ["Digestión", "Respiración", "Circulación", "Ejercicio"], c: "Digestión" },
+                { q: "Los huesos de la cabeza, que protegen nuestro cerebro, forman el:", o: ["Cráneo", "Tórax", "Brazo", "Pie"], c: "Cráneo" },
+                { q: "El músculo involuntario más importante de nuestro cuerpo, encargado de bombear sangre, es el:", o: ["Corazón", "Pierna", "Dedo", "Ojo"], c: "Corazón" },
+                { q: "Un hábito fundamental para cuidar nuestros huesos es:", o: ["Hacer ejercicio físico", "Comer muchos dulces", "Dormir muy tarde", "No tomar agua"], c: "Hacer ejercicio físico" },
+                { q: "¿Qué órgano produce los jugos gástricos para deshacer la comida?", o: ["Estómago", "Boca", "Páncreas", "Intestino"], c: "Estómago" },
+                { q: "Las costillas son huesos que tienen la función principal de proteger al:", o: ["Corazón y pulmones", "Cerebro", "Pie", "Dedo"], c: "Corazón y pulmones" },
+                { q: "Las falanges son los pequeños huesos que forman nuestros:", o: ["Dedos", "Ojos", "Dientes", "Cabellos"], c: "Dedos" },
+                { q: "El hueso plano que se encuentra justo en el centro del pecho se llama:", o: ["Esternón", "Fémur", "Húmero", "Radio"], c: "Esternón" },
+                { q: "¿Para qué sirve un alimento reparador o constructor?", o: ["Para sanar heridas y crecer", "Para tener sueño", "Para ver mejor", "Para oír mejor"], c: "Para sanar heridas y crecer" }
             ],
             "Estudios Sociales": [
                 { q: "¿Con qué provincia limita Cartago hacia el NORTE?", o: ["Heredia", "San José", "Limón", "Panamá"], c: "Heredia" },
-                { q: "Representación detallada de un lugar pequeño (como la escuela):", o: ["Plano", "Mapa", "Globo Terráqueo", "Foto"], c: "Plano" },
-                { q: "¿Qué herramienta sirve para orientarse usando los puntos cardinales?", o: ["Rosa de los vientos", "Simbología", "Escala", "Mapa"], c: "Rosa de los vientos" },
-                { q: "Línea imaginaria que divide la Tierra en Hemisferio Norte y Sur:", o: ["Ecuador", "Meridiano", "Eje", "Trópico"], c: "Ecuador" },
-                { q: "Punto cardinal por donde sale el sol cada mañana:", o: ["Este", "Oeste", "Norte", "Sur"], c: "Este" },
+                { q: "¿Cómo se llama la representación detallada de un lugar pequeño, como nuestra escuela?", o: ["Plano", "Mapa", "Globo Terráqueo", "Foto"], c: "Plano" },
+                { q: "¿Qué herramienta del mapa sirve para orientarse usando los cuatro puntos cardinales?", o: ["Rosa de los vientos", "Simbología", "Escala", "Título"], c: "Rosa de los vientos" },
+                { q: "¿Cómo se llama la línea imaginaria horizontal que divide la Tierra en Hemisferio Norte y Sur?", o: ["Ecuador", "Meridiano de Greenwich", "Eje terrestre", "Trópico"], c: "Ecuador" },
+                { q: "¿Cuál es el punto cardinal por donde sale el sol todas las mañanas?", o: ["Este", "Oeste", "Norte", "Sur"], c: "Este" },
                 { q: "Costa Rica limita al Norte con el país de:", o: ["Nicaragua", "Panamá", "Colombia", "México"], c: "Nicaragua" },
                 { q: "Cartago limita hacia el SUR con la provincia de:", o: ["San José", "Limón", "Heredia", "Guanacaste"], c: "San José" },
-                { q: "Línea de 0 grados que divide a la Tierra en Este y Oeste:", o: ["Meridiano de Greenwich", "Ecuador", "Paralelos", "Ejes"], c: "Meridiano de Greenwich" },
+                { q: "¿Cuál es la línea imaginaria de 0 grados que divide a la Tierra en Este y Oeste?", o: ["Meridiano de Greenwich", "Línea del Ecuador", "Paralelos", "Ejes"], c: "Meridiano de Greenwich" },
                 { q: "Cartago limita hacia el ESTE con la provincia de:", o: ["Limón", "Heredia", "Guanacaste", "Puntarenas"], c: "Limón" },
-                { q: "Las líneas imaginarias horizontales del mapa se llaman:", o: ["Paralelos", "Meridianos", "Postes", "Vías"], c: "Paralelos" },
-                { q: "Punto cardinal opuesto al Norte:", o: ["Sur", "Este", "Oeste", "Arriba"], c: "Sur" },
-                { q: "¿Cuántas provincias tiene Costa Rica en total?", o: ["7", "5", "8", "10"], c: "7" },
-                { q: "Representación de toda la Tierra en una esfera:", o: ["Globo terráqueo", "Mapa político", "Plano", "Foto"], c: "Globo terráqueo" },
-                { q: "Símbolo nacional que representa el trabajo de los costarricenses:", o: ["Carreta", "Venado", "Guaria", "Yigüirro"], c: "Carreta" },
+                { q: "Las líneas imaginarias horizontales del mapa se conocen como:", o: ["Paralelos", "Meridianos", "Postes", "Vías"], c: "Paralelos" },
+                { q: "¿Cuál es el punto cardinal que se encuentra opuesto al Norte?", o: ["Sur", "Este", "Oeste", "Arriba"], c: "Sur" },
+                { q: "¿Cuántas provincias tiene Costa Rica en total?", o: ["Siete", "Cinco", "Ocho", "Diez"], c: "Siete" },
+                { q: "¿Qué nombre recibe la representación de toda la Tierra en una esfera?", o: ["Globo terráqueo", "Mapa político", "Plano", "Foto aérea"], c: "Globo terráqueo" },
+                { q: "El símbolo nacional que representa el trabajo y esfuerzo de los costarricenses es la:", o: ["Carreta", "Venado Cola Blanca", "Guaria Morada", "Yigüirro"], c: "Carreta" },
                 { q: "Costa Rica limita al Sur con el país de:", o: ["Panamá", "Nicaragua", "Colombia", "Jamaica"], c: "Panamá" },
-                { q: "La línea del Ecuador marca los cero grados de:", o: ["Latitud", "Longitud", "Altura", "Calor"], c: "Latitud" },
-                { q: "¿Cuál provincia tiene costa en el Mar Caribe?", o: ["Limón", "San José", "Alajuela", "Cartago"], c: "Limón" },
-                { q: "El mapa físico muestra principalmente:", o: ["Montañas y ríos", "Límites de países", "Población", "Calles"], c: "Montañas y ríos" },
+                { q: "La línea del Ecuador marca los cero grados de:", o: ["Latitud", "Longitud", "Altura", "Temperatura"], c: "Latitud" },
+                { q: "¿Cuál de estas provincias tiene costa en el Mar Caribe?", o: ["Limón", "San José", "Alajuela", "Cartago"], c: "Limón" },
+                { q: "El mapa que muestra principalmente las montañas, ríos y volcanes es el:", o: ["Mapa físico", "Mapa político", "Plano de la ciudad", "Mapa de calles"], c: "Mapa físico" },
                 { q: "Cartago limita hacia el OESTE con la provincia de:", o: ["San José", "Limón", "Heredia", "Alajuela"], c: "San José" },
                 { q: "El punto cardinal por donde se oculta el sol es el:", o: ["Oeste", "Este", "Norte", "Sur"], c: "Oeste" },
-                { q: "La simbología en un mapa sirve para:", o: ["Entender los dibujos", "Saber la distancia", "Ver el título", "Saber quién lo hizo"], c: "Entender los dibujos" },
-                { q: "¿Cuál es la provincia donde se encuentra la Basílica de los Ángeles?", o: ["Cartago", "Heredia", "San José", "Alajuela"], c: "Cartago" },
-                { q: "La escala en un mapa sirve para:", o: ["Calcular distancias reales", "Ver los colores", "Saber el autor", "Leer el título"], c: "Calcular distancias reales" },
-                { q: "Costa Rica está ubicada en el continente:", o: ["América", "Europa", "Asia", "África"], c: "América" },
-                { q: "Las líneas de Longitud se llaman:", o: ["Meridianos", "Paralelos", "Ejes", "Curvas"], c: "Meridianos" }
+                { q: "¿Qué elemento del mapa nos explica el significado de los dibujos y colores?", o: ["Simbología", "Escala", "Autor", "Título"], c: "Simbología" },
+                { q: "¿Cuál es la provincia donde se encuentra la Basílica de Nuestra Señora de los Ángeles?", o: ["Cartago", "Heredia", "San José", "Alajuela"], c: "Cartago" },
+                { q: "La escala en un mapa sirve para:", o: ["Calcular distancias reales en el terreno", "Ver los colores mejor", "Saber quién dibujó el mapa", "Leer el nombre del mapa"], c: "Calcular distancias reales en el terreno" },
+                { q: "Costa Rica está ubicada en el continente llamado:", o: ["América", "Europa", "Asia", "África"], c: "América" },
+                { q: "Las líneas de Longitud del mapa se llaman:", o: ["Meridianos", "Paralelos", "Ejes", "Curvas"], c: "Meridianos" }
             ]
         };
 
-        let currentSubj = ""; let currentQs = []; let curIdx = 0; let score = 0; let set = []; let curFailures = [];
+        let curSubj = ""; let curQs = []; let curIdx = 0; let score = 0; let set = []; let failures = [];
 
         window.nav = (v) => {
             document.querySelectorAll('.view').forEach(x => x.classList.add('hidden'));
@@ -276,10 +277,10 @@
             return array;
         };
 
-        window.startProcess = async (materia) => {
+        window.prepareExam = async (materia) => {
             nav('loading');
             const salt = Date.now(); 
-            const prompt = `Eres un docente de Costa Rica. Genera un examen JSON de 20 preguntas DIFERENTES de selección única para ${materia}. Temario 3er grado: Español (análisis lectura, tipos texto, gramática), Mate (decena millar, sucesiones, ángulos, rectas), Ciencias (óseo, muscular, digestivo, alimentos), Sociales (mapa, plano, Cartago límites, rosa vientos). REQUISITOS: 1- SOLO TEXTO. 2- Formato JSON: {"questions": [{"q": "enunciado", "o": ["A","B","C","D"], "c": "A"}]}. 3- Usa variedad extrema (Semilla: ${salt}).`;
+            const prompt = `Genera un examen JSON de EXACTAMENTE 20 preguntas DIFERENTES de selección única nivel 3er grado primaria para la materia de ${materia} en Costa Rica. REQUISITOS: 1- SOLO TEXTO (Sin imágenes ni dibujos). 2- Formato JSON: {"questions": [{"q": "enunciado real del MEP", "o": ["Opción A","Opción B","Opción C","Opción D"], "c": "Opción A"}]}. 3- Usa nombres de niños y lugares reales de Cartago para los ejemplos. Semilla: ${salt}.`;
 
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiKey}`, {
@@ -287,30 +288,36 @@
                 });
                 const json = await res.json();
                 const data = JSON.parse(json.candidates[0].content.parts[0].text);
+                
+                // VALIDACIÓN DE SEGURIDAD ESTRICTA: Solo preguntas que tengan enunciado y al menos 2 opciones
                 const valid = data.questions.filter(q => q.q && q.o && q.o.length >= 2 && q.c);
-                if (valid.length >= 10) { initQuiz(materia, valid.slice(0, 20)); return; }
-                throw new Error("IA Incompleta");
+                
+                if (valid.length >= 10) { 
+                    initQuiz(materia, valid.slice(0, 20)); 
+                    return; 
+                }
+                throw new Error("Respuesta incompleta");
             } catch (e) {
-                console.log("IA Falló, activando Banco Maestro Seguro.");
-                const robustPool = shuffle([...REAL_MASTER_BANK[materia]]).slice(0, 20);
+                console.log("IA falló, activando Banco Maestro Seguro.");
+                const robustPool = shuffle([...MASTER_TEXT_BANK[materia]]).slice(0, 20);
                 initQuiz(materia, robustPool);
             }
         };
 
         const initQuiz = (name, questions) => {
-            currentSubj = name; currentQs = questions; set = [...questions];
-            curIdx = 0; score = 0; curFailures = [];
+            curSubj = name; curQs = questions; set = [...questions];
+            curIdx = 0; score = 0; failures = [];
             nav('quiz'); draw();
         };
 
-        window.restartSame = () => { currentQs = [...set]; curFailures = []; start(); };
+        window.restartSame = () => { curQs = [...set]; curIdx = 0; score = 0; failures = []; nav('quiz'); draw(); };
         const start = () => { curIdx = 0; score = 0; nav('quiz'); draw(); };
 
         const draw = () => {
-            const q = currentQs[curIdx];
-            document.getElementById('q-subject').innerText = currentSubj;
-            document.getElementById('q-counter').innerText = `${curIdx + 1} de ${currentQs.length}`;
-            document.getElementById('progress-bar').style.width = `${((curIdx + 1) / currentQs.length) * 100}%`;
+            const q = curQs[curIdx];
+            document.getElementById('q-subject').innerText = curSubj;
+            document.getElementById('q-counter').innerText = `${curIdx + 1} de ${curQs.length}`;
+            document.getElementById('progress-bar').style.width = `${((curIdx + 1) / curQs.length) * 100}%`;
             document.getElementById('q-text').innerText = q.q;
             
             const area = document.getElementById('q-answers');
@@ -345,20 +352,20 @@
                 el.classList.add('incorrect');
                 fb.innerText = `RESPUESTA INCORRECTA. La correcta era: "${c}"`;
                 fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
-                curFailures.push(currentQs[curIdx].q);
+                failures.push(curQs[curIdx].q);
             }
             btn.classList.remove('hidden');
         };
 
-        window.nextQ = () => { if (curIdx < currentQs.length - 1) { curIdx++; draw(); } else finish(); };
+        window.nextQ = () => { if (curIdx < curQs.length - 1) { curIdx++; draw(); } else finish(); };
 
         const finish = async () => {
-            nav('results'); const nota = Math.round((score / currentQs.length) * 100); document.getElementById('res-score').innerText = nota;
+            nav('results'); const nota = Math.round((score / curQs.length) * 100); document.getElementById('res-score').innerText = nota;
             if(user) {
                 try {
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), { uid: user.uid, materia: currentSubj, nota, fecha: new Date().toLocaleString(), fallos: curFailures, timestamp: serverTimestamp() });
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), { uid: user.uid, materia: curSubj, nota, fecha: new Date().toLocaleString(), fallos: failures, timestamp: serverTimestamp() });
                     document.getElementById('cloud-sync').innerText = "✅ REPORTE GUARDADO";
-                } catch(e) { document.getElementById('cloud-sync').innerText = "❌ ERROR DE RED"; }
+                } catch(e) { document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR"; }
             }
         };
 
