@@ -29,6 +29,7 @@
             <button onclick="nav('history')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">📊 Hoja de Resultados</button>
         </nav>
 
+        <!-- Pantalla Inicio -->
         <div id="view-home" class="view space-y-12">
             <header class="text-center">
                 <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
@@ -37,39 +38,45 @@
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA PARA <span class="text-indigo-500">EXAMEN</span> 2026
                 </h1>
-                <p class="text-slate-400 text-lg italic">Evaluación 100% Texto - Nivel de Dificultad: Medio</p>
-                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA LISTO</div>
+                <p class="text-slate-400 text-lg italic">Inteligencia Artificial: Generando preguntas infinitas y únicas</p>
+                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA INTELIGENTE CONECTADO</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <button onclick="prepareExam('Español')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-rose-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🖋️</span>
                     <h3 class="text-2xl font-bold text-white uppercase">Español</h3>
+                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest">Comprensión y Gramática</p>
                 </button>
                 <button onclick="prepareExam('Matemáticas')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🧮</span>
                     <h3 class="text-2xl font-bold text-white uppercase">Matemáticas</h3>
+                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest">Millares y Geometría</p>
                 </button>
                 <button onclick="prepareExam('Ciencias')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-emerald-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🧪</span>
                     <h3 class="text-2xl font-bold text-white uppercase">Ciencias</h3>
+                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest">Sistemas del Cuerpo</p>
                 </button>
                 <button onclick="prepareExam('Estudios Sociales')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🗺️</span>
                     <h3 class="text-2xl font-bold text-white uppercase">Sociales</h3>
+                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest">Cartografía y Cartago</p>
                 </button>
             </div>
         </div>
 
+        <!-- Pantalla Carga IA -->
         <div id="view-loading" class="view hidden text-center py-20">
             <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">Generando 20 preguntas nuevas...</h2>
-            <p class="text-slate-500 mt-2 italic">Esto garantiza que no se repitan los temas.</p>
+            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">La IA está creando tu examen único...</h2>
+            <p class="text-slate-500 mt-2 italic">Asegurando que las 20 preguntas sean diferentes a las anteriores.</p>
         </div>
 
+        <!-- Pantalla Quiz -->
         <div id="view-quiz" class="view hidden max-w-3xl mx-auto">
             <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl">
-                <div class="bg-indigo-950/30 p-6 flex justify-between items-center">
+                <div class="bg-indigo-950/30 p-6 flex justify-between items-center border-b border-white/5">
                     <h3 id="q-subject" class="kids-font text-xl text-indigo-400 uppercase tracking-widest">MATERIA</h3>
                     <div class="text-right">
                         <span id="q-counter" class="text-xs font-bold text-slate-500 uppercase tracking-widest">1 de 20</span>
@@ -81,20 +88,21 @@
                     <div id="q-answers" class="space-y-4"></div>
                     <div id="q-feedback" class="hidden mt-8 p-6 rounded-2xl border-l-8 font-bold text-lg"></div>
                     <div class="mt-12 flex justify-between items-center">
-                        <button onclick="nav('home')" class="text-slate-500 hover:text-white transition">✕ Salir</button>
+                        <button onclick="nav('home')" class="text-slate-500 hover:text-white transition uppercase font-bold text-xs tracking-widest">✕ Salir</button>
                         <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl transition active:scale-95">Siguiente ➔</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Hoja de Resultados -->
         <div id="view-history" class="view hidden">
             <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
                 <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO SECCIÓN 3-2</h2>
                 <div class="overflow-x-auto rounded-xl border border-white/5">
                     <table class="spreadsheet w-full">
                         <thead>
-                            <tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar</th></tr>
+                            <tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar (Preguntas Falladas)</th></tr>
                         </thead>
                         <tbody id="history-data"></tbody>
                     </table>
@@ -102,14 +110,15 @@
             </div>
         </div>
 
+        <!-- Resultados Finales -->
         <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[4rem] p-16 shadow-2xl border-t-8 border-indigo-500">
             <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
             <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
             <div class="inline-block bg-white/5 px-12 py-8 rounded-[3rem] border border-white/10 mb-10">
-                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Final</span>
+                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Guardando diagnóstico...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-[0.2em]">Guardando reporte detallado...</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir Esta</button>
                 <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica</button>
@@ -122,6 +131,7 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
 
+        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
             authDomain: "practica-examen-2026.firebaseapp.com",
@@ -135,22 +145,23 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const appId = "practica-examen-2026";
         const geminiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; 
         let user = null;
 
         onAuthStateChanged(auth, u => { if(u) { user = u; syncHistory(); } });
         signInAnonymously(auth);
 
-        // --- BANCO ROBUSTO REAL (Sin rellenos, basado estrictamente en el PDF) ---
+        // --- BANCO ROBUSTO REAL (25 preguntas pedagógicas por materia como Fallback) ---
         const MASTER_BANK = {
             "Español": [
-                { q: "¿Qué elemento del cuento describe el lugar y el tiempo donde ocurren los hechos?", o: ["Ambiente", "Personaje", "Conflicto", "Acción"], c: "Ambiente" },
+                { q: "¿En qué parte del cuento se presenta a los personajes y el lugar de la historia?", o: ["Inicio", "Nudo", "Desenlace", "Final"], c: "Inicio" },
                 { q: "¿Qué tipo de texto narra historias cortas donde los personajes suelen ser animales y dejan una moraleja?", o: ["Fábula", "Leyenda", "Noticia", "Poesía"], c: "Fábula" },
                 { q: "Identifique el sustantivo propio en la siguiente lista:", o: ["Costa Rica", "provincia", "maestra", "niño"], c: "Costa Rica" },
-                { q: "¿Cómo se llaman cada una de las líneas que componen un poema?", o: ["Verso", "Estrofa", "Párrafo", "Rima"], c: "Verso" },
-                { q: "El punto y aparte se utiliza para:", o: ["Separar párrafos distintos", "Separar palabras", "Indicar sorpresa", "Terminar el texto"], c: "Separar párrafos distintos" },
+                { q: "¿Cómo se llama cada una de las líneas que componen un poema?", o: ["Verso", "Estrofa", "Párrafo", "Rima"], c: "Verso" },
+                { q: "¿Qué signo de puntuación se utiliza para cerrar un párrafo y empezar una idea distinta?", o: ["Punto y aparte", "Coma", "Dos puntos", "Punto y seguido"], c: "Punto y aparte" },
                 { q: "Identifique la causa en: 'Sofía se mojó porque se le olvidó la sombrilla'.", o: ["Se le olvidó la sombrilla", "Sofía se mojó", "Llovió fuerte", "La sombrilla era roja"], c: "Se le olvidó la sombrilla" },
-                { q: "¿En qué parte del cuento los personajes logran solucionar sus dificultades?", o: ["Desenlace", "Nudo", "Inicio", "Portada"], c: "Desenlace" },
+                { q: "¿En qué parte del cuento los personajes logran solucionar sus dificultades?", o: ["Desenlace", "Nudo", "Inicio", "Título"], c: "Desenlace" },
                 { q: "¿Cómo se llama el grupo de versos en una poesía?", o: ["Estrofa", "Cuento", "Verso", "Libro"], c: "Estrofa" },
                 { q: "La leyenda se diferencia del cuento porque busca explicar el origen de algo combinando realidad con:", o: ["Fantasía", "Matemáticas", "Ingeniería", "Deportes"], c: "Fantasía" },
                 { q: "El texto descriptivo sirve para:", o: ["Decir cómo es algo o alguien", "Contar un chiste", "Dar noticias", "Hacer rimas"], c: "Decir cómo es algo o alguien" },
@@ -163,7 +174,7 @@
                 { q: "Un texto que da instrucciones paso a paso para armar algo es un texto:", o: ["Instructivo", "Poético", "Leyenda", "Cuento"], c: "Instructivo" },
                 { q: "El punto final se coloca cuando:", o: ["Se termina todo el texto", "Inicia una idea", "Hay una lista", "Se usa una coma"], c: "Se termina todo el texto" },
                 { q: "¿Qué signo indica una pausa corta en la lectura?", o: ["Coma", "Punto", "Guion", "Dos puntos"], c: "Coma" },
-                { q: "En el inicio de un cuento se presentan:", o: ["Los personajes y el lugar", "El problema final", "La moraleja", "Los fallos"], c: "Los personajes y el lugar" }
+                { q: "Un cuento, a diferencia de una noticia, es un texto:", o: ["Literario", "Informativo", "Expositivo", "Científico"], c: "Literario" }
             ],
             "Matemáticas": [
                 { q: "¿Cómo se escribe el número cincuenta y dos mil trescientos ocho?", o: ["52.308", "5.238", "520.308", "5.308"], c: "52.308" },
@@ -251,26 +262,27 @@
 
         window.prepareExam = async (materia) => {
             nav('loading');
-            const sessionSalt = Date.now(); 
-            const prompt = `Genera un examen JSON de EXACTAMENTE 20 preguntas DIFERENTES de selección única nivel 3er grado primaria para la materia de ${materia} en Costa Rica. REQUISITOS: 1- SOLO TEXTO. 2- Formato JSON estricto: {"questions": [{"q": "enunciado real", "o": ["Opción A","Opción B","Opción C","Opción D"], "c": "Opción A"}]}. 3- Usa nombres de niños y lugares reales de Cartago. Semilla única de variedad: ${sessionSalt}. IMPORTANTE: Las preguntas DEBEN ser completas y tener 4 opciones coherentes.`;
+            const sessionSalt = Date.now(); // Semilla única de tiempo
+            const prompt = `Eres un docente experto de Costa Rica. Genera un examen JSON de EXACTAMENTE 20 preguntas TOTALMENTE DIFERENTES de selección única para ${materia}. Temario 3ero: Español (lectura, gramática), Mate (decena millar, ángulos, rectas), Ciencias (cuerpo humano), Sociales (Cartago, mapas). REQUISITOS: 1- SOLO TEXTO. 2- JSON: {"questions": [{"q": "...", "o": ["...","...","...","..."], "c": "..."}]}. 3- Usa nombres de niños y contextos de Cartago ÚNICOS. 4- Semilla de variedad: ${sessionSalt}. IMPORTANTE: Cambia los escenarios y los datos numéricos en cada llamada para que el examen NUNCA sea igual al anterior.`;
 
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiKey}`, {
-                    method: 'POST', body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json", temperature: 1 } })
+                    method: 'POST', body: JSON.stringify({ 
+                        contents: [{ parts: [{ text: prompt }] }], 
+                        generationConfig: { 
+                            responseMimeType: "application/json",
+                            temperature: 1.0 // Máxima variedad
+                        } 
+                    })
                 });
                 const json = await res.json();
                 const data = JSON.parse(json.candidates[0].content.parts[0].text);
                 
-                // VALIDACIÓN DE SEGURIDAD ESTRICTA
                 const valid = data.questions.filter(q => q.q && q.o && Array.isArray(q.o) && q.o.length >= 2 && q.c);
-                
-                if (valid.length >= 10) { 
-                    initQuiz(materia, valid.slice(0, 20)); 
-                    return; 
-                }
-                throw new Error("Respuesta incompleta");
+                if (valid.length >= 10) { initQuiz(materia, valid.slice(0, 20)); return; }
+                throw new Error("Pocas preguntas");
             } catch (e) {
-                console.log("IA falló, activando Banco Maestro Garantizado.");
+                console.log("Activando Banco Maestro barajado.");
                 const robustPool = shuffle([...MASTER_BANK[materia]]).slice(0, 20);
                 initQuiz(materia, robustPool);
             }
@@ -336,8 +348,8 @@
             if(user) {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), { uid: user.uid, materia: currentSubj, nota, fecha: new Date().toLocaleString(), fallos: failures, timestamp: serverTimestamp() });
-                    document.getElementById('cloud-sync').innerText = "✅ REPORTE GUARDADO";
-                } catch(e) { document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR"; }
+                    document.getElementById('cloud-sync').innerText = "✅ REPORTE SINCRONIZADO";
+                } catch(e) { console.error(e); }
             }
         };
 
