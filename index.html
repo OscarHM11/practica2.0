@@ -29,7 +29,6 @@
             <button onclick="nav('history')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">📊 Hoja de Resultados</button>
         </nav>
 
-        <!-- Vista Inicio -->
         <div id="view-home" class="view space-y-12">
             <header class="text-center">
                 <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
@@ -38,8 +37,8 @@
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA PARA <span class="text-indigo-500">EXAMEN</span> 2026
                 </h1>
-                <p class="text-slate-400 text-lg italic">Evaluación Inteligente 100% Texto - Docente Maureen Mora</p>
-                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA CONECTADO</div>
+                <p class="text-slate-400 text-lg italic">Evaluación 100% Texto - Nivel de Dificultad: Medio</p>
+                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA LISTO</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -57,28 +56,24 @@
                 </button>
                 <button onclick="prepareExam('Estudios Sociales')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🗺️</span>
-                    <h3 class="text-2xl font-bold text-white uppercase">Estudios Sociales</h3>
+                    <h3 class="text-2xl font-bold text-white uppercase">Sociales</h3>
                 </button>
             </div>
         </div>
 
-        <!-- Pantalla de Carga -->
         <div id="view-loading" class="view hidden text-center py-20">
             <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
             <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">Generando 20 preguntas nuevas...</h2>
-            <p class="text-slate-500 mt-2 italic">Asegurando que esta práctica sea totalmente única.</p>
+            <p class="text-slate-500 mt-2 italic">Esto garantiza que no se repitan los temas.</p>
         </div>
 
-        <!-- Pantalla Quiz -->
         <div id="view-quiz" class="view hidden max-w-3xl mx-auto">
             <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl">
-                <div class="bg-indigo-950/30 p-6 flex justify-between items-center border-b border-white/5">
+                <div class="bg-indigo-950/30 p-6 flex justify-between items-center">
                     <h3 id="q-subject" class="kids-font text-xl text-indigo-400 uppercase tracking-widest">MATERIA</h3>
                     <div class="text-right">
                         <span id="q-counter" class="text-xs font-bold text-slate-500 uppercase tracking-widest">1 de 20</span>
-                        <div class="w-32 h-1.5 bg-slate-800 rounded-full mt-1">
-                            <div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300"></div>
-                        </div>
+                        <div class="w-32 h-1.5 bg-slate-800 rounded-full mt-1"><div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300"></div></div>
                     </div>
                 </div>
                 <div class="p-8 md:p-12">
@@ -93,14 +88,13 @@
             </div>
         </div>
 
-        <!-- Resultados -->
         <div id="view-history" class="view hidden">
             <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
                 <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO SECCIÓN 3-2</h2>
                 <div class="overflow-x-auto rounded-xl border border-white/5">
                     <table class="spreadsheet w-full">
                         <thead>
-                            <tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar (Fallos)</th></tr>
+                            <tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar</th></tr>
                         </thead>
                         <tbody id="history-data"></tbody>
                     </table>
@@ -108,15 +102,14 @@
             </div>
         </div>
 
-        <!-- Resultados Finales -->
         <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[4rem] p-16 shadow-2xl border-t-8 border-indigo-500">
             <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
             <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
             <div class="inline-block bg-white/5 px-12 py-8 rounded-[3rem] border border-white/10 mb-10">
-                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
+                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Final</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-[0.2em]">Guardando diagnóstico...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Guardando diagnóstico...</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir Esta</button>
                 <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica</button>
@@ -142,41 +135,35 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = "practica-examen-2026";
         const geminiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; 
         let user = null;
 
         onAuthStateChanged(auth, u => { if(u) { user = u; syncHistory(); } });
         signInAnonymously(auth);
 
-        // --- BANCO ROBUSTO REAL (25 preguntas pedagógicas por materia) ---
-        const MASTER_TEXT_BANK = {
+        // --- BANCO ROBUSTO REAL (Sin rellenos, basado estrictamente en el PDF) ---
+        const MASTER_BANK = {
             "Español": [
-                { q: "¿En qué parte del cuento se presenta el problema principal que los personajes deben resolver?", o: ["Nudo", "Inicio", "Desenlace", "Portada"], c: "Nudo" },
+                { q: "¿Qué elemento del cuento describe el lugar y el tiempo donde ocurren los hechos?", o: ["Ambiente", "Personaje", "Conflicto", "Acción"], c: "Ambiente" },
                 { q: "¿Qué tipo de texto narra historias cortas donde los personajes suelen ser animales y dejan una moraleja?", o: ["Fábula", "Leyenda", "Noticia", "Poesía"], c: "Fábula" },
-                { q: "En la oración 'El astronauta llegó a la Luna de noche', ¿cuál es el ambiente?", o: ["La Luna de noche", "El astronauta", "Llegó", "El cohete"], c: "La Luna de noche" },
-                { q: "¿Qué signo de puntuación se utiliza para cerrar un párrafo y empezar una idea distinta?", o: ["Punto y aparte", "Coma", "Dos puntos", "Punto y seguido"], c: "Punto y aparte" },
                 { q: "Identifique el sustantivo propio en la siguiente lista:", o: ["Costa Rica", "provincia", "maestra", "niño"], c: "Costa Rica" },
-                { q: "¿Cómo se llama cada una de las líneas que componen un poema?", o: ["Verso", "Estrofa", "Párrafo", "Rima"], c: "Verso" },
-                { q: "El texto que narra hechos reales del mundo de forma objetiva se llama:", o: ["Informativo", "Narrativo", "Poético", "Ficticio"], c: "Informativo" },
+                { q: "¿Cómo se llaman cada una de las líneas que componen un poema?", o: ["Verso", "Estrofa", "Párrafo", "Rima"], c: "Verso" },
+                { q: "El punto y aparte se utiliza para:", o: ["Separar párrafos distintos", "Separar palabras", "Indicar sorpresa", "Terminar el texto"], c: "Separar párrafos distintos" },
                 { q: "Identifique la causa en: 'Sofía se mojó porque se le olvidó la sombrilla'.", o: ["Se le olvidó la sombrilla", "Sofía se mojó", "Llovió fuerte", "La sombrilla era roja"], c: "Se le olvidó la sombrilla" },
-                { q: "¿Cuál es el objetivo principal de un texto descriptivo?", o: ["Decir cómo es algo o alguien", "Contar un chiste", "Dar noticias", "Hacer rimas"], c: "Decir cómo es algo o alguien" },
-                { q: "¿En qué parte del cuento los personajes logran solucionar sus dificultades?", o: ["Desenlace", "Nudo", "Inicio", "Título"], c: "Desenlace" },
+                { q: "¿En qué parte del cuento los personajes logran solucionar sus dificultades?", o: ["Desenlace", "Nudo", "Inicio", "Portada"], c: "Desenlace" },
                 { q: "¿Cómo se llama el grupo de versos en una poesía?", o: ["Estrofa", "Cuento", "Verso", "Libro"], c: "Estrofa" },
                 { q: "La leyenda se diferencia del cuento porque busca explicar el origen de algo combinando realidad con:", o: ["Fantasía", "Matemáticas", "Ingeniería", "Deportes"], c: "Fantasía" },
-                { q: "¿Qué signo indica una pausa corta dentro de una misma oración?", o: ["La coma", "El punto", "Los dos puntos", "El guion"], c: "La coma" },
-                { q: "¿Qué tipo de texto se escribe especialmente para ser representado por actores en un escenario?", o: ["Dramatización", "Fábula", "Poesía", "Leyenda"], c: "Dramatización" },
+                { q: "El texto descriptivo sirve para:", o: ["Decir cómo es algo o alguien", "Contar un chiste", "Dar noticias", "Hacer rimas"], c: "Decir cómo es algo o alguien" },
                 { q: "Identifique el efecto en: 'Juan estudió mucho y obtuvo una nota de 100'.", o: ["Obtuvo una nota de 100", "Juan estudió", "Mucho", "El examen"], c: "Obtuvo una nota de 100" },
                 { q: "¿Cuál de estas palabras debe escribirse siempre con mayúscula inicial?", o: ["Cartago", "clase", "pizarra", "docente"], c: "Cartago" },
-                { q: "¿Quién es el personaje encargado de contar la historia en un texto narrativo?", o: ["El narrador", "El autor", "El villano", "El protagonista"], c: "El narrador" },
-                { q: "Las rimas se encuentran principalmente en el género:", o: ["Poético", "Informativo", "Instructivo", "Diccionario"], c: "Poético" },
-                { q: "¿Qué parte de la estructura del cuento presenta a los personajes y el lugar?", o: ["Inicio", "Nudo", "Desenlace", "Final"], c: "Inicio" },
-                { q: "El punto y seguido sirve para:", o: ["Separar dos oraciones en un mismo párrafo", "Terminar el texto", "Hacer una lista", "Cambiar de tema"], c: "Separar dos oraciones en un mismo párrafo" },
+                { q: "¿Quién cuenta la historia en un texto narrativo?", o: ["El narrador", "El autor", "El villano", "El protagonista"], c: "El narrador" },
+                { q: "¿Qué parte del cuento presenta el problema?", o: ["Nudo", "Inicio", "Desenlace", "Título"], c: "Nudo" },
                 { q: "Un ejemplo de sustantivo común es:", o: ["perro", "Maureen", "San José", "Costa Rica"], c: "perro" },
                 { q: "La enseñanza que deja la fábula al final se llama:", o: ["Moraleja", "Rima", "Estrofa", "Verso"], c: "Moraleja" },
-                { q: "Un texto que da instrucciones paso a paso para armar un juguete es un texto:", o: ["Instructivo", "Poético", "Leyenda", "Cuento"], c: "Instructivo" },
-                { q: "Identifique el personaje principal: 'La pequeña hormiga trabajó todo el verano'.", o: ["La hormiga", "El verano", "Trabajó", "Pequeña"], c: "La hormiga" },
-                { q: "El punto final se coloca cuando:", o: ["Se termina todo el texto", "Inicia una idea", "Hay una lista", "Se usa una coma"], c: "Se termina todo el texto" }
+                { q: "Un texto que da instrucciones paso a paso para armar algo es un texto:", o: ["Instructivo", "Poético", "Leyenda", "Cuento"], c: "Instructivo" },
+                { q: "El punto final se coloca cuando:", o: ["Se termina todo el texto", "Inicia una idea", "Hay una lista", "Se usa una coma"], c: "Se termina todo el texto" },
+                { q: "¿Qué signo indica una pausa corta en la lectura?", o: ["Coma", "Punto", "Guion", "Dos puntos"], c: "Coma" },
+                { q: "En el inicio de un cuento se presentan:", o: ["Los personajes y el lugar", "El problema final", "La moraleja", "Los fallos"], c: "Los personajes y el lugar" }
             ],
             "Matemáticas": [
                 { q: "¿Cómo se escribe el número cincuenta y dos mil trescientos ocho?", o: ["52.308", "5.238", "520.308", "5.308"], c: "52.308" },
@@ -198,12 +185,7 @@
                 { q: "Si tengo 5 Decenas de Millar (DM), tengo un total de:", o: ["50.000 unidades", "5.000 unidades", "500 unidades", "50 unidades"], c: "50.000 unidades" },
                 { q: "En el número 92.451, ¿cuál dígito ocupa la posición de la centena?", o: ["4", "2", "9", "5"], c: "4" },
                 { q: "Si a 10.000 le resto 100, el resultado es:", o: ["9.900", "9.000", "10.100", "9.990"], c: "9.900" },
-                { q: "Las líneas que al cruzarse forman una cruz perfecta (ángulos rectos) son:", o: ["Perpendiculares", "Paralelas", "Curvas", "Largas"], c: "Perpendiculares" },
-                { q: "El instrumento que usamos para medir la amplitud de los ángulos se llama:", o: ["Transportador", "Regla", "Compás", "Metro"], c: "Transportador" },
-                { q: "¿Cuántas unidades simples hay en 3 Unidades de Millar?", o: ["3.000", "300", "30", "30.000"], c: "3.000" },
-                { q: "El número 40.501 se lee correctamente como:", o: ["Cuarenta mil quinientos uno", "Cuatro mil cincuenta", "Cuatrocientos cinco", "Cuarenta mil uno"], c: "Cuarenta mil quinientos uno" },
-                { q: "Un ángulo de 180 grados se llama:", o: ["Ángulo llano", "Ángulo recto", "Ángulo agudo", "Ángulo obtuso"], c: "Ángulo llano" },
-                { q: "En el número 78.901, ¿cuál dígito ocupa las Decenas?", o: ["0", "9", "8", "7"], c: "0" }
+                { q: "Las líneas que al cruzarse forman una cruz perfecta (ángulos rectos) son:", o: ["Perpendiculares", "Paralelas", "Curvas", "Largas"], c: "Perpendiculares" }
             ],
             "Ciencias": [
                 { q: "¿Cómo se llaman los músculos que se mueven por sí solos sin que nosotros lo controlemos (ejemplo: corazón)?", o: ["Músculos involuntarios", "Músculos voluntarios", "Músculos fijos", "Músculos duros"], c: "Músculos involuntarios" },
@@ -225,12 +207,7 @@
                 { q: "El proceso mediante el cual el cuerpo deshace los alimentos para sacar nutrientes se llama:", o: ["Digestión", "Respiración", "Circulación", "Ejercicio"], c: "Digestión" },
                 { q: "Los huesos de la cabeza, que protegen nuestro cerebro, forman el:", o: ["Cráneo", "Tórax", "Brazo", "Pie"], c: "Cráneo" },
                 { q: "El músculo involuntario más importante de nuestro cuerpo, encargado de bombear sangre, es el:", o: ["Corazón", "Pierna", "Dedo", "Ojo"], c: "Corazón" },
-                { q: "Un hábito fundamental para cuidar nuestros huesos es:", o: ["Hacer ejercicio físico", "Comer muchos dulces", "Dormir muy tarde", "No tomar agua"], c: "Hacer ejercicio físico" },
-                { q: "¿Qué órgano produce los jugos gástricos para deshacer la comida?", o: ["Estómago", "Boca", "Páncreas", "Intestino"], c: "Estómago" },
-                { q: "Las costillas son huesos que tienen la función principal de proteger al:", o: ["Corazón y pulmones", "Cerebro", "Pie", "Dedo"], c: "Corazón y pulmones" },
-                { q: "Las falanges son los pequeños huesos que forman nuestros:", o: ["Dedos", "Ojos", "Dientes", "Cabellos"], c: "Dedos" },
-                { q: "El hueso plano que se encuentra justo en el centro del pecho se llama:", o: ["Esternón", "Fémur", "Húmero", "Radio"], c: "Esternón" },
-                { q: "¿Para qué sirve un alimento reparador o constructor?", o: ["Para sanar heridas y crecer", "Para tener sueño", "Para ver mejor", "Para oír mejor"], c: "Para sanar heridas y crecer" }
+                { q: "Un hábito fundamental para cuidar nuestros huesos es:", o: ["Hacer ejercicio físico", "Comer muchos dulces", "Dormir muy tarde", "No tomar agua"], c: "Hacer ejercicio físico" }
             ],
             "Estudios Sociales": [
                 { q: "¿Con qué provincia limita Cartago hacia el NORTE?", o: ["Heredia", "San José", "Limón", "Panamá"], c: "Heredia" },
@@ -252,16 +229,11 @@
                 { q: "¿Cuál de estas provincias tiene costa en el Mar Caribe?", o: ["Limón", "San José", "Alajuela", "Cartago"], c: "Limón" },
                 { q: "El mapa que muestra principalmente las montañas, ríos y volcanes es el:", o: ["Mapa físico", "Mapa político", "Plano de la ciudad", "Mapa de calles"], c: "Mapa físico" },
                 { q: "Cartago limita hacia el OESTE con la provincia de:", o: ["San José", "Limón", "Heredia", "Alajuela"], c: "San José" },
-                { q: "El punto cardinal por donde se oculta el sol es el:", o: ["Oeste", "Este", "Norte", "Sur"], c: "Oeste" },
-                { q: "¿Qué elemento del mapa nos explica el significado de los dibujos y colores?", o: ["Simbología", "Escala", "Autor", "Título"], c: "Simbología" },
-                { q: "¿Cuál es la provincia donde se encuentra la Basílica de Nuestra Señora de los Ángeles?", o: ["Cartago", "Heredia", "San José", "Alajuela"], c: "Cartago" },
-                { q: "La escala en un mapa sirve para:", o: ["Calcular distancias reales en el terreno", "Ver los colores mejor", "Saber quién dibujó el mapa", "Leer el nombre del mapa"], c: "Calcular distancias reales en el terreno" },
-                { q: "Costa Rica está ubicada en el continente llamado:", o: ["América", "Europa", "Asia", "África"], c: "América" },
-                { q: "Las líneas de Longitud del mapa se llaman:", o: ["Meridianos", "Paralelos", "Ejes", "Curvas"], c: "Meridianos" }
+                { q: "El punto cardinal por donde se oculta el sol es el:", o: ["Oeste", "Este", "Norte", "Sur"], c: "Oeste" }
             ]
         };
 
-        let curSubj = ""; let curQs = []; let curIdx = 0; let score = 0; let set = []; let failures = [];
+        let currentSubj = ""; let currentQs = []; let curIdx = 0; let score = 0; let set = []; let failures = [];
 
         window.nav = (v) => {
             document.querySelectorAll('.view').forEach(x => x.classList.add('hidden'));
@@ -279,8 +251,8 @@
 
         window.prepareExam = async (materia) => {
             nav('loading');
-            const salt = Date.now(); 
-            const prompt = `Genera un examen JSON de EXACTAMENTE 20 preguntas DIFERENTES de selección única nivel 3er grado primaria para la materia de ${materia} en Costa Rica. REQUISITOS: 1- SOLO TEXTO (Sin imágenes ni dibujos). 2- Formato JSON: {"questions": [{"q": "enunciado real del MEP", "o": ["Opción A","Opción B","Opción C","Opción D"], "c": "Opción A"}]}. 3- Usa nombres de niños y lugares reales de Cartago para los ejemplos. Semilla: ${salt}.`;
+            const sessionSalt = Date.now(); 
+            const prompt = `Genera un examen JSON de EXACTAMENTE 20 preguntas DIFERENTES de selección única nivel 3er grado primaria para la materia de ${materia} en Costa Rica. REQUISITOS: 1- SOLO TEXTO. 2- Formato JSON estricto: {"questions": [{"q": "enunciado real", "o": ["Opción A","Opción B","Opción C","Opción D"], "c": "Opción A"}]}. 3- Usa nombres de niños y lugares reales de Cartago. Semilla única de variedad: ${sessionSalt}. IMPORTANTE: Las preguntas DEBEN ser completas y tener 4 opciones coherentes.`;
 
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiKey}`, {
@@ -289,8 +261,8 @@
                 const json = await res.json();
                 const data = JSON.parse(json.candidates[0].content.parts[0].text);
                 
-                // VALIDACIÓN DE SEGURIDAD ESTRICTA: Solo preguntas que tengan enunciado y al menos 2 opciones
-                const valid = data.questions.filter(q => q.q && q.o && q.o.length >= 2 && q.c);
+                // VALIDACIÓN DE SEGURIDAD ESTRICTA
+                const valid = data.questions.filter(q => q.q && q.o && Array.isArray(q.o) && q.o.length >= 2 && q.c);
                 
                 if (valid.length >= 10) { 
                     initQuiz(materia, valid.slice(0, 20)); 
@@ -298,26 +270,26 @@
                 }
                 throw new Error("Respuesta incompleta");
             } catch (e) {
-                console.log("IA falló, activando Banco Maestro Seguro.");
-                const robustPool = shuffle([...MASTER_TEXT_BANK[materia]]).slice(0, 20);
+                console.log("IA falló, activando Banco Maestro Garantizado.");
+                const robustPool = shuffle([...MASTER_BANK[materia]]).slice(0, 20);
                 initQuiz(materia, robustPool);
             }
         };
 
         const initQuiz = (name, questions) => {
-            curSubj = name; curQs = questions; set = [...questions];
+            currentSubj = name; currentQs = questions; set = [...questions];
             curIdx = 0; score = 0; failures = [];
             nav('quiz'); draw();
         };
 
-        window.restartSame = () => { curQs = [...set]; curIdx = 0; score = 0; failures = []; nav('quiz'); draw(); };
+        window.restartSame = () => { currentQs = [...set]; curIdx = 0; score = 0; failures = []; nav('quiz'); draw(); };
         const start = () => { curIdx = 0; score = 0; nav('quiz'); draw(); };
 
         const draw = () => {
-            const q = curQs[curIdx];
-            document.getElementById('q-subject').innerText = curSubj;
-            document.getElementById('q-counter').innerText = `${curIdx + 1} de ${curQs.length}`;
-            document.getElementById('progress-bar').style.width = `${((curIdx + 1) / curQs.length) * 100}%`;
+            const q = currentQs[curIdx];
+            document.getElementById('q-subject').innerText = currentSubj;
+            document.getElementById('q-counter').innerText = `${curIdx + 1} de ${currentQs.length}`;
+            document.getElementById('progress-bar').style.width = `${((curIdx + 1) / currentQs.length) * 100}%`;
             document.getElementById('q-text').innerText = q.q;
             
             const area = document.getElementById('q-answers');
@@ -352,18 +324,18 @@
                 el.classList.add('incorrect');
                 fb.innerText = `RESPUESTA INCORRECTA. La correcta era: "${c}"`;
                 fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
-                failures.push(curQs[curIdx].q);
+                failures.push(currentQs[curIdx].q);
             }
             btn.classList.remove('hidden');
         };
 
-        window.nextQ = () => { if (curIdx < curQs.length - 1) { curIdx++; draw(); } else finish(); };
+        window.nextQ = () => { if (curIdx < currentQs.length - 1) { curIdx++; draw(); } else finish(); };
 
         const finish = async () => {
-            nav('results'); const nota = Math.round((score / curQs.length) * 100); document.getElementById('res-score').innerText = nota;
+            nav('results'); const nota = Math.round((score / currentQs.length) * 100); document.getElementById('res-score').innerText = nota;
             if(user) {
                 try {
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), { uid: user.uid, materia: curSubj, nota, fecha: new Date().toLocaleString(), fallos: failures, timestamp: serverTimestamp() });
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), { uid: user.uid, materia: currentSubj, nota, fecha: new Date().toLocaleString(), fallos: failures, timestamp: serverTimestamp() });
                     document.getElementById('cloud-sync').innerText = "✅ REPORTE GUARDADO";
                 } catch(e) { document.getElementById('cloud-sync').innerText = "❌ ERROR AL GUARDAR"; }
             }
