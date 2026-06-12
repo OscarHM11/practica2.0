@@ -17,7 +17,7 @@
         .spreadsheet { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .spreadsheet th { background: #1e1b4b; color: #818cf8; padding: 12px; text-align: left; border: 1px solid #334155; text-transform: uppercase; }
         .spreadsheet td { padding: 12px; border: 1px solid #334155; vertical-align: top; }
-        .badge-error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 5px; border-radius: 6px; font-size: 0.75rem; display: block; margin-bottom: 5px; }
+        .badge-error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 5px; border-radius: 6px; font-size: 0.75rem; display: block; margin-bottom: 5px; line-height: 1.2; }
     </style>
 </head>
 <body class="min-h-screen pb-10">
@@ -29,48 +29,51 @@
             <button onclick="nav('history')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">📊 Historial de Diagnóstico</button>
         </nav>
 
+        <!-- Vista Inicio -->
         <div id="view-home" class="view space-y-12">
             <header class="text-center">
                 <div class="inline-block px-4 py-1 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold tracking-widest mb-4 border border-rose-500/30 uppercase">
-                    MODO EXAMEN: 20 PREGUNTAS AVANZADAS
+                    SEGUNDAS PRUEBAS - JUNIO 2026 (ALTO RIGOR)
                 </div>
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
-                    PRÁCTICA <span class="text-indigo-500">SUPERIOR</span> 3-2
+                    EVALUACIÓN <span class="text-indigo-500">CRÍTICA</span> 3-2
                 </h1>
-                <p class="text-slate-400 text-lg italic">Temario I Semestre - Docente Maureen Mora Noguera</p>
-                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA ANTI-MEMORIA ACTIVO</div>
+                <p class="text-slate-400 text-lg">Práctica de éxamen, para el segundo trimestre del 2026</p>
+                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA ANTI-MEMORIZACIÓN ACTIVO</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <button onclick="startUniqueExam('Español')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-rose-600 hover:scale-105 transition">
+                <button onclick="startAdvancedProcess('Español')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-rose-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🖋️</span>
-                    <h3 class="text-2xl font-bold text-white uppercase">Español</h3>
-                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest text-center">Comprensión Inferencial</p>
+                    <h3 class="text-2xl font-bold text-white uppercase font-black">Español</h3>
+                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest">Comprensión y Gramática Pro</p>
                 </button>
-                <button onclick="startUniqueExam('Matemáticas')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition">
+                <button onclick="startAdvancedProcess('Matemáticas')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🧮</span>
-                    <h3 class="text-2xl font-bold text-white uppercase">Matemáticas</h3>
-                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest text-center">Lógica y Cálculo</p>
+                    <h3 class="text-2xl font-bold text-white uppercase font-black">Matemáticas</h3>
+                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest">Medidas y Sumas/Restas Complejas</p>
                 </button>
-                <button onclick="startUniqueExam('Ciencias')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-emerald-600 hover:scale-105 transition">
+                <button onclick="startAdvancedProcess('Ciencias')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-emerald-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🧪</span>
-                    <h3 class="text-2xl font-bold text-white uppercase">Ciencias</h3>
-                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest text-center">Sistemas del Cuerpo</p>
+                    <h3 class="text-2xl font-bold text-white uppercase font-black">Ciencias</h3>
+                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest">Nutrición y Convivencia Social</p>
                 </button>
-                <button onclick="startUniqueExam('Estudios Sociales')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition">
+                <button onclick="startAdvancedProcess('Estudios Sociales')" class="p-8 rounded-[2.5rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition">
                     <span class="text-4xl mb-4 block">🗺️</span>
-                    <h3 class="text-2xl font-bold text-white uppercase">Sociales</h3>
-                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest text-center">Cartografía y Cartago</p>
+                    <h3 class="text-2xl font-bold text-white uppercase font-black">Sociales</h3>
+                    <p class="text-[0.6rem] text-slate-500 mt-2 uppercase tracking-widest">Relieve e Historia de Cartago</p>
                 </button>
             </div>
         </div>
 
+        <!-- Pantalla de Carga -->
         <div id="view-loading" class="view hidden text-center py-20">
             <div class="w-20 h-20 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-8"></div>
-            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">IA Generando 20 retos nuevos...</h2>
-            <p class="text-slate-500 mt-2 italic">Esto asegura que no se repitan las preguntas de la sesión anterior.</p>
+            <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">Diseñando examen único personalizado...</h2>
+            <p class="text-slate-500 mt-2 italic">Cruzando información con tus intentos previos para garantizar cero repeticiones.</p>
         </div>
 
+        <!-- Pantalla Quiz -->
         <div id="view-quiz" class="view hidden max-w-3xl mx-auto">
             <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl">
                 <div class="bg-indigo-950/30 p-6 flex justify-between items-center border-b border-white/5">
@@ -86,12 +89,13 @@
                     <div id="q-feedback" class="hidden mt-8 p-6 rounded-2xl border-l-8 font-bold text-lg"></div>
                     <div class="mt-12 flex justify-between items-center">
                         <button onclick="nav('home')" class="text-slate-500 hover:text-white transition uppercase font-bold text-xs tracking-widest">✕ Salir</button>
-                        <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl transition active:scale-95">Siguiente Nivel ➔</button>
+                        <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl transition active:scale-95">Siguiente Pregunta ➔</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Resultados -->
         <div id="view-history" class="view hidden">
             <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
                 <h2 class="text-3xl font-bold kids-font mb-6 text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO SECCIÓN 3-2</h2>
@@ -106,6 +110,7 @@
             </div>
         </div>
 
+        <!-- Resultados Finales -->
         <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[4rem] p-16 shadow-2xl border-t-8 border-indigo-500">
             <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
             <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
@@ -113,142 +118,178 @@
                 <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase tracking-[0.2em]">Guardando diagnóstico avanzado...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Guardando diagnóstico...</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir estas 20</button>
-                <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Generar Examen Nuevo</button>
+                <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica Única</button>
             </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
-        import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, getDoc, setDoc, doc, onSnapshot, query, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
-            authDomain: "practica-examen-2026.firebaseapp.com",
-            projectId: "practica-examen-2026",
-            storageBucket: "practica-examen-2026.firebasestorage.app",
-            messagingSenderId: "1063177516735",
-            appId: "1:1063177516735:web:65915c315c447ae855780a",
-            measurementId: "G-58XTTL579R"
-        };
+        // Variables globales proveídas por el entorno para la configuración de Firebase
+        const appId = typeof __app_id !== 'undefined' ? __app_id : "practica-examen-2026";
+        let firebaseConfig;
+        try {
+            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+                apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
+                authDomain: "practica-examen-2026.firebaseapp.com",
+                projectId: "practica-examen-2026",
+                storageBucket: "practica-examen-2026.firebasestorage.app",
+                messagingSenderId: "1063177516735",
+                appId: "1:1063177516735:web:65915c315c447ae855780a",
+                measurementId: "G-58XTTL579R"
+            };
+        } catch (e) {
+            console.error("Error al analizar __firebase_config:", e);
+        }
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = "practica-examen-2026";
         const geminiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; 
         let user = null;
 
-        onAuthStateChanged(auth, u => { if(u) { user = u; syncHistory(); } });
-        signInAnonymously(auth);
+        // Listener de autenticación y carga de historial
+        onAuthStateChanged(auth, u => { 
+            if(u) { 
+                user = u; 
+                syncHistory(); 
+            } 
+        });
 
-        // --- BANCO MAESTRO DE 40 PREGUNTAS AVANZADAS POR MATERIA (Total 160) ---
+        // Cumpliendo regla de autenticación: Priorizar token custom antes de anónimo
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (e) {
+                console.error("Error en flujo de autenticación Firebase:", e);
+                document.getElementById('auth-status').innerText = "⚠️ ERROR DE CREDENCIALES";
+            }
+        };
+        initAuth();
+
+        // --- BANCO MAESTRO DE RESPALDO (25 preguntas pedagógicas por materia) ---
         const BIG_MASTER_BANK = {
             "Español": [
-                { q: "¿En qué etapa de la estructura narrativa se presenta la resolución definitiva del conflicto principal?", o: ["Desenlace", "Nudo", "Introducción", "Portada"], c: "Desenlace" },
-                { q: "Si un texto narra hechos reales de forma objetiva, sin opiniones del autor, se clasifica como:", o: ["Texto Informativo", "Texto Poético", "Leyenda", "Fábula"], c: "Texto Informativo" },
-                { q: "Identifique el sustantivo propio que designa una provincia que limita con dos océanos:", o: ["Puntarenas", "Cartago", "Heredia", "Alajuela"], c: "Puntarenas" },
-                { q: "¿Cuál es la función principal de la moraleja al final de una composición literaria?", o: ["Transmitir una enseñanza ética", "Rimar con los versos", "Presentar al villano", "Describir el ambiente"], c: "Transmitir una enseñanza ética" },
-                { q: "Analice la causa en: 'Debido a la erosión del suelo, las plantas no crecieron'. ¿Cuál es la causa?", o: ["La erosión del suelo", "Las plantas no crecieron", "El tipo de semilla", "El riego constante"], c: "La erosión del suelo" },
-                { q: "¿Qué signo de puntuación se usa para introducir una cita textual o una lista detallada?", o: ["Dos puntos", "Coma", "Punto y coma", "Guion"], c: "Dos puntos" },
-                { q: "En un poema, ¿cómo se denomina al conjunto de versos que forman una unidad rítmica?", o: ["Estrofa", "Rima", "Párrafo", "Título"], c: "Estrofa" },
-                { q: "¿Cuál de estos elementos es indispensable en el inicio de un cuento para situar al lector?", o: ["Ambiente y personajes", "Moraleja y cierre", "Conflicto principal", "Biografía del autor"], c: "Ambiente y personajes" },
-                { q: "Identifique la rima en las palabras: 'Canción' y 'Corazón'.", o: ["Consonante", "Asonante", "Libre", "No riman"], c: "Consonante" },
-                { q: "¿Cuál es la función gramatical de las mayúsculas al inicio de un párrafo?", o: ["Marcar el comienzo de una idea", "Indicar que la palabra es un verbo", "Resaltar el color del texto", "Sustituir al punto final"], c: "Marcar el comienzo de una idea" },
-                { q: "Un texto que describe detalladamente las partes de un volcán se clasifica como:", o: ["Descriptivo", "Narrativo", "Poético", "Teatral"], c: "Descriptivo" },
-                { q: "Identifique el efecto en: 'Debido a la fuerte tormenta, se fue la luz en toda la cuadra'.", o: ["Se fue la luz", "Fuerte tormenta", "Toda la cuadra", "La lluvia"], c: "Se fue la luz" },
-                { q: "¿Qué elemento del género dramático indica las acciones que deben realizar los actores en escena?", o: ["Acotaciones", "Diálogos", "Versos", "Moralejas"], c: "Acotaciones" },
-                { q: "¿Cuál es el antónimo (opuesto) de la palabra 'Generoso' que podría aparecer en una fábula?", o: ["Egoísta", "Amable", "Grande", "Rápido"], c: "Egoísta" },
-                { q: "En la frase 'Cartago es la ciudad de las brumas', ¿cuál es el sustantivo propio?", o: ["Cartago", "ciudad", "brumas", "las"], c: "Cartago" },
-                { q: "¿Qué tipo de texto utiliza el lenguaje para expresar sentimientos íntimos del autor?", o: ["Lírico o Poético", "Expositivo", "Científico", "Instructivo"], c: "Lírico o Poético" },
-                { q: "¿Cómo se llama la parte del cuento donde el conflicto llega a su punto de mayor tensión?", o: ["Clímax o Nudo", "Desenlace", "Introducción", "Título"], c: "Clímax o Nudo" },
-                { q: "¿Qué signo de puntuación cierra una oración pero permite seguir hablando del mismo tema en el mismo renglón?", o: ["Punto y seguido", "Punto y aparte", "Punto final", "Coma"], c: "Punto y seguido" },
-                { q: "Identifique el sustantivo común en: 'La maestra Maureen explica la materia'.", o: ["maestra", "Maureen", "explica", "materia"], c: "maestra" },
-                { q: "Si un texto nos dice los pasos exactos para cocinar un pastel, es un texto:", o: ["Instructivo", "Narrativo", "Poético", "Dramático"], c: "Instructivo" },
-                { q: "¿Cuál de estos es un personaje fantástico común en las leyendas de Costa Rica?", o: ["La Segua", "Un astronauta", "El cartero", "Un dinosaurio"], c: "La Segua" },
-                { q: "En la poesía, la coincidencia de sonidos al final de dos o más versos se llama:", o: ["Rima", "Estrofa", "Ritmo", "Métrica"], c: "Rima" },
-                { q: "¿Qué elemento del cuento responde a la pregunta '¿Cuándo pasó?'?", o: ["Tiempo", "Lugar", "Personaje", "Conflicto"], c: "Tiempo" },
-                { q: "Identifique el verbo en: 'Los niños estudian para el examen'.", o: ["estudian", "niños", "examen", "para"], c: "estudian" },
-                { q: "¿Qué tipo de texto se encuentra comúnmente en un periódico informando un suceso real?", o: ["Noticia", "Poema", "Cuento", "Receta"], c: "Noticia" }
+                { q: "En una llamada telefónica entre la maestra Maureen y un padre de familia para coordinar la prueba, ¿cuál elemento actúa técnicamente como el canal?", o: ["La línea telefónica o red móvil", "El idioma español", "La maestra Maureen", "El mensaje de saludo oral"], c: "La línea telefónica o red móvil" },
+                { q: "Si la maestra Maureen le explica el temario a los estudiantes usando de manera oral el idioma español, ¿cuál es el código en este proceso de comunicación?", o: ["El idioma español", "La maestra Maureen", "El salón de clases", "Los estudiantes de la sección 3-2"], c: "El idioma español" },
+                { q: "Si Valeria lee una carta informal que le envió su abuelo desde San José, ¿quién actúa como el receptor en este proceso de comunicación?", o: ["Valeria", "El abuelo", "La carta física en papel", "El mensaje afectuoso"], c: "Valeria" },
+                { q: "En el fragmento: 'Dado que no repasó detalladamente las partes de la noticia, Luis falló la pregunta del examen de Español'. ¿Cuál es la causa lógica de la acción?", o: ["No repasó las partes de la noticia", "Luis falló la pregunta del examen", "El examen de Español", "La noticia publicada"], c: "No repasó las partes de la noticia" },
+                { q: "En el fragmento 'La maestra entregó las prácticas a los niños; por lo tanto, toda la sección 3-2 pudo estudiar el fin de semana'. ¿Cuál es el efecto directo de la causa?", o: ["Toda la sección 3-2 pudo estudiar", "La maestra entregó las prácticas", "El fin de semana largo", "Las prácticas impresas"], c: "Toda la sección 3-2 pudo estudiar" },
+                { q: "¿Qué parte estructural de un libro contiene una explicación o presentación previa de la obra, escrita normalmente por el autor o por un especialista?", o: ["El prólogo", "El índice", "La dedicatoria", "El epígrafe"], c: "El prólogo" },
+                { q: "¿Cómo se denomina la frase breve, sentencia o cita que se coloca al inicio de un libro o de un capítulo y que sugiere su contenido?", o: ["El epígrafe", "La portada", "La dedicatoria", "El prólogo"], c: "El epígrafe" },
+                { q: "¿Qué tipo de carta se caracteriza por utilizar un lenguaje formal y respetuoso, dirigida a una autoridad escolar para realizar una solicitud oficial?", o: ["Carta formal", "Carta informal", "Anécdota redactada", "Noticia escolar"], c: "Carta formal" },
+                { q: "En la estructura de una carta informal, la sección inicial 'Cartago, 22 de junio de 2026' corresponde a:", o: ["El lugar y la fecha", "El saludo inicial", "La despedida formal", "La posdata o aclaración"], c: "El lugar y la fecha" },
+                { q: "¿Qué nombre recibe el texto corto que se agrega al final de una carta cuando se ha olvidado escribir un detalle importante dentro del cuerpo principal?", o: ["Posdata (P.D.)", "Firma y rúbrica", "Saludo cordial", "Epígrafe del mensaje"], c: "Posdata (P.D.)" },
+                { q: "¿Qué parte de la noticia se redacta con letra grande y llamativa con el propósito de resumir el hecho principal y atraer el interés del lector?", o: ["El titular", "La entradilla o copete", "El cuerpo de la noticia", "El epígrafe de la foto"], c: "El titular" },
+                { q: "¿Cuál es la característica principal que define a una anécdota frente a otros textos narrativos?", o: ["Relata de forma amena y graciosa un suceso curioso y real que le ocurrió a alguien", "Presenta instrucciones exactas para realizar una tarea compleja", "Utiliza versos y estrofas para expresar sentimientos profundos", "Explica con rigor científico el origen de un relieve de la provincia"], c: "Relata de forma amena y graciosa un suceso curioso y real que le ocurrió a alguien" },
+                { q: "Identifique la opción que hace un uso gramatical correcto de la coma para separar elementos de una lista:", o: ["Maureen compró cuadernos, lápices, borradores y carpetas.", "Maureen compró cuadernos lápices borradores, y carpetas.", "Maureen, compró cuadernos, lápices borradores y carpetas.", "Maureen compró, cuadernos lápices borradores y carpetas."], c: "Maureen compró cuadernos, lápices, borradores y carpetas." },
+                { q: "¿Cuándo es obligatorio emplear el punto y aparte en la redacción de un texto?", o: ["Al terminar un párrafo para comenzar uno nuevo en otro renglón, cambiando de idea o enfoque", "Para separar oraciones que mantienen una relación directa en el mismo renglón", "Únicamente para dar por finalizado todo el escrito o libro", "Para abrir una lista detallada de los capítulos en el índice"], c: "Al terminar un párrafo para comenzar uno nuevo en otro renglón, cambiando de idea o enfoque" },
+                { q: "Qué tipo de diccionario se debe consultar si necesitamos traducir una palabra del idioma español al inglés?", o: ["Diccionario bilingüe", "Diccionario de sinónimos y antónimos", "Diccionario enciclopédico", "Diccionario de dudas de la lengua"], c: "Diccionario bilingüe" },
+                { q: "Indique el orden alfabético estricto y correcto para las siguientes palabras de la materia de Español:", o: ["Anécdota, Canal, Carta, Comunicación", "Canal, Anécdota, Carta, Comunicación", "Comunicación, Canal, Carta, Anécdota", "Anécdota, Carta, Canal, Comunicación"], c: "Anécdota, Canal, Carta, Comunicación" },
+                { q: "Identifique la oración que cumple perfectamente con las reglas del uso de las mayúsculas:", o: ["El próximo lunes visitaremos la Basílica de los Ángeles en Cartago.", "el próximo lunes visitaremos la basílica de los ángeles en cartago.", "El próximo Lunes visitaremos la Basílica de los Ángeles en cartago.", "El próximo lunes visitaremos la basílica De Los Ángeles en Cartago."], c: "El próximo lunes visitaremos la Basílica de los Ángeles en Cartago." },
+                { q: "¿Qué es la idea principal en la estructura de un párrafo?", o: ["La oración que expresa el contenido esencial sin el cual el párrafo carecería de sentido", "El conjunto de ejemplos y aclaraciones secundarias que detallan el escrito", "La lista de términos que se ordenan alfabéticamente al final del texto", "La dedicatoria formal que el autor dirige a sus lectores queridos"], c: "La oración que expresa el contenido esencial sin el cual el párrafo carecería de sentido" },
+                { q: "En la estructura de un libro, la página donde el autor expresa su agradecimiento o afecto a personas cercanas se denomina:", o: ["Dedicatoria", "Prólogo", "Índice", "Epígrafe"], c: "Dedicatoria" },
+                { q: "¿Cómo se organizan las palabras dentro de un diccionario para facilitar su búsqueda rápida?", o: ["Por orden alfabético estricto de sus letras", "Por la cantidad de sílabas que posee cada palabra", "Según su orden de importancia o utilidad en la sociedad", "De manera aleatoria de acuerdo con el criterio de la imprenta"], c: "Por orden alfabético estricto de sus letras" },
+                { q: "¿Cuál es la estructura lógica para redactar un párrafo claro, coherente y bien estructurado?", o: ["Iniciar con mayúscula, desarrollar una idea principal con secundarias y finalizar con punto", "Colocar palabras al azar sin emplear comas ni signos de puntuación", "Listar sustantivos propios únicamente en orden alfabético", "Escribir oraciones sin conexión usando el formato de la carta formal"], c: "Iniciar con mayúscula, desarrollar una idea principal con secundarias y finalizar con punto" },
+                { q: "¿Cuál es una parte indispensable de la carta formal que generalmente NO se incluye en una carta de tipo informal?", o: ["El cargo de la persona destinataria y el nombre de la institución", "Un saludo cariñoso como 'Querido amigo de la escuela'", "Una posdata informal contando una anécdota divertida", "El dibujo de los elementos de la comunicación en el sobre"], c: "El cargo de la persona destinataria y el nombre de la institución" },
+                { q: "¿En qué sección del libro encontramos la lista ordenada de los capítulos y los números de página correspondientes?", o: ["El índice", "La portada", "La dedicatoria", "El epígrafe"], c: "El índice" },
+                { q: "Si observamos una señal de tránsito que dice 'Alto' de color rojo en la carretera de Cartago, ¿qué código de comunicación se está aplicando?", o: ["Código no verbal o visual", "Código verbal escrito", "Código auditivo o acústico", "Código bilingüe"], c: "Código no verbal o visual" },
+                { q: "¿Qué tipo de diccionario, además de definir las palabras, aporta datos detallados de geografía, historia y ciencia?", o: ["Diccionario enciclopédico", "Diccionario de la lengua española", "Diccionario de sinónimos", "Diccionario bilingüe"], c: "Diccionario enciclopédico" }
             ],
             "Matemáticas": [
-                { q: "¿Cuál es el valor posicional del dígito 8 en el número 87.432?", o: ["80.000", "8.000", "800", "8"], c: "80.000" },
-                { q: "¿Cómo se escribe en notación estándar: 'Sesenta y cinco mil cuatrocientos nueve'?", o: ["65.409", "65.490", "6.549", "650.409"], c: "65.409" },
-                { q: "¿Qué tipo de ángulo se forma si las dos semirrectas son perfectamente perpendiculares?", o: ["Ángulo Recto", "Ángulo Agudo", "Ángulo Obtuso", "Ángulo Llano"], c: "Ángulo Recto" },
-                { q: "En la sucesión: 12.500, 13.000, 13.500... ¿Cuál es el patrón de aumento constante?", o: ["+500", "+1.000", "+50", "+100"], c: "+500" },
-                { q: "Ordene de MAYOR a MENOR: 45.900, 45.909, 45.099", o: ["45.909 - 45.900 - 45.099", "45.099 - 45.900 - 45.909", "45.900 - 45.909 - 45.099", "Son iguales"], c: "45.909 - 45.900 - 45.099" },
-                { q: "Si a 5 Decenas de Millar le restas 15 Unidades de Millar, ¿qué resultado obtienes?", o: ["35.000", "45.000", "50.000", "5.000"], c: "35.000" },
-                { q: "¿Cuántas centenas exactas hay en el número 10.000?", o: ["100 centenas", "10 centenas", "1.000 centenas", "10.000 centenas"], c: "100 centenas" },
-                { q: "Un ángulo que mide 115 grados se clasifica rigurosamente como:", o: ["Obtuso", "Agudo", "Recto", "Nulo"], c: "Obtuso" },
-                { q: "¿Qué par de líneas se mantienen siempre a la misma distancia y nunca se interceptan por más que se prolonguen?", o: ["Paralelas", "Perpendiculares", "Secantes", "Curvas"], c: "Paralelas" },
-                { q: "Resuelva la suma compleja: 25.400 + 12.600 =", o: ["38.000", "37.000", "39.000", "40.000"], c: "38.000" },
-                { q: "Identifique el número que tiene exactamente un 4 en las Unidades de Millar:", o: ["14.502", "41.000", "400", "10.400"], c: "14.502" },
-                { q: "¿Cuál es el sucesor inmediato del número 99.999?", o: ["100.000", "99.100", "1.000.000", "99.990"], c: "100.000" },
-                { q: "Un ángulo agudo se define como aquel cuya amplitud es:", o: ["Menor a 90 grados", "Igual a 90 grados", "Mayor a 90 grados", "Exactamente 180 grados"], c: "Menor a 90 grados" },
-                { q: "En el número 72.301, ¿qué dígito representa la posición de la decena?", o: ["0", "3", "2", "7"], c: "0" },
-                { q: "Si sumas la descomposición 3DM + 5UM + 8C + 1D + 4U, ¿qué número formas?", o: ["35.814", "3.581", "350.814", "35.841"], c: "35.814" },
-                { q: "¿Cuántas Unidades de Millar (UM) completas hay en 65.000?", o: ["65 UM", "6 UM", "600 UM", "5 UM"], c: "65 UM" },
-                { q: "Si restas 100 a 50.000, ¿cuál es el resultado correcto?", o: ["49.900", "49.000", "50.100", "49.990"], c: "49.900" },
-                { q: "Las líneas perpendiculares se caracterizan por formar un ángulo de:", o: ["90 grados", "0 grados", "45 grados", "180 grados"], c: "90 grados" },
-                { q: "¿Cuál es el valor del dígito 4 en el número 4.520?", o: ["4.000", "400", "40.000", "40"], c: "4.000" },
-                { q: "En la serie 10.000, 20.000, 30.000... ¿Cuál es el próximo término?", o: ["40.000", "31.000", "35.000", "50.000"], c: "40.000" },
-                { q: "Si tengo un ángulo de 89 grados, ¿cómo se clasifica?", o: ["Agudo", "Recto", "Obtuso", "Plano"], c: "Agudo" },
-                { q: "¿Cuántas unidades simples hay en 2 Decenas de Millar?", o: ["20.000", "2.000", "200", "200.000"], c: "20.000" },
-                { q: "Identifique el número 'Noventa mil trescientos dos':", o: ["90.302", "9.302", "903.002", "93.002"], c: "90.302" },
-                { q: "Si un ángulo mide 180 grados exactos, se le llama:", o: ["Llano", "Recto", "Agudo", "Obtuso"], c: "Llano" },
-                { q: "Resuelva mentalmente: 75.000 + 5.000 =", o: ["80.000", "70.000", "85.000", "76.000"], c: "80.000" }
+                { q: "Si un cable de electricidad mide 3 metros de longitud, ¿a cuántos centímetros de longitud equivale?", o: ["300 centímetros", "30 centímetros", "3.000 centímetros", "3 centímetros"], c: "300 centímetros" },
+                { q: "Un atleta del cantón de Orosi recorrió una distancia de 5 kilómetros. ¿A cuántos metros equivale ese recorrido?", o: ["5.000 metros", "500 metros", "50.000 metros", "50 metros"], c: "5.000 metros" },
+                { q: "Si tienes una moneda de 500 colones costarricenses y deseas cambiarla por monedas de 100 colones, ¿cuántas monedas de 100 debes recibir?", o: ["5 monedas de 100 colones", "10 monedas de 100 colones", "4 monedas de 100 colones", "50 monedas de 100 colones"], c: "5 monedas de 100 colones" },
+                { q: "Al comprar una merienda que cuesta 3.500 colones y pagas con un billete de 10.000 colones, ¿cuánto recibirás de vuelto?", o: ["Un billete de 5.000 colones, uno de 1.000 colones y una moneda de 500 colones", "Un billete de 5.000 colones y dos de 1.000 colones", "Tres billetes de 2.000 colones", "Un billete de 2.000 colones y una moneda de 500 colones"], c: "Un billete de 5.000 colones, uno de 1.000 colones and una moneda de 500 colones" },
+                { q: "Al colocar la resta 45.820 - 12.350 en la casita de valores, ¿cuál dígito corresponde a la posición de las Unidades de Millar en el resultado final?", o: ["3", "5", "8", "2"], c: "3" },
+                { q: "Si resuelves la suma compleja 38.450 + 15.290 con transformación (llevando) en la casita de valores, el resultado correcto es:", o: ["53.740", "53.640", "43.740", "54.740"], c: "53.740" },
+                { q: "Para estimar la distancia entre el centro escolar y la Basílica de los Ángeles, ¿cuál unidad de longitud es la más adecuada?", o: ["El kilómetro", "El metro", "El centímetro", "El milímetro"], c: "El kilómetro" },
+                { q: "Al estimar la longitud de un borrador de pizarra del aula de la maestra Maureen, ¿cuál medida resulta más lógica?", o: ["15 centímetros", "15 metros", "15 kilómetros", "15 milímetros"], c: "15 centímetros" },
+                { q: "En una encuesta sobre los niños de la sección 3-2, el dato 'Color favorito de cada estudiante' se clasifica de qué forma:", o: ["Dato cualitativo", "Dato cuantitativo", "Medida métrica de longitud", "Equivalencia monetaria"], c: "Dato cualitativo" },
+                { q: "El dato 'Estatura en centímetros de los estudiantes de la sección 3-2' se clasifica como:", o: ["Dato cuantitativo", "Dato cualitativo", "Unidad monetaria del colón", "Línea perpendicular del plano"], c: "Dato cuantitativo" },
+                { q: "¿Cuál es la unidad monetaria oficial que rige de acuerdo con las leyes de Costa Rica?", o: ["El colón", "El dólar", "El peso", "El euro"], c: "El colón" },
+                { q: "Si compras un libro de Estudios Sociales que cuesta 7.500 colones y pagas con un billete de 10.000 colones, ¿cuánto recibirás de vuelto?", o: ["2.500 colones", "1.500 colones", "3.500 colones", "500 colones"], c: "2.500 colones" },
+                { q: "En un gráfico de barras sobre alimentos favoritos, la barra de 'Frutas' llega al número 12. ¿Cómo se interpreta correctamente este dato?", o: ["Que 12 estudiantes prefieren las frutas", "Que la fruta mide 12 centímetros de largo", "Que la fruta cuesta 12 colones en el mercado", "Que se estudiaron 12 tipos de frutas"], c: "Que 12 estudiantes prefieren las frutas" },
+                { q: "Resuelva la siguiente resta con transformación (prestando) en la casita de valores: 84.200 - 35.150 =", o: ["49.050", "49.150", "48.050", "51.050"], c: "49.050" },
+                { q: "Si un cable de cobre mide exactamente 20 decímetros (dm) de longitud, ¿a cuántos metros equivale?", o: ["2 metros", "20 metros", "200 metros", "20 centímetros"], c: "2 metros" },
+                { q: "Si registramos el 'Número de hermanos' de cada estudiante de la sección 3-2, este tipo de dato es:", o: ["Dato cuantitativo", "Dato cualitativo", "Estimación de distancia", "Conversión fraccionaria"], c: "Dato cuantitativo" },
+                { q: "Si reúnes tres monedas de 100 colones, dos de 500 colones y cuatro de 50 colones, ¿cuántos colones tienes en total?", o: ["1.500 colones", "1.300 colones", "1.800 colones", "1.100 colones"], c: "1.500 colones" },
+                { q: "Un billete de 10.000 colones de Costa Rica equivale exactamente en su valor a:", o: ["Dos billetes de 5.000 colones", "Cinco billetes de 1.000 colones", "Tres billetes de 2.000 colones", "Diez billetes de 5.000 colones"], c: "Dos billetes de 5.000 colones" },
+                { q: "Resuelva la siguiente operación de suma: 63.854 + 27.146 =", o: ["91.000", "90.000", "81.000", "90.900"], c: "91.000" },
+                { q: "Al colocar el número 98.705 en la casita de valores, ¿qué posición y valor real representa el dígito 8?", o: ["8 Unidades de Millar", "8 Decenas de Millar", "8 Centenas", "8 Decenas"], c: "8 Unidades de Millar" },
+                { q: "Un cordel para medir de la clase de Ciencias mide 400 milímetros (mm). ¿A cuántos centímetros equivale?", o: ["40 centímetros", "400 centímetros", "4 centímetros", "4.000 centímetros"], c: "40 centímetros" },
+                { q: "Un cuadro estadístico resume que en Cartago llovió 15 días en mayo y 25 días en junio. ¿Cuál es la interpretación lógica de la información?", o: ["En junio llovió más días que en mayo", "En mayo llovió más días que en junio", "En ambos meses llovió exactamente lo mismo", "No llovió ningún día en la provincia de Cartago"], c: "En junio llovió más días que en mayo" },
+                { q: "Si pagas una merienda de 800 colones con un billete de 2.000 colones, ¿cuál es tu vuelto exacto expresado en monedas de 100?", o: ["12 monedas de 100 colones", "10 monedas de 100 colones", "8 monedas de 100 colones", "15 monedas de 100 colones"], c: "12 monedas de 100 colones" },
+                { q: "El dato 'Tipo de deporte que practican los niños' de la sección 3-2 corresponde a:", o: ["Dato cualitativo", "Dato cuantitativo", "Medida del metro", "Patrón de sucesión"], c: "Dato cualitativo" },
+                { q: "Resuelva la siguiente operación de resta con transformación: 50.000 - 13.250 =", o: ["36.750", "37.750", "36.850", "46.750"], c: "36.750" }
             ],
             "Ciencias": [
-                { q: "¿Cuál es la función mecánica principal de las costillas y el esternón?", o: ["Proteger el corazón y pulmones", "Permitir la digestión", "Sostener el cráneo", "Bombear la sangre"], c: "Proteger el corazón y pulmones" },
-                { q: "¿En qué etapa del proceso digestivo los nutrientes atraviesan las paredes del intestino hacia la sangre?", o: ["Absorción", "Ingestión", "Digestión", "Defecación"], c: "Absorción" },
-                { q: "¿Cómo se denominan los músculos que funcionan sin una orden voluntaria del cerebro?", o: ["Músculos Involuntarios", "Músculos Voluntarios", "Músculos Rígidos", "Músculos Estriados"], c: "Músculos Involuntarios" },
-                { q: "Los alimentos del grupo 'Constructores' (proteínas) son fundamentales para:", o: ["Reparar tejidos y crecer", "Dar energía rápida", "Prevenir la gripe", "Aportar solo agua"], c: "Reparar tejidos y crecer" },
-                { q: "¿Cuál es el órgano del sistema digestivo encargado de absorber el agua y formar la materia fecal?", o: ["Intestino Grueso", "Boca", "Hígado", "Esófago"], c: "Intestino Grueso" },
-                { q: "El fémur es el hueso más largo del cuerpo. ¿A qué extremidad pertenece?", o: ["Inferior", "Superior", "Caja Torácica", "Cráneo"], c: "Inferior" },
-                { q: "La masticación y la mezcla con saliva transforman el alimento en:", o: ["Bolo alimenticio", "Quimo", "Nutrientes", "Heces"], c: "Bolo alimenticio" },
-                { q: "¿Qué articulación permite el movimiento de rotación de la cabeza?", o: ["Atlas y Axis (cuello)", "Rodilla", "Codo", "Cráneo"], c: "Atlas y Axis (cuello)" },
-                { q: "Los alimentos 'Energéticos' (carbohidratos) sirven principalmente para:", o: ["Tener fuerza para jugar", "No enfermarse", "Hacer crecer los huesos", "Limpiar la sangre"], c: "Tener fuerza para jugar" },
-                { q: "El sistema que da forma, soporte y protección a los órganos blandos es:", o: ["Sistema Óseo", "Sistema Digestivo", "Sistema Nervioso", "Sistema Respiratorio"], c: "Sistema Óseo" },
-                { q: "Un ejemplo de músculo voluntario, que movemos para caminar, es el:", o: ["Bíceps", "Corazón", "Diafragma", "Músculo del estómago"], c: "Bíceps" },
-                { q: "¿Dónde ocurre la mayor parte de la digestión química gracias a los jugos gástricos?", o: ["Estómago", "Esófago", "Boca", "Intestino Grueso"], c: "Estómago" },
-                { q: "Las articulaciones móviles son aquellas que:", o: ["Tienen un gran rango de movimiento", "No se mueven nada", "Se mueven solo un poquito", "Son de hueso blando"], c: "Tienen un gran rango de movimiento" },
-                { q: "Los alimentos 'Protectores' (frutas y verduras) son ricos en:", o: ["Vitaminas y minerales", "Grasas", "Proteínas", "Azúcar"], c: "Vitaminas y minerales" },
-                { q: "Las vértebras protegen un órgano muy importante del sistema nervioso llamado:", o: ["Médula espinal", "Cerebro", "Pulmones", "Corazón"], c: "Médula espinal" },
-                { q: "¿Cuál es el conducto que lleva el bolo alimenticio desde la faringe al estómago?", o: ["Esófago", "Intestino Delgado", "Páncreas", "Tráquea"], c: "Esófago" },
-                { q: "Un hábito para mantener los huesos fuertes es el consumo de:", o: ["Calcio (Leche y derivados)", "Golosinas", "Grasas fritas", "Refrescos gaseosos"], c: "Calcio (Leche y derivados)" },
-                { q: "El cráneo está formado por huesos planos cuya función principal es proteger el:", o: ["Cerebro", "Corazón", "Hígado", "Pulmón"], c: "Cerebro" },
-                { q: "¿Qué sucede en la etapa de Ingestión?", o: ["El alimento entra a la boca", "Los nutrientes pasan a la sangre", "Se expulsan los desechos", "Se mezcla la comida con jugos"], c: "El alimento entra a la boca" },
-                { q: "Los músculos se unen a los huesos mediante unas fibras fuertes llamadas:", o: ["Tendones", "Cartílagos", "Venas", "Arterias"], c: "Tendones" }
+                { q: "¿Los carbohidratos como el arroz, la papa y el pan cumplen cuál función principal y de valor nutritivo en el organismo?", o: ["Brindar energía necesaria para las actividades del día", "Reparar los tejidos corporales y sanar heridas", "Aportar vitaminas para defendernos de enfermedades", "Sostener la estructura muscular de las rodillas"], c: "Brindar energía necesaria para las actividades del día" },
+                { q: "Alimentos como la carne, los huevos y el pescado son ricos en proteínas. ¿A qué grupo de la pirámide pertenecen según su valor nutritivo?", o: ["Alimentos Constructores", "Alimentos Protectores", "Alimentos Energéticos", "Lípidos o grasas de reserva"], c: "Alimentos Constructores" },
+                { q: "Las frutas y los vegetales nos aportan vitaminas y minerales esenciales. ¿Cuál es su función primordial en el mantenimiento de la salud?", o: ["Proteger al cuerpo de enfermedades y regular su funcionamiento", "Brindar energía inmediata para correr largas distancias", "Construir las fibras musculares de los huesos largos", "Almacenar lípidos bajo la piel para defendernos del frío"], c: "Proteger al cuerpo de enfermedades y regular su funcionamiento" },
+                { q: "¿Qué enfermedad nutricional grave se genera cuando una persona consume de forma excesiva calorías y grasas, acumulando tejido adiposo?", o: ["Obesidad", "Desnutrición", "Anemia por falta de hierro", "Alergia alimentaria"], c: "Obesidad" },
+                { q: "La carencia extrema de nutrientes, proteínas y alimentos esenciales en el organismo desencadena una enfermedad llamada:", o: ["Desnutrición", "Obesidad", "Diabetes tipo I", "Gripe o influenza"], c: "Desnutrición" },
+                { q: "¿Cómo se define de forma rigurosa el concepto de dignidad humana?", o: ["El valor inherente que posee cada persona por ser humana, mereciendo respeto y bienestar", "La cantidad de dinero o propiedades que tiene una persona en la comunidad", "La habilidad de ganar todas las actividades recreativas de la escuela", "El derecho de gobernar a los demás sin seguir las reglas"], c: "El valor inherente que posee cada persona por ser humana, mereciendo respeto y bienestar" },
+                { q: "Si un estudiante en la escuela sufre de apodos ofensivos y aislamiento constante de sus compañeros de sección, ¿qué tipo de violencia sufre?", o: ["Psicológica o bullying", "Física directa", "Violencia de género económica", "Falta de autocuidado escolar"], c: "Psicológica o bullying" },
+                { q: "¿Cuál de las siguientes acciones representa una manifestación directa de violencia física que atenta contra la dignidad?", o: ["Golpear o empujar a un compañero de aula", "Ignorar las opiniones de un amigo de forma intencional", "Realizar comentarios de desprecio basados en el género", "Decidir no compartir un material de estudio en la clase"], c: "Golpear o empujar a un compañero de aula" },
+                { q: "¿Por qué los Derechos Humanos son considerados fundamentales para todas las personas en Costa Rica?", o: ["...Porque garantizan el respeto a la vida, la libertad y la dignidad en igualdad", "Porque otorgan permisos especiales para no cumplir los deberes", "Porque pagan una suma de dinero de forma mensual a los ciudadanos", "Porque prohíben las tradiciones culturales de las provincias"], c: "...Porque garantizan el respeto a la vida, la libertad y la dignidad en igualdad" },
+                { q: "En Costa Rica, ¿cuál institución gubernamental se encarga de proteger directamente a los menores ante situaciones de maltrato?", o: ["PANI (Patronato Nacional de la Infancia)", "Ministerio de Hacienda", "La Municipalidad de Cartago", "El Banco Central de Costa Rica"], c: "PANI (Patronato Nacional de la Infancia)" },
+                { q: "¿Cuál es una medida preventiva clave de autocuidado ante un intento de agresión o situación incómoda con un desconocido?", o: ["Decir 'NO' con firmeza, alejarse de inmediato y buscar un adulto de confianza", "Mantener la situación en secreto para no asustar a la familia", "Aceptar golosinas del desconocido para calmar la tensión", "Tratar de resolver el conflicto solo sin pedir ayuda a la escuela"], c: "Decir 'NO' con firmeza, alejarse de inmediato y buscar un adulto de confianza" },
+                { q: "Si un niño sufre una situación de agresión física o psicológica, ¿cuál es la acción de denuncia que debe realizar?", o: ["Contarle de inmediato a sus padres, maestros o personas de confianza para recibir apoyo", "Guardar el secreto para que el agresor no reciba castigos", "Intentar defenderse físicamente usando la violencia en el recreo", "No decir nada creyendo que es una situación normal entre compañeros"], c: "Contarle de inmediato a sus padres, maestros o personas de confianza para recibir apoyo" },
+                { q: "En la pirámide alimenticia, ¿cuáles alimentos se ubican en la base porque aportan la energía principal para nuestras funciones?", o: ["Carbohidratos como arroz, cereales y pastas", "Lípidos como aceites y mantequilla", "Proteínas como leche, huevos y carnes", "Vitaminas presentes en hortalizas y frutas"], c: "Carbohidratos como arroz, cereales y pastas" },
+                { q: "La institución costarricense que vigila que las entidades públicas respeten los derechos de todos los habitantes se denomina:", o: ["La Defensoría de los Habitantes", "El Ministerio de Salud", "La fuerza pública de la provincia", "El Patronato Nacional de la Infancia"], c: "La Defensoría de los Habitantes" },
+                { q: "¿A qué tipo de violencia corresponde cuando se discrimina o agrede a alguien basándose en su género (hombre o mujer)?", o: ["Violencia de género", "Violencia física", "Falta de autocuidado comunitario", "Derechos fundamentales de la salud"], c: "Violencia de género" },
+                { q: "Los lípidos (grasas y aceites) son nutrientes necesarios, pero su consumo adecuado debe ser:", o: ["Moderado, ya que aportan energía de reserva pero en exceso causan obesidad", "Diario e ilimitado para aumentar la masa muscular", "Eliminado por completo porque no aportan ningún valor nutritivo", "La base fundamental del almuerzo de los estudiantes de la 3-2"], c: "Moderado, ya que aportan energía de reserva pero en exceso causan obesidad" },
+                { q: "¿Qué factor promueve directamente el bienestar y la sana convivencia comunitaria en la sección 3-2?", o: ["Mantener relaciones de respeto mutuo, comunicación asertiva y cero tolerancia al bullying", "Hacer que cada estudiante trabaje de forma aislada sin interactuar", "Evitar de inmediato los casos de violencia física detectados en el entorno", "Permitir que los estudiantes resuelvan sus disputas con empujones"], c: "Mantener relaciones de respeto mutuo, comunicación asertiva y cero tolerancia al bullying" },
+                { q: "Identifique una acción preventiva crucial de autocuidado para evitar accidentes en el hogar:", o: ["Evitar la manipulación de fuego, aparatos calientes o cables de electricidad", "Ingresar a zonas de peligro si estamos acompañados por amigos de la escuela", "Guardar silencio si un adulto nos hace sentir incómodos con sus acciones", "Ir a jugar a ríos o zonas de Cartago sin avisar a los padres"], c: "Evitar la manipulación de fuego, aparatos calientes o cables de electricidad" },
+                { q: "Un desayuno balanceado que incluya pinto, huevo y una naranja aporta nutrientes de los grupos:", o: ["Energéticos, constructores y protectores", "Únicamente energéticos y lípidos", "Lípidos y carbohidratos refinados", "Lípidos, azúcares artificiales y aditivos"], c: "Energéticos, constructores y protectores" },
+                { q: "¿Cuál de las siguientes situaciones representa una violación directa al concepto de dignidad humana?", o: ["Excluir, insultar o burlarse de un estudiante por su nacionalidad o aspecto", "Organizar un repaso dinámico de Ciencias para todos los niños", "Establecer normas de convivencia pacíficas dentro del aula de la 3-2", "Compartir de forma voluntaria una merienda saludable durante el recreo"], c: "Excluir, insultar o burlarse de un estudiante por su nacionalidad o aspecto" },
+                { q: "La desnutrición infantil genera consecuencias sumamente graves en la salud, tales como:", o: ["Falta de energía, retraso en el crecimiento y debilidad en las defensas", "Aumento desmedido de grasa corporal acumulada en las arterias", "Tener huesos sumamente fuertes y músculos de gran tamaño", "Mejorar notablemente el rendimiento en la prueba de Matemáticas"], c: "Falta de energía, retraso en el crecimiento y debilidad en las defensas" },
+                { q: "El derecho a la vida, a la salud, a tener una familia y una educación se clasifican dentro de los derechos de:", o: ["Los niños, niñas y adolescentes", "Los ciudadanos adultos trabajadores", "Las instituciones de salud privadas", "Los centros educativos del gobierno"], c: "Los niños, niñas y adolescentes" },
+                { q: "En el centro educativo, ¿cuál es una medida de prevención crucial ante un evento sísmico?", o: ["Identificar y evacuar de forma ordenada hacia las zonas de seguridad marcadas", "Esconderse bajo los estantes pesados del aula de la sección 3-2", "Correr velozmente por los pasillos estrechos empujando a los demás", "Permanecer dentro de las aulas cerrando puertas y ventanas con llave"], c: "Identificar y evacuar de forma ordenada hacia las zonas de seguridad marcadas" },
+                { q: "Las vitaminas y los minerales, que nos defienden de enfermedades, se obtienen comiendo de forma diaria:", o: ["Frutas como la papaya y hortalizas como la zanahoria", "Grasas animales, embutidos y manteca", "Pan blanco, galletas dulces y confites", "Pescado congelado frito en abundante aceite de reserva"], c: "Frutas como la papaya y hortalizas como la zanahoria" },
+                { q: "La institución costarricense encargada de defender los derechos y velar por el bienestar de los menores ante situaciones de maltrato físico o sexual es:", o: ["PANI", "Defensoría de los Habitantes", "Municipalidad de Cartago", "Ministerio de Hacienda"], c: "PANI" }
             ],
             "Estudios Sociales": [
-                { q: "Identifique las provincias que limitan con Cartago por el sector OESTE y SUR respectivamente:", o: ["San José", "Limón", "Heredia", "Alajuela"], c: "San José" },
-                { q: "¿Cómo se denomina la línea imaginaria de 0 grados que divide a la Tierra en Este y Oeste?", o: ["Meridiano de Greenwich", "Línea del Ecuador", "Trópico de Cáncer", "Eje Terrestre"], c: "Meridiano de Greenwich" },
-                { q: "Si un mapa tiene una escala 1:1.000, esto significa que la representación es:", o: ["1.000 veces más pequeña que la realidad", "Igual a la realidad", "Más grande que el país", "Un dibujo sin medidas"], c: "1.000 veces más pequeña que la realidad" },
-                { q: "La provincia de Cartago limita directamente al NORTE con la provincia de:", o: ["Heredia", "Puntarenas", "Guanacaste", "San José"], c: "Heredia" },
-                { q: "Símbolo nacional de Costa Rica que representa el trabajo, la cultura y la paz del pueblo:", o: ["La Carreta", "El Venado", "La Guaria Morada", "El Himno"], c: "La Carreta" },
-                { q: "¿Cuál es la representación cartográfica de la Tierra en forma de esfera perfecta?", o: ["Globo Terráqueo", "Mapa Mundi", "Plano", "Croquis"], c: "Globo Terráqueo" },
-                { q: "Cartago limita hacia el ESTE con la provincia de:", o: ["Limón", "Heredia", "San José", "Puntarenas"], c: "Limón" },
-                { q: "Las líneas imaginarias que miden la distancia al norte o sur del Ecuador se llaman:", o: ["Paralelos (Latitud)", "Meridianos (Longitud)", "Ejes", "Radios"], c: "Paralelos (Latitud)" },
-                { q: "El punto cardinal por donde se oculta el Sol al finalizar el día es el:", o: ["Oeste", "Este", "Norte", "Sur"], c: "Oeste" },
-                { q: "¿Qué elemento del mapa nos permite interpretar el significado de los colores y símbolos?", o: ["Simbología o Leyenda", "Escala", "Título", "Rosa de los vientos"], c: "Simbología o Leyenda" },
-                { q: "Costa Rica limita al SUR con el país de:", o: ["Panamá", "Nicaragua", "Colombia", "México"], c: "Panamá" },
-                { q: "Un plano se utiliza principalmente para representar con mucho detalle:", o: ["Lugares pequeños (una casa o barrio)", "Continentes", "Océanos", "El espacio exterior"], c: "Lugares pequeños (una casa o barrio)" },
-                { q: "¿Cuál de estas provincias costarricenses NO tiene costa (no toca el mar)?", o: ["Heredia", "Limón", "Guanacaste", "Puntarenas"], c: "Heredia" },
-                { q: "La línea del Ecuador divide a la Tierra en los hemisferios:", o: ["Norte y Sur", "Este y Oeste", "Arriba y Abajo", "Izquierda y Derecha"], c: "Norte y Sur" },
-                { q: "¿Cuál es el punto cardinal que está a la derecha si miramos hacia el Norte?", o: ["Este", "Oeste", "Sur", "Cenit"], c: "Este" },
-                { q: "El mapa que muestra la división política (provincias y cantones) es el:", o: ["Mapa Político", "Mapa Físico", "Mapa de Relieve", "Mapa de Vegetación"], c: "Mapa Político" },
-                { q: "¿Qué provincia está ubicada al OESTE de San José?", o: ["Alajuela", "Limón", "Cartago", "Heredia"], c: "Alajuela" },
-                { q: "La escala gráfica en un mapa se parece a una:", o: ["Regla pequeña graduada", "Rosa de los vientos", "Brújula", "Nube de colores"], c: "Regla pequeña graduada" },
-                { q: "¿Cómo se llama el instrumento ancestral que indica los 4 puntos cardinales?", o: ["Rosa de los vientos", "Escalímetro", "Termómetro", "Reloj de sol"], c: "Rosa de los vientos" },
-                { q: "Cartago fue la primera capital de Costa Rica. ¿En qué provincia se ubica?", o: ["Cartago", "San José", "Heredia", "Alajuela"], c: "Cartago" }
+                { q: "¿Cómo se define de forma científica el concepto de historia?", o: ["La ciencia que estudia los hechos relevantes del pasado para comprender el presente", "El estudio de las formas de relieve y montañas de la provincia", "La lista de tradiciones de origen religioso de Costa Rica", "El croquis detallado de las calles principales de Cartago urbano"], c: "La ciencia que estudia los hechos relevantes del pasado para comprender el presente" },
+                { q: "La fundación de la primera escuela pública en la provincia de Cartago corresponde a un acontecimiento de tipo:", o: ["Acontecimiento social y educativo", "Acontecimiento puramente económico", "Acontecimiento físico de relieve", "Costumbre religiosa popular"], c: "Acontecimiento social y educativo" },
+                { q: "La construcción del ferrocarril de Cartago para el transporte y comercio del grano de café es un acontecimiento de tipo:", o: ["Económico", "Religioso", "Cívico", "Urbano"], c: "Económico" },
+                { q: "La celebración del 14 de septiembre con desfiles de faroles y la llegada de la Antorcha es una costumbre de tipo:", o: ["Cívica", "Religiosa", "Gastronómica", "De relieve llanura"], c: "Cívica" },
+                { q: "La tradicional caminata de romería hacia la Basílica de los Ángeles en la provincia de Cartago es una tradición de tipo:", o: ["Religiosa y cultural", "Costumbre cívica de la independencia", "Actividad socioeconómica de relieve valle", "Forma de relieve montañosa"], c: "Religiosa y cultural" },
+                { q: "¿Cuál es una característica fundamental que distingue al espacio urbano de la provincia de Cartago?", o: ["Gran concentración de viviendas, calles pavimentadas, tránsito y servicios comerciales", "Predominio de cultivos de hortalizas, caminos rurales de tierra y casas dispersas", "Existencia únicamente de montañas elevadas sin presencia de población", "Actividades económicas dedicadas de forma exclusiva al sector de la ganadería"], c: "Gran concentración de viviendas, calles pavimentadas, tránsito y servicios comerciales" },
+                { q: "Identifique una característica propia del espacio rural de Cartago:", o: ["Predominan las actividades agrícolas, el aire limpio, las áreas verdes y casas separadas", "Abundancia de centros comerciales, industrias tecnológicas y semáforos en cada esquina", "Elevada densidad de población y redes de transporte subterráneo", "Inexistencia total de costumbres y tradiciones religiosas"], c: "Predominan las actividades agrícolas, el aire limpio, las áreas verdes y casas separadas" },
+                { q: "¿Qué es el relieve terrestre?", o: ["Las diferentes formas, alturas y desniveles de la superficie de la Tierra", "La demarcación fronteriza entre Cartago y San José", "El listado de costumbres y leyendas de la provincia", "La medición de la cantidad de agua en los ríos rurales"], c: "Las diferentes formas, alturas y desniveles de la superficie de la Tierra" },
+                { q: "¿Cómo se define una llanura dentro de las formas de relieve estudiadas?", o: ["Un terreno plano de baja altitud cercano a costas o ríos", "Una gran elevación de terreno con pendientes pronunciadas", "Una cadena de montañas unidas de gran altura", "Un terreno plano ubicado a gran altitud sobre el mar"], c: "Un terreno plano de baja altitud cercano a costas o ríos" },
+                { q: "La elevación natural de terreno que destaca por su altura y fuertes pendientes se llama:", o: ["Montaña", "Valle", "Llanura", "Meseta"], c: "Montaña" },
+                { q: "La meseta se caracteriza por ser una forma de relieve consistente en:", o: ["Un terreno plano o semiplano ubicado a gran altitud", "Una gran llanura costera inundable", "Una sucesión de montañas unidas entre sí", "Un valle estrecho entre pendientes escarpadas"], c: "Un terreno plano o semiplano ubicado a gran altitud" },
+                { q: "La cordillera es una forma de relieve que consiste en:", o: ["Una cadena o sucesión de montañas unidas entre sí", "Un área plana a la par del nivel del océano", "Un terreno hundido entre dos volcanes activos", "El espacio urbano de una provincia industrial"], c: "Una cadena o sucesión de montañas unidas entre sí" },
+                { q: "¿Cuál de estos importantes relieves de la provincia de Cartago es un volcán activo de gran altura?", o: ["El volcán Irazú", "El cerro de la Muerte", "El volcán Arenal", "El cerro Chirripó"], c: "El volcán Irazú" },
+                { q: "En las laderas fértiles del Volcán Irazú, ¿cuál es la actividad socioeconómica principal que se desarrolla debido a su clima y relieve?", o: ["Agricultura de hortalizas (papa, cebolla) y ganadería lechera", "Pesca de camarón en muelles profundos de Cartago", "Industria manufacterera de tecnología biomédica", "Minería de metales y pozos de petróleo en llanura"], c: "Agricultura de hortalizas (papa, cebolla) y ganadería lechera" },
+                { q: "El fértil Valle de Orosi es un relieve plano rodeado de montañas. ¿Cuál actividad económica destaca en esta zona?", o: ["Cultivo de café de alta calidad y el turismo ecológico", "Pesca en mar abierto y comercialización de mariscos", "Minería de metales preciosos en excavaciones profundas", "Gran desarrollo de empresas de software espacial urbano"], c: "Cultivo de café de alta calidad y el turismo ecológico" },
+                { q: "¿Cuál de los siguientes acontecimientos históricos y políticos ocurrió en Cartago?", o: ["Fue la primera capital de Costa Rica tras la firma de la Independencia", "La creación de la receta del picadillo de papa costarricense", "El desvío completo del cauce del río Reventazón rural", "La inauguración del primer estadio olímpico del país de Cartago"], c: "Fue la primera capital de Costa Rica tras la firma de la Independencia" },
+                { q: "En el espacio urbano de Cartago, la población se dedica principalmente a:", o: ["El comercio, oficinas, servicios profesionales e industrias", "La agricultura de hortalizas y café a gran escala", "La cría extensiva de ganado lechero en haciendas", "La pesca de río y la recolección de leña de montaña"], c: "El comercio, oficinas, servicios profesionales e industrias" },
+                { q: "El picadillo de papa y las tortillas de queso de la zona de Cartago corresponden a costumbres de tipo:", o: ["Culturales y gastronómicas", "Cívicas de la independencia nacional", "Religiosas y obligatorias de la Basílica", "Políticas del gobierno de la provincia"], c: "Culturales y gastronómicas" },
+                { q: "Un terreno plano o de suave pendiente rodeado de montañas y comúnmente recorrido por un río es un:", o: ["Valle", "Cordillera", "Meseta", "Volcán"], c: "Valle" },
+                { q: "¿Cómo beneficia el relieve de llanura al desarrollo de las actividades humanas en la provincia?", o: ["Facilita la agricultura mecanizada, la construcción de carreteras y ciudades", "Dificulta el transporte por la alta cantidad de abismos y pendientes", "Obliga a la población a dedicarse solo a la minería de altura", "Provoca erupciones volcánicas constantemente destructivas"], c: "Facilita la agricultura mecanizada, la construcción de carreteras y ciudades" },
+                { q: "La tradicional feria nacional de las flores y plantas que se realiza en Cartago es una tradición de tipo:", o: ["Cultural y agrícola", "Cívica obligatoria nacional", "De relieve llanura seca", "De espacio urbano industrializado"], c: "Cultural y agrícola" },
+                { q: "¿Por qué el espacio rural de Cartago es indispensable para el bienestar del espacio urbano?", o: ["Porque produce la leche, verduras y papas indispensables para la alimentación urbana", "Porque alberga las principales oficinas del gobierno central", "Porque tiene una mayor cantidad de semáforos, centros comerciales y hospitales", "Porque prohíbe las tradiciones culturales en el centro urbano"], c: "Porque produce la leche, verduras y papas indispensables para la alimentación urbana" },
+                { q: "El terremoto de 1910, que destruyó gran parte del patrimonio histórico de Cartago, constituyó un acontecimiento:", o: ["Social e histórico con gran impacto en el desarrollo urbano", "Político planificado por los líderes del cantón de la provincia", "Costumbre religiosa anual que se conmemora en el templo", "Actividad económica de llanura fértil de exportación"], c: "Social e histórico con gran impacto en el desarrollo urbano" },
+                { q: "La cordillera que atraviesa la zona sur de nuestra provincia y que alberga el Cerro de la Muerte se llama:", o: ["Cordillera de Talamanca", "Cordillera Volcánica Central", "Cordillera de Guanacaste", "Cordillera de Tilarán"], c: "Cordillera de Talamanca" },
+                { q: "El relieve montañoso de Cartago presenta limitaciones para ciertas actividades productivas debido a:", o: ["Las pendientes pronunciadas, las bajas temperaturas y la presencia de neblina", "El clima seco extremo y las altas temperaturas de las llanuras", "La falta de ríos para la irrigación de cultivos", "El riesgo constante de desbordamientos marinos en la costa"], c: "Las pendientes pronunciadas, las bajas temperaturas y la presencia de neblina" }
             ]
         };
 
-        let subj = ""; let qs = []; let curIdx = 0; let score = 0; let set = []; let failures = [];
+        let currentSubj = ""; let currentQs = []; let curIdx = 0; let score = 0; let set = []; let curFailures = [];
 
         window.nav = (v) => {
             document.querySelectorAll('.view').forEach(x => x.classList.add('hidden'));
@@ -264,57 +305,101 @@
             return array;
         };
 
-        window.startUniqueExam = async (materia) => {
+        // --- SISTEMA INTELIGENTE DE NO-REPETICIÓN BASADO EN HISTORIAL ---
+        window.startAdvancedProcess = async (materia) => {
             nav('loading');
-            const randomID = Math.random().toString(36).substring(7) + Date.now(); 
-            
-            const prompt = `Actúa como un evaluador del Ministerio de Educación. Genera un examen JSON de EXACTAMENTE 20 preguntas de selección única para la materia de ${materia}. 
-            REQUISITOS ESTRICTOS: 
-            1- DIFICULTAD ALTA para 3er grado. Las preguntas deben requerir análisis.
-            2- VARIACIÓN TOTAL: Usa este código [${randomID}] para crear situaciones, problemas lógicos y nombres de personajes TOTALMENTE NUEVOS. 
-            3- SOLO TEXTO. 
-            4- Formato JSON: {"questions": [{"q": "enunciado desafiante", "o": ["distractor1", "distractor2", "correcta", "distractor3"], "c": "correcta"}]}.
-            5- En Matemáticas incluye lógica de millares y operaciones de resta con transformación.
-            6- En Ciencias usa funciones biológicas detalladas del sistema digestivo y óseo.
-            7- En Sociales usa relaciones de límites y cartografía avanzada.`;
+
+            let seenQuestions = [];
+            // Intentar recuperar el historial del alumno desde Firestore
+            if (user) {
+                try {
+                    const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'historial', 'vistas');
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists() && docSnap.data().preguntas) {
+                        seenQuestions = docSnap.data().preguntas;
+                    }
+                } catch (e) {
+                    console.error("Error cargando historial de exclusión:", e);
+                }
+            }
+
+            const recentSeen = seenQuestions.slice(-40); // Mandamos solo las últimas 40 para no saturar el prompt
+            const excludeText = recentSeen.length > 0 
+                ? `PROHIBIDO utilizar o repetir cualquiera de las siguientes preguntas en este examen (el alumno ya las contestó):\n${recentSeen.map(q => `- ${q}`).join('\n')}`
+                : 'No hay preguntas previas, genera un set inicial de alta complejidad.';
+
+            const prompt = `Actúa como un evaluador del Ministerio de Educación de Costa Rica. Genera un examen JSON de EXACTAMENTE 20 preguntas de selección única para la materia de ${materia}. 
+            REQUISITOS DE ALTO RIGOR: 
+            1- DIFICULTAD MÁXIMA para 3er grado de primaria. Enunciados de análisis lógico y comprensión inferencial profunda.
+            2- VARIACIÓN TOTAL Y EVITACIÓN DE REPETICIONES: ${excludeText}.
+            3- SOLO TEXTO (Sin imágenes de ningún tipo).
+            4- Formato JSON estricto: {"questions": [{"q": "enunciado desafiante", "o": ["distractor1", "distractor2", "correcta", "distractor3"], "c": "correcta"}]}.
+            5- En Matemáticas incluye lógica de conversión de metros, múltiplos y submúltiplos, y restas complejas con transformación de 5 cifras.
+            6- En Ciencias usa de manera rigurosa la pirámide alimenticia, de los tipos de violencia y derechos de la niñez de acuerdo con el temario MEP de junio de 2026 de la docente Maureen Mora.
+            7- En Sociales usa geografía de Cartago, relieves físicos detallados (valles, cordilleras, volcanes) y acontecimientos históricos de Cartago.`;
 
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiKey}`, {
-                    method: 'POST', body: JSON.stringify({ 
-                        contents: [{ parts: [{ text: prompt }] }], 
-                        generationConfig: { responseMimeType: "application/json", temperature: 1.0 } 
-                    })
+                    method: 'POST', body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json", temperature: 1.0 } })
                 });
                 const json = await res.json();
                 const data = JSON.parse(json.candidates[0].content.parts[0].text);
                 const valid = data.questions.filter(q => q.q && q.o && Array.isArray(q.o) && q.o.length >= 3 && q.c);
                 
-                // FORZAR EXACTAMENTE 20 PREGUNTAS
-                if (valid.length >= 10) { 
-                    const finalSet = valid.length >= 20 ? valid.slice(0, 20) : [...valid, ...shuffle([...BIG_MASTER_BANK[materia]]).slice(0, 20 - valid.length)];
+                // Filtro en el cliente contra TODO el historial acumulado
+                const nonRepeated = valid.filter(q => !seenQuestions.includes(q.q.trim()));
+
+                if (nonRepeated.length >= 10) { 
+                    const finalSet = nonRepeated.length >= 20 
+                        ? nonRepeated.slice(0, 20) 
+                        : [...nonRepeated, ...shuffle(BIG_MASTER_BANK[materia].filter(q => !seenQuestions.includes(q.q)))].slice(0, 20);
+                    
+                    await registerSeenQuestions(finalSet.map(q => q.q));
                     initQuiz(materia, finalSet); 
                     return; 
                 }
-                throw new Error("IA Inconsistente");
+                throw new Error("Pocas preguntas inéditas de la IA");
             } catch (e) {
-                console.log("Activando Banco Maestro Blindado (20 preguntas garantizadas).");
-                const robustPool = shuffle([...BIG_MASTER_BANK[materia]]).slice(0, 20);
-                initQuiz(materia, robustPool);
+                console.log("Activando Banco Maestro barajado y filtrado contra historial por seguridad.");
+                // Filtrar el banco estático contra el historial de vistas del alumno
+                const cleanFallback = BIG_MASTER_BANK[materia].filter(q => !seenQuestions.includes(q.q));
+                const finalPool = cleanFallback.length >= 20 
+                    ? shuffle([...cleanFallback]).slice(0, 20) 
+                    : shuffle([...BIG_MASTER_BANK[materia]]).slice(0, 20); // Respaldo definitivo si ya vio todas las del banco
+                
+                await registerSeenQuestions(finalPool.map(q => q.q));
+                initQuiz(materia, finalPool);
+            }
+        };
+
+        const registerSeenQuestions = async (newQuestions) => {
+            if (!user) return;
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'historial', 'vistas');
+                const docSnap = await getDoc(docRef);
+                let currentList = [];
+                if (docSnap.exists() && docSnap.data().preguntas) {
+                    currentList = docSnap.data().preguntas;
+                }
+                const updatedList = [...new Set([...currentList, ...newQuestions])];
+                await setDoc(docRef, { preguntas: updatedList });
+            } catch (e) {
+                console.error("Fallo registrando historial de exclusión:", e);
             }
         };
 
         const initQuiz = (name, questions) => {
-            subj = name; qs = questions; set = [...questions];
-            curIdx = 0; score = 0; failures = [];
+            currentSubj = name; currentQs = questions; set = [...questions];
+            curIdx = 0; score = 0; curFailures = [];
             nav('quiz'); draw();
         };
 
-        window.restartSame = () => { qs = [...set]; curIdx = 0; score = 0; failures = []; nav('quiz'); draw(); };
+        window.restartSame = () => { currentQs = [...set]; curIdx = 0; score = 0; curFailures = []; nav('quiz'); draw(); };
         const start = () => { curIdx = 0; score = 0; nav('quiz'); draw(); };
 
         const draw = () => {
-            const q = qs[curIdx];
-            document.getElementById('q-subject').innerText = subj;
+            const q = currentQs[curIdx];
+            document.getElementById('q-subject').innerText = currentSubj;
             document.getElementById('q-counter').innerText = `${curIdx + 1} de 20`;
             document.getElementById('progress-bar').style.width = `${((curIdx + 1) / 20) * 100}%`;
             document.getElementById('q-text').innerText = q.q;
@@ -349,9 +434,9 @@
                 fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
             } else {
                 el.classList.add('incorrect');
-                fb.innerText = `RESPUESTA TÉCNICA: "${c}"`;
+                fb.innerText = `RESPUESTA INCORRECTA. La correcta es: "${c}"`;
                 fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
-                failures.push(qs[curIdx].q);
+                curFailures.push(currentQs[curIdx].q);
             }
             btn.classList.remove('hidden');
         };
@@ -363,7 +448,7 @@
             if(user) {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), { 
-                        uid: user.uid, materia: subj, nota, fecha: new Date().toLocaleString(), fallos: failures, timestamp: serverTimestamp() 
+                        uid: user.uid, materia: currentSubj, nota, fecha: new Date().toLocaleString(), fallos: curFailures, timestamp: serverTimestamp() 
                     });
                     document.getElementById('cloud-sync').innerText = "✅ REPORTE SINCRONIZADO";
                 } catch(e) { console.error(e); }
@@ -371,14 +456,30 @@
         };
 
         const syncHistory = () => {
-            const qry = query(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), orderBy('timestamp', 'desc'));
-            onSnapshot(qry, snap => {
+            if (!user) return; // Regla de validación: Autenticación activa antes de invocar snapshot
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026');
+            
+            // Cumpliendo Regla 2: Sin orderBy() ni limit() en la petición para evitar errores de permisos e indexación
+            onSnapshot(colRef, snap => {
                 const body = document.getElementById('history-data'); body.innerHTML = "";
+                const docs = [];
                 snap.forEach(doc => {
-                    const d = doc.data(); 
+                    docs.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Realizar el ordenamiento descendente directamente en la memoria de JavaScript
+                docs.sort((a, b) => {
+                    const timeA = a.timestamp?.seconds || 0;
+                    const timeB = b.timestamp?.seconds || 0;
+                    return timeB - timeA;
+                });
+
+                docs.forEach(d => {
                     const fHTML = d.fallos?.length ? d.fallos.map(f => `<span class="badge-error">Reforzar: ${f}</span>`).join('') : '<span class="text-emerald-400 font-bold italic">¡Dominio del Nivel Superior! 🏆</span>';
                     body.insertAdjacentHTML('beforeend', `<tr class="hover:bg-white/5 border-b border-white/5 transition"><td class="p-4 text-[0.7rem] text-slate-500">${d.fecha}</td><td class="p-4 font-bold text-indigo-400 uppercase tracking-tighter">${d.materia}</td><td class="p-4 font-black ${d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400'} text-center">${d.nota}</td><td class="p-4">${fHTML}</td></tr>`);
                 });
+            }, error => {
+                console.error("Error detectado en el listener de snapshot de Firestore:", error);
             });
         };
     </script>
