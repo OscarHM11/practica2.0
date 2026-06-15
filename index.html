@@ -124,9 +124,8 @@
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
             <p id="cloud-sync" class="text-xs text-indigo-500 font-bold mb-12 animate-pulse uppercase">Guardando diagnóstico...</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button onclick="restartSame()" class="bg-slate-800 hover:bg-slate-700 p-6 rounded-3xl font-bold transition">🔄 Repetir estas 20</button>
-                <button onclick="nav('home')" class="bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition">✨ Nueva Práctica Única</button>
+            <div class="flex justify-center">
+                <button onclick="nav('home')" class="w-full max-w-md bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition active:scale-95 text-lg">✨ Nueva Práctica Única</button>
             </div>
         </div>
     </div>
@@ -412,7 +411,6 @@
             nav('quiz'); draw();
         };
 
-        window.restartSame = () => { currentQs = [...set]; curIdx = 0; score = 0; curFailures = []; nav('quiz'); draw(); };
         const start = () => { curIdx = 0; score = 0; nav('quiz'); draw(); };
 
         // --- STREAMING_CHUNK: Rendering current question context... ---
