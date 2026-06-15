@@ -39,7 +39,7 @@
                     EVALUACIÓN <span class="text-indigo-500">CRÍTICA</span> 3-2
                 </h1>
                 <p class="text-slate-400 text-lg">Preguntas Infinitas por IA con Filtro de No-Repetición Inteligente</p>
-                <div id="auth-status" class="mt-4 text-xs font-bold text-slate-500 uppercase tracking-widest">SISTEMA CONECTANDO...</div>
+                <div id="auth-status" class="mt-4 text-xs font-bold text-amber-500 uppercase tracking-widest">SISTEMA CONECTANDO...</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -135,27 +135,29 @@
         import { getFirestore, collection, addDoc, getDoc, setDoc, doc, onSnapshot, query, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
 
-        // --- FIREBASE CONFIG (Doble vía: entorno o producción) ---
-        let firebaseConfig;
-        try {
-            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-                apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
-                authDomain: "practica-examen-2026.firebaseapp.com",
-                projectId: "practica-examen-2026",
-                storageBucket: "practica-examen-2026.firebasestorage.app",
-                messagingSenderId: "1063177516735",
-                appId: "1:1063177516735:web:65915c315c447ae855780a",
-                measurementId: "G-58XTTL579R"
-            };
-        } catch (e) {
-            console.error("Error al analizar __firebase_config:", e);
+        // --- FIREBASE CONFIG (Segura y con fallback robusto) ---
+        let firebaseConfig = {
+            apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
+            authDomain: "practica-examen-2026.firebaseapp.com",
+            projectId: "practica-examen-2026",
+            storageBucket: "practica-examen-2026.firebasestorage.app",
+            messagingSenderId: "1063177516735",
+            appId: "1:1063177516735:web:65915c315c447ae855780a",
+            measurementId: "G-58XTTL579R"
+        };
+
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            try {
+                firebaseConfig = JSON.parse(__firebase_config);
+            } catch (e) {
+                console.error("Error al analizar __firebase_config, usando config por defecto:", e);
+            }
         }
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         
-        // CORRECCIÓN CLAVE: Fallback dinámico inteligente para resolver problemas de permisos en dominios externos
         const appId = typeof __app_id !== 'undefined' ? __app_id : (firebaseConfig.projectId || "practica-examen-2026");
         const geminiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; 
         let user = null;
@@ -223,7 +225,7 @@
                 { q: "¿Qué enfermedad nutricional grave se genera cuando una persona consume de forma excesiva calorías y grasas, acumulando tejido adiposo?", o: ["Obesidad", "Desnutrición", "Anemia por falta de hierro", "Alergia alimentaria"], c: "Obesidad" },
                 { q: "La carencia extrema de nutrientes, proteínas y alimentos esenciales en el organismo desencadena una enfermedad llamada:", o: ["Desnutrición", "Obesidad", "Diabetes tipo I", "Gripe o influenza"], c: "Desnutrición" },
                 { q: "¿Cómo se define de forma rigurosa el concepto de dignidad humana?", o: ["El valor inherente que posee cada persona por ser humana, mereciendo respeto y bienestar", "La cantidad de dinero o propiedades que tiene una persona en la comunidad", "La habilidad de ganar todas las actividades recreativas de la escuela", "El derecho de gobernar a los demás sin seguir las reglas"], c: "El valor inherente que posee cada persona por ser humana, mereciendo respeto y bienestar" },
-                { q: "Si un estudiante en la escuela sufre de apodos ofensivos y aislamiento constante de sus compañeros de sección, ¿qué tipo de violencia sufre?", o: ["Psicológica o bullying", "Física directa", "Violencia de género económica", "Falta de autocuidado escolar"], c: "Psicológica o bullying" },
+                { q: "Si un estudiante en la escuela sufre de apodos ofensivos and aislamiento constante de sus compañeros de sección, ¿qué tipo de violencia sufre?", o: ["Psicológica o bullying", "Física directa", "Violencia de género económica", "Falta de autocuidado escolar"], c: "Psicológica o bullying" },
                 { q: "¿Cuál de las siguientes acciones representa una manifestación directa de violencia física que atenta contra la dignidad?", o: ["Golpear o empujar a un compañero de aula", "Ignorar las opiniones de un amigo de forma intencional", "Realizar comentarios de desprecio basados en el género", "Decidir no compartir un material de estudio en la clase"], c: "Golpear o empujar a un compañero de aula" },
                 { q: "¿Por qué los Derechos Humanos son considerados fundamentales para todas las personas en Costa Rica?", o: ["Porque garantizan el respeto a la vida, la libertad y la dignidad en igualdad", "Porque otorgan permisos especiales para no cumplir los deberes", "Porque pagan una suma de dinero de forma mensual a los ciudadanos", "Porque prohíben las tradiciones culturales de las provincias"], c: "Porque garantizan el respeto a la vida, la libertad y la dignidad en igualdad" },
                 { q: "En Costa Rica, ¿cuál institución gubernamental se encarga de proteger directamente a los menores ante situaciones de maltrato?", o: ["PANI (Patronato Nacional de la Infancia)", "Ministerio de Hacienda", "La Municipalidad de Cartago", "El Banco Central de Costa Rica"], c: "PANI (Patronato Nacional de la Infancia)" },
@@ -258,8 +260,7 @@
                 { q: "La elevación natural de terreno que destaca por su altura y fuertes pendientes se llama:", o: ["Montaña", "Valle", "Llanura", "Meseta"], c: "Montaña" },
                 { q: "La meseta se caracteriza por ser una forma de relieve consistente en:", o: ["Un terreno plano o semiplano ubicado a gran altitud", "Una gran llanura costera inundable", "Una sucesión de montañas unidas entre sí", "Un valle estrecho entre pendientes escarpadas"], c: "Un terreno plano o semiplano ubicado a gran altitud" },
                 { q: "La cordillera es una forma de relieve que consiste en:", o: ["Una cadena o sucesión de montañas unidas entre sí", "Un área plana a la par del nivel del océano", "Un terreno hundido entre dos volcanes activos", "El espacio urbano de una provincia industrial"], c: "Una cadena o sucesión de montañas unidas entre sí" },
-                { q: "¿Cuál de estos importantes relieves de la provincia de Cartago es un volcán activo de gran altura?", o: ["El volcán Irazú", "El cerro de la Muerte", "El volcán Arenal", "El cerro Chirripó"], c: "El volcán Irazú" },
-                { q: "En las laderas fértiles del Volcán Irazú, ¿cuál es la actividad socioeconómica principal que se desarrolla debido a su clima y relieve?", o: ["Agricultura de hortalizas (papa, cebolla) y ganadería lechera", "Pesca de camarón en muelles profundos de Cartago", "Industria manufacturera pesada de alta tecnología", "Minería de carbón y explotación de pozos petroleros"], c: "Agricultura de hortalizas (papa, cebolla) y ganadería lechera" },
+                { q: "La laderas fértiles del Volcán Irazú destacan por:", o: ["La producción de hortalizas y ganadería de leche", "La pesca artesanal y comercio en costas", "Un gran relieve desértico sin población", "El cultivo masivo de banano de exportación"], c: "La producción de hortalizas y ganadería de leche" },
                 { q: "El fértil Valle de Orosi es un relieve plano rodeado de montañas. ¿Cuál actividad económica destaca en esta zona?", o: ["Cultivo de café de alta calidad y el turismo ecológico", "Pesca en mar abierto y comercialización de mariscos", "Minería de metales preciosos en excavaciones profundas", "Gran desarrollo de empresas de software espacial urbano"], c: "Cultivo de café de alta calidad y el turismo ecológico" },
                 { q: "¿Cuál de los siguientes acontecimientos históricos y políticos ocurrió en Cartago?", o: ["Fue la primera capital de Costa Rica tras la firma de la Independencia", "La creación de la receta del picadillo de papa costarricense", "El desvío completo del cauce del río Reventazón rural", "La inauguración del primer estadio olímpico del país de Cartago"], c: "Fue la primera capital de Costa Rica tras la firma de la Independencia" },
                 { q: "En el espacio urbano de Cartago, la población se dedica principalmente a:", o: ["El comercio, oficinas, servicios profesionales e industrias", "La agricultura de hortalizas y café a gran escala", "La cría extensiva de ganado lechero en haciendas", "La pesca de río y la recolección de leña de montaña"], c: "El comercio, oficinas, servicios profesionales e industrias" },
@@ -267,7 +268,7 @@
                 { q: "Un terreno plano o de suave pendiente rodeado de montañas y comúnmente recorrido por un río es un:", o: ["Valle", "Cordillera", "Meseta", "Volcán"], c: "Valle" },
                 { q: "¿Cómo beneficia el relieve de llanura al desarrollo de las actividades humanas en la provincia?", o: ["Facilita la agricultura mecanizada, la construcción de carreteras y ciudades", "Dificulta el transporte por la alta cantidad de abismos y pendientes", "Obliga a la población a dedicarse solo a la minería profunda de altura", "Provoca constantes erupciones volcánicas destructivas"], c: "Facilita la agricultura mecanizada, la construcción de carreteras y ciudades" },
                 { q: "La tradicional feria nacional de las flores y plantas que se realiza en Cartago es una tradición de tipo:", o: ["Cultural y agrícola", "Cívica obligatoria nacional", "De relieve llanura seca", "De espacio urbano industrializado"], c: "Cultural y agrícola" },
-                { q: "¿Por qué el espacio rural de Cartago es indispensable para el bienestar del espacio urbano?", o: ["Porque produce la leche, verduras y papas indispensables para la alimentación urbana", "Porque alberga las principales oficinas del gobierno central", "Porque tiene una mayor cantidad de semáforos, centros comerciales y hospitales", "Porque prohíbe las tradiciones culturales en el centro urbano"], c: "Porque produce la leche, verduras y papas indispensables para la alimentación urbana" },
+                { q: "¿Por qué el espacio rural de Cartago es indispensable para el bienestar del espacio urbano?", o: ["Porque produce la leche, verduras y papas indispensables para la alimentación urbana", "Porque alberga las principales oficinas del gobierno central", "Porque tiene una mayor cantidad de semáforos, centros comerciales y hospitales", "Porque prohíben las tradiciones culturales en el centro urbano"], c: "Porque produce la leche, verduras y papas indispensables para la alimentación urbana" },
                 { q: "El terremoto de 1910, que destruyó gran parte del patrimonio histórico de Cartago, constituyó un acontecimiento:", o: ["Social e histórico con gran impacto en el desarrollo urbano", "Político planificado por los líderes del cantón de la provincia", "Costumbre religiosa anual que se conmemora en el templo", "Actividad económica de llanura fértil de exportación"], c: "Social e histórico con gran impacto en el desarrollo urbano" }
             ]
         };
@@ -492,6 +493,53 @@
                 body.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-rose-400 font-bold">⚠️ Error de base de datos: Verifica los permisos de Firestore o tu conexión a Internet.</td></tr>`;
             });
         };
+
+        // --- FLUJO DE AUTENTICACIÓN SÍNCRONA SEGURO (Cumple Regla 3) ---
+        const initAuthAndApp = async () => {
+            try {
+                document.getElementById('auth-status').innerText = "SISTEMA AUTENTICANDO...";
+                document.getElementById('auth-status').className = "mt-4 text-xs font-bold text-amber-500 uppercase tracking-widest";
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                
+                // Escuchamos el cambio de auth de forma reactiva
+                onAuthStateChanged(auth, u => {
+                    if (u) {
+                        user = u;
+                        document.getElementById('auth-status').innerText = "SISTEMA CONECTADO Y SEGURO";
+                        document.getElementById('auth-status').className = "mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest";
+                        syncHistory();
+                    }
+                });
+            } catch (e) {
+                console.error("Error crítico durante el inicio de sesión de Firebase:", e);
+                document.getElementById('auth-status').innerText = "⚠️ ERROR DE AUTENTICACIÓN";
+                document.getElementById('auth-status').className = "mt-4 text-xs font-bold text-rose-500 uppercase tracking-widest";
+                
+                const badge = document.getElementById('db-status-badge');
+                if (badge) {
+                    badge.innerText = "ERROR DE CONEXIÓN";
+                    badge.className = "px-3 py-1 rounded-full text-xs font-black bg-rose-500/20 text-rose-400 border border-rose-500/30";
+                }
+
+                const body = document.getElementById('history-data');
+                body.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="p-8 text-center text-rose-400">
+                            <div class="font-bold mb-2">⚠️ No se pudo autenticar la sesión en Firebase:</div>
+                            <div class="text-xs text-slate-400 mb-4 bg-black/30 p-3 rounded-lg font-mono text-left max-w-lg mx-auto overflow-x-auto">${e.message}</div>
+                            <div class="text-sm">Asegúrate de agregar tu dominio actual (por ejemplo, <strong>tuusuario.github.io</strong>) en los <strong class="text-white">"Dominios Autorizados"</strong> dentro del menú Authentication de tu Firebase Console.</div>
+                        </td>
+                    </tr>`;
+            }
+        };
+
+        // Iniciamos el flujo síncrono de autenticación al arrancar
+        initAuthAndApp();
     </script>
 </body>
 </html>
