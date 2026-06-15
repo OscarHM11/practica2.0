@@ -38,7 +38,7 @@
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     EVALUACIÓN <span class="text-indigo-500">CRÍTICA</span> 3-2
                 </h1>
-                <p class="text-slate-400 text-lg">Preguntas Infinitas por IA con Filtro de No-Repetición Inteligente</p>
+                <p class="text-slate-400 text-lg">Práctica para examen segundo trimestre</p>
                 <div id="auth-status" class="mt-4 text-xs font-bold text-amber-500 uppercase tracking-widest">SISTEMA CONECTANDO...</div>
             </header>
 
@@ -98,9 +98,12 @@
         <!-- Resultados -->
         <div id="view-history" class="view hidden">
             <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
-                <div class="flex justify-between items-center mb-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <h2 class="text-2xl md:text-3xl font-bold kids-font text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO SECCIÓN 3-2</h2>
-                    <span id="db-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-400 border border-amber-500/30">CONECTANDO...</span>
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <span id="db-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-400 border border-amber-500/30">CONECTANDO...</span>
+                        <button onclick="openClearModal()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold transition text-xs uppercase tracking-wider">🗑️ Limpiar Historial</button>
+                    </div>
                 </div>
                 <div class="overflow-x-auto rounded-xl border border-white/5">
                     <table class="spreadsheet w-full">
@@ -128,14 +131,31 @@
                 <button onclick="nav('home')" class="w-full max-w-md bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition active:scale-95 text-lg">✨ Nueva Práctica Única</button>
             </div>
         </div>
+
+        <!-- Modal de Confirmación de Código para Limpieza de Base de Datos -->
+        <div id="clear-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-filter backdrop-blur-sm animate-fade-in">
+            <div class="glass max-w-md w-full p-8 rounded-[2rem] border border-white/10 text-center shadow-2xl relative">
+                <h3 class="text-xl font-bold kids-font text-rose-400 uppercase mb-4 tracking-wide">🔑 AUTORIZACIÓN REQUERIDA</h3>
+                <p class="text-sm text-slate-300 mb-6">Por favor, digite el código de seguridad de 4 dígitos de la docente para borrar permanentemente todos los registros del historial.</p>
+                
+                <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-36 text-center text-3xl tracking-widest bg-slate-900 border-2 border-slate-700 rounded-xl py-3 px-4 mb-6 font-bold text-white focus:border-indigo-500 focus:outline-none transition" />
+                
+                <div id="pin-error" class="hidden text-rose-400 text-xs font-bold mb-4 uppercase tracking-widest">⚠️ CÓDIGO INCORRECTO</div>
+                
+                <div class="flex gap-4">
+                    <button onclick="closeClearModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-bold transition text-xs uppercase text-slate-300">Cancelar</button>
+                    <button onclick="submitPin()" class="flex-1 bg-rose-600 hover:bg-rose-700 py-3 rounded-xl font-bold transition text-xs uppercase text-white">Confirmar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDoc, setDoc, doc, onSnapshot, query, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDoc, setDoc, doc, onSnapshot, query, serverTimestamp, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
 
-        // --- FIREBASE CONFIG (Segura y con fallback robusto) ---
+        // --- FIREBASE CONFIG (Segura y con fallback de producción) ---
         let firebaseConfig = {
             apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
             authDomain: "practica-examen-2026.firebaseapp.com",
@@ -186,8 +206,8 @@
                 { q: "En la estructura de un libro, la página donde el autor expresa su agradecimiento o afecto a personas cercanas se denomina:", o: ["Dedicatoria", "Prólogo", "Índice", "Epígrafe"], c: "Dedicatoria" },
                 { q: "¿Cómo se organizan las palabras dentro de un diccionario para facilitar su búsqueda rápida?", o: ["Por orden alfabético estricto de sus letras", "Por la cantidad de sílabas que posee cada palabra", "Según su orden de importancia o utilidad en la sociedad", "De manera aleatoria de acuerdo con el criterio de la imprenta"], c: "Por orden alfabético estricto de sus letras" },
                 { q: "¿Cuál es la estructura lógica para redactar un párrafo claro, coherente y bien estructurado?", o: ["Iniciar con mayúscula, desarrollar una idea principal con secundarias y finalizar con punto", "Colocar palabras al azar sin emplear comas ni signos de puntuación", "Listar sustantivos propios únicamente en orden alfabético", "Escribir oraciones sin conexión usando el formato de la carta formal"], c: "Iniciar con mayúscula, desarrollar una idea principal con secundarias y finalizar con punto" },
-                { q: "¿Cuál es una parte indispensable de la carta formal que generalmente NO se incluye en una carta de tipo informal?", o: ["El cargo de la persona destinataria y el nombre de la institución", "Un saludo cariñoso como 'Querido amigo de la escuela'", "Una posdata informal contando una anécdota divertida", "El dibujo de los elementos de la comunicación en el sobre"], c: "El cargo de la persona destinataria y el nombre de la institución" },
-                { q: "¿En qué sección del libro encontramos la lista ordenada de los capítulos y los números de página correspondientes?", o: ["El índice", "La portada", "La dedicatoria", "El epígrafe"], c: "El índice" },
+                { q: "¿Cuál es una parte indispensable de la carta formal que generalmente NO se incluye en una carta de tipo informal?", o: ["El cargo de la persona destinataria y el nombre de la institución", "Un saludo cariñoso como 'Querido amigo de la escuela'", "Una posdata informal contando una anécedota divertida", "El dibujo de los elementos de la comunicación en el sobre"], c: "El cargo de la persona destinataria y el nombre de la institución" },
+                { q: "En la sección del libro encontramos la lista ordenada de los capítulos y los números de página correspondientes:", o: ["El índice", "La portada", "La dedicatoria", "El epígrafe"], c: "El índice" },
                 { q: "Si observamos una señal de tránsito que dice 'Alto' de color rojo en la carretera de Cartago, ¿qué código de comunicación se está aplicando?", o: ["Código no verbal o visual", "Código verbal escrito", "Código auditivo o acústico", "Código bilingüe"], c: "Código no verbal o visual" },
                 { q: "Qué tipo de diccionario, además de definir las palabras, aporta datos detallados de geografía, historia y ciencia?", o: ["Diccionario enciclopédico", "Diccionario de la lengua española", "Diccionario de sinónimos", "Diccionario bilingüe"], c: "Diccionario enciclopédico" }
             ],
@@ -225,7 +245,7 @@
                 { q: "¿Qué enfermedad nutricional grave se genera cuando una persona consume de forma excesiva calorías y grasas, acumulando tejido adiposo?", o: ["Obesidad", "Desnutrición", "Anemia por falta de hierro", "Alergia alimentaria"], c: "Obesidad" },
                 { q: "La carencia extrema de nutrientes, proteínas y alimentos esenciales en el organismo desencadena una enfermedad llamada:", o: ["Desnutrición", "Obesidad", "Diabetes tipo I", "Gripe o influenza"], c: "Desnutrición" },
                 { q: "¿Cómo se define de forma rigurosa el concepto de dignidad humana?", o: ["El valor inherente que posee cada persona por ser humana, mereciendo respeto y bienestar", "La cantidad de dinero o propiedades que tiene una persona en la comunidad", "La habilidad de ganar todas las actividades recreativas de la escuela", "El derecho de gobernar a los demás sin seguir las reglas"], c: "El valor inherente que posee cada persona por ser humana, mereciendo respeto y bienestar" },
-                { q: "Si un estudiante en la escuela sufre de apodos ofensivos and aislamiento constante de sus compañeros de sección, ¿qué tipo de violencia sufre?", o: ["Psicológica o bullying", "Física directa", "Violencia de género económica", "Falta de autocuidado escolar"], c: "Psicológica o bullying" },
+                { q: "Si un estudiante en la escuela sufre de apodos ofensivos and isolation constante de sus compañeros de sección, ¿qué tipo de violencia sufre?", o: ["Psicológica o bullying", "Física directa", "Violencia de género económica", "Falta de autocuidado escolar"], c: "Psicológica o bullying" },
                 { q: "¿Cuál de las siguientes acciones representa una manifestación directa de violencia física que atenta contra la dignidad?", o: ["Golpear o empujar a un compañero de aula", "Ignorar las opiniones de un amigo de forma intencional", "Realizar comentarios de desprecio basados en el género", "Decidir no compartir un material de estudio en la clase"], c: "Golpear o empujar a un compañero de aula" },
                 { q: "¿Por qué los Derechos Humanos son considerados fundamentales para todas las personas en Costa Rica?", o: ["Porque garantizan el respeto a la vida, la libertad y la dignidad en igualdad", "Porque otorgan permisos especiales para no cumplir los deberes", "Porque pagan una suma de dinero de forma mensual a los ciudadanos", "Porque prohíben las tradiciones culturales de las provincias"], c: "Porque garantizan el respeto a la vida, la libertad y la dignidad en igualdad" },
                 { q: "En Costa Rica, ¿cuál institución gubernamental se encarga de proteger directamente a los menores ante situaciones de maltrato?", o: ["PANI (Patronato Nacional de la Infancia)", "Ministerio de Hacienda", "La Municipalidad de Cartago", "El Banco Central de Costa Rica"], c: "PANI (Patronato Nacional de la Infancia)" },
@@ -490,7 +510,35 @@
                     badge.className = "px-3 py-1 rounded-full text-xs font-black bg-rose-500/20 text-rose-400 border border-rose-500/30";
                 }
                 const body = document.getElementById('history-data');
-                body.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-rose-400 font-bold">⚠️ Error de base de datos: Verifica los permisos de Firestore o tu conexión a Internet.</td></tr>`;
+                // MODAL/GUÍA INTERACTIVA DE AUTO-AYUDA DIRECTAMENTE EN PANTALLA SI FALLAN LAS REGLAS DE FIREBASE
+                body.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="p-8 text-center text-rose-400">
+                            <div class="p-6 bg-rose-500/10 border border-rose-500/30 rounded-2xl text-left text-sm max-w-2xl mx-auto space-y-4">
+                                <h3 class="font-bold text-rose-400 text-lg flex items-center gap-2">⚠️ ¡Hola Maestra! Es un problema de Reglas de Seguridad</h3>
+                                <p>Este error ocurre porque las <strong>Reglas de Seguridad (Rules)</strong> de tu base de datos de Firestore en Firebase Console están bloqueando la lectura y escritura pública.</p>
+                                <p class="font-semibold text-white">Sigue estos pasos sencillos para solucionarlo en 1 minuto:</p>
+                                <ol class="list-decimal list-inside space-y-2 text-slate-300">
+                                    <li>Ingresa a tu <a href="https://console.firebase.google.com/" target="_blank" class="text-indigo-400 underline hover:text-indigo-300 font-bold">Firebase Console</a> y abre el proyecto de la escuela.</li>
+                                    <li>En el menú izquierdo, ve a la sección <strong>Firestore Database</strong>.</li>
+                                    <li>Haz clic en la pestaña <strong>Rules (Reglas)</strong> en la parte superior.</li>
+                                    <li>Borra las reglas actuales y pega exactamente el siguiente código:</li>
+                                </ol>
+                                <pre class="bg-black/50 p-4 rounded-xl font-mono text-xs text-indigo-300 overflow-x-auto select-all border border-white/5 font-bold">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre>
+                                <ol class="list-decimal list-inside space-y-2 text-slate-300" start="5">
+                                    <li>Haz clic en el botón azul de <strong>Publish (Publicar)</strong> arriba a la derecha.</li>
+                                    <li>¡Listo! Recarga la página del examen y las notas de los chicos se verán al instante.</li>
+                                </ol>
+                            </div>
+                        </td>
+                    </tr>`;
             });
         };
 
