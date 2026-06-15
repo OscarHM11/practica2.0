@@ -160,33 +160,7 @@
         const geminiKey = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo"; 
         let user = null;
 
-        // Listener de autenticación y carga de historial
-        onAuthStateChanged(auth, u => { 
-            if(u) { 
-                user = u; 
-                document.getElementById('auth-status').innerText = "SISTEMA ANTI-MEMORIZACIÓN ACTIVO";
-                document.getElementById('auth-status').className = "mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest";
-                syncHistory(); 
-            } 
-        });
-
-        // Autenticación asíncrona prioritaria (Custom Token -> Anónimo)
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (e) {
-                console.error("Error en flujo de autenticación Firebase:", e);
-                document.getElementById('auth-status').innerText = "⚠️ ERROR DE CONEXIÓN CON EL SERVIDOR";
-                document.getElementById('auth-status').className = "mt-4 text-xs font-bold text-rose-500 uppercase tracking-widest";
-            }
-        };
-        initAuth();
-
-        // --- STREAMING_CHUNK: Configuring the advanced question pools... ---
+        // --- BANCO MAESTRO DE PREGUNTAS (Total 100) ---
         const BIG_MASTER_BANK = {
             "Español": [
                 { q: "En una llamada telefónica entre la maestra Maureen y un padre de familia para coordinar la prueba, ¿cuál elemento actúa técnicamente como el canal?", o: ["La línea telefónica o red móvil", "El idioma español", "La maestra Maureen", "El mensaje de saludo oral"], c: "La línea telefónica o red móvil" },
@@ -213,9 +187,8 @@
                 { q: "¿Cuál es una parte indispensable de la carta formal que generalmente NO se incluye en una carta de tipo informal?", o: ["El cargo de la persona destinataria y el nombre de la institución", "Un saludo cariñoso como 'Querido amigo de la escuela'", "Una posdata informal contando una anécdota divertida", "El dibujo de los elementos de la comunicación en el sobre"], c: "El cargo de la persona destinataria y el nombre de la institución" },
                 { q: "¿En qué sección del libro encontramos la lista ordenada de los capítulos y los números de página correspondientes?", o: ["El índice", "La portada", "La dedicatoria", "El epígrafe"], c: "El índice" },
                 { q: "Si observamos una señal de tránsito que dice 'Alto' de color rojo en la carretera de Cartago, ¿qué código de comunicación se está aplicando?", o: ["Código no verbal o visual", "Código verbal escrito", "Código auditivo o acústico", "Código bilingüe"], c: "Código no verbal o visual" },
-                { q: "¿Qué tipo de diccionario, además de definir las palabras, aporta datos detallados de geografía, historia y ciencia?", o: ["Diccionario enciclopédico", "Diccionario de la lengua española", "Diccionario de sinónimos", "Diccionario bilingüe"], c: "Diccionario enciclopédico" }
+                { q: "Qué tipo de diccionario, además de definir las palabras, aporta datos detallados de geografía, historia y ciencia?", o: ["Diccionario enciclopédico", "Diccionario de la lengua española", "Diccionario de sinónimos", "Diccionario bilingüe"], c: "Diccionario enciclopédico" }
             ],
-            // --- STREAMING_CHUNK: Drafting Mathematics questions... ---
             "Matemáticas": [
                 { q: "Si un cable de electricidad mide 3 metros de longitud, ¿a cuántos centímetros de longitud equivale?", o: ["300 centímetros", "30 centímetros", "3.000 centímetros", "3 centímetros"], c: "300 centímetros" },
                 { q: "Un atleta del cantón de Orosi recorrió una distancia de 5 kilómetros. ¿A cuántos metros equivale ese recorrido?", o: ["5.000 metros", "500 metros", "50.000 metros", "50 metros"], c: "5.000 metros" },
@@ -243,7 +216,6 @@
                 { q: "El dato 'Tipo de deporte que practican los niños' de la sección 3-2 corresponde a:", o: ["Dato cualitativo", "Dato cuantitativo", "Medida del metro", "Patrón de sucesión"], c: "Dato cualitativo" },
                 { q: "Resuelva la siguiente operación de resta con transformación: 50.000 - 13.250 =", o: ["36.750", "37.750", "36.850", "46.750"], c: "36.750" }
             ],
-            // --- STREAMING_CHUNK: Drafting Ciencias questions... ---
             "Ciencias": [
                 { q: "¿Los carbohidratos como el arroz, la papa y el pan cumplen cuál función principal y de valor nutritivo en el organismo?", o: ["Brindar energía necesaria para las actividades del día", "Reparar los tejidos corporales y sanar heridas", "Aportar vitaminas para defendernos de enfermedades", "Sostener la estructura muscular de las rodillas"], c: "Brindar energía necesaria para las actividades del día" },
                 { q: "Alimentos como la carne, los huevos y el pescado son ricos en proteínas. ¿A qué grupo de la pirámide pertenecen según su valor nutritivo?", o: ["Alimentos Constructores", "Alimentos Protectores", "Alimentos Energéticos", "Lípidos o grasas de reserva"], c: "Alimentos Constructores" },
@@ -258,7 +230,7 @@
                 { q: "¿Cuál es una medida preventiva clave de autocuidado ante un intento de agresión o situación incómoda con un desconocido?", o: ["Decir 'NO' con firmeza, alejarse de inmediato y buscar un adulto de confianza", "Mantener la situación en secreto para no asustar a la familia", "Aceptar golosinas del desconocido para calmar la tensión", "Tratar de resolver el conflicto solo sin pedir ayuda a la escuela"], c: "Decir 'NO' con firmeza, alejarse de inmediato y buscar un adulto de confianza" },
                 { q: "Si un niño sufre una situación de agresión física o psicológica, ¿cuál es la acción de denuncia que debe realizar?", o: ["Contarle de inmediato a sus padres, maestros o personas de confianza para recibir apoyo", "Guardar el secreto para que el agresor no reciba castigos", "Intentar defenderse físicamente usando la violencia en el recreo", "No decir nada creyendo que es una situación normal entre compañeros"], c: "Contarle de inmediato a sus padres, maestros o personas de confianza para recibir apoyo" },
                 { q: "En la pirámide alimenticia, ¿cuáles alimentos se ubican en la base porque aportan la energía principal para nuestras funciones?", o: ["Carbohidratos como arroz, cereales y pastas", "Lípidos como aceites y mantequilla", "Proteínas como leche, huevos y carnes", "Vitaminas presentes en hortalizas y frutas"], c: "Carbohidratos como arroz, cereales y pastas" },
-                { q: "La institución costarricense que vigila que las entidades públicas respeen los derechos de todos los habitantes se denomina:", o: ["La Defensoría de los Habitantes", "El Ministerio de Salud", "La fuerza pública de la provincia", "El Patronato Nacional de la Infancia"], c: "La Defensoría de los Habitantes" },
+                { q: "La institución costarricense que vigila que las entidades públicas respeten los derechos de todos los habitantes se denomina:", o: ["La Defensoría de los Habitantes", "El Ministerio de Salud", "La fuerza pública de la provincia", "El Patronato Nacional de la Infancia"], c: "La Defensoría de los Habitantes" },
                 { q: "¿A qué tipo de violencia corresponde cuando se discrimina o agrede a alguien basándose en su género (hombre o mujer)?", o: ["Violencia de género", "Violencia física", "Falta de autocuidado comunitario", "Derechos fundamentales de la salud"], c: "Violencia de género" },
                 { q: "Los lípidos (grasas y aceites) son nutrientes necesarios, pero su consumo adecuado debe ser:", o: ["Moderado, ya que aportan energía de reserva pero en exceso causan obesidad", "Diario e ilimitado para aumentar la masa muscular", "Eliminado por completo porque no aportan ningún valor nutritivo", "La base fundamental del almuerzo de los estudiantes de la 3-2"], c: "Moderado, ya que aportan energía de reserva pero en exceso causan obesidad" },
                 { q: "¿Qué factor promueve directamente el bienestar y la sana convivencia comunitaria en la sección 3-2?", o: ["Mantener relaciones de respeto mutuo, comunicación asertiva y cero tolerancia al bullying", "Hacer que cada estudiante trabaje de forma aislada sin interactuar", "Evitar de inmediato los casos de violencia física detectados en el entorno", "Permitir que los estudiantes resuelvan sus disputas con empujones"], c: "Mantener relaciones de respeto mutuo, comunicación asertiva y cero tolerancia al bullying" },
@@ -271,7 +243,6 @@
                 { q: "Las vitaminas y los minerales, que nos defienden de enfermedades, se obtienen comiendo de forma diaria:", o: ["Frutas como la papaya y hortalizas como la zanahoria", "Grasas animales, embutidos y manteca", "Pan blanco, galletas dulces y confites", "Pescado congelado frito en abundante aceite de reserva"], c: "Frutas como la papaya y hortalizas como la zanahoria" },
                 { q: "La institución costarricense encargada de defender los derechos y velar por el bienestar de los menores ante situaciones de maltrato físico o sexual es:", o: ["PANI", "Defensoría de los Habitantes", "Municipalidad de Cartago", "Ministerio de Hacienda"], c: "PANI" }
             ],
-            // --- STREAMING_CHUNK: Drafting Estudios Sociales questions... ---
             "Estudios Sociales": [
                 { q: "¿Cómo se define de forma científica el concepto de historia?", o: ["La ciencia que estudia los hechos relevantes del pasado para comprender el presente", "El estudio de las formas de relieve y montañas de la provincia", "La lista de tradiciones de origen religioso de Costa Rica", "El croquis detallado de las calles principales de Cartago urbano"], c: "La ciencia que estudia los hechos relevantes del pasado para comprender el presente" },
                 { q: "La fundación de la primera escuela pública en la provincia de Cartago corresponde a un acontecimiento de tipo:", o: ["Acontecimiento social y educativo", "Acontecimiento puramente económico", "Acontecimiento físico de relieve", "Costumbre religiosa popular"], c: "Acontecimiento social y educativo" },
@@ -303,14 +274,14 @@
 
         let currentSubj = ""; let currentQs = []; let curIdx = 0; let score = 0; let set = []; let curFailures = [];
 
-        // --- STREAMING_CHUNK: Managing application view states... ---
+        // --- MANEJO DE VISTAS ---
         window.nav = (v) => {
             document.querySelectorAll('.view').forEach(x => x.classList.add('hidden'));
             document.getElementById(`view-${v}`).classList.remove('hidden');
             window.scrollTo(0,0);
         };
 
-        // --- STREAMING_CHUNK: Implementing array shuffling... ---
+        // --- ALGORITMO DE MEZCLA (SHUFFLE) ---
         const shuffle = (array) => {
             const arr = [...array];
             for (let i = arr.length - 1; i > 0; i--) {
@@ -322,7 +293,7 @@
             return arr;
         };
 
-        // --- STREAMING_CHUNK: Requesting intelligent questions from Gemini API... ---
+        // --- SISTEMA INTELIGENTE DE NO-REPETICIÓN BASADO EN HISTORIAL ---
         window.startAdvancedProcess = async (materia) => {
             nav('loading');
 
@@ -388,7 +359,7 @@
             }
         };
 
-        // --- STREAMING_CHUNK: Caching seen questions in the Firestore database... ---
+        // --- REGISTRO DE PREGUNTAS VISTAS ---
         const registerSeenQuestions = async (newQuestions) => {
             if (!user) return;
             try {
@@ -413,7 +384,7 @@
 
         const start = () => { curIdx = 0; score = 0; nav('quiz'); draw(); };
 
-        // --- STREAMING_CHUNK: Rendering current question context... ---
+        // --- RENDERIZADO DE PREGUNTA ---
         const draw = () => {
             const q = currentQs[curIdx];
             document.getElementById('q-subject').innerText = currentSubj;
@@ -434,7 +405,7 @@
             });
         };
 
-        // --- STREAMING_CHUNK: Validating user response options... ---
+        // --- VALIDACIÓN DE RESPUESTAS ---
         const validate = (u, c, el) => {
             const fb = document.getElementById('q-feedback');
             const btn = document.getElementById('btn-next');
@@ -461,7 +432,7 @@
 
         window.nextQ = () => { if (curIdx < 19) { curIdx++; draw(); } else finish(); };
 
-        // --- STREAMING_CHUNK: Logging student performance metrics... ---
+        // --- FINALIZACIÓN Y SUBIDA DE DATOS ---
         const finish = async () => {
             nav('results'); const nota = Math.round((score / 20) * 100); document.getElementById('res-score').innerText = nota;
             if(user) {
@@ -474,7 +445,7 @@
             }
         };
 
-        // --- STREAMING_CHUNK: Subscribing to live Firestore result streams... ---
+        // --- SUSCRIPCIÓN EN VIVO AL HISTORIAL ---
         const syncHistory = () => {
             if (!user) return; 
             const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026');
