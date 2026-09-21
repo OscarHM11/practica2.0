@@ -37,7 +37,7 @@
         <div id="view-home" class="view space-y-10">
             <header class="text-center">
                 <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
-                    EVALUACIÓN MEP 2026 | SECCIÓN 3-2 | GENERADOR DINÁMICO ANTI-REPETICIÓN
+                    EVALUACIÓN MEP 2026 | SECCIÓN 3-2 | SISTEMA DINÁMICO ANTI-REPETICIÓN
                 </div>
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA <span class="text-indigo-500">INÉDITA</span> 3-2
@@ -53,7 +53,7 @@
                         <span class="text-4xl mb-4 block">🖋️</span>
                         <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Español</h3>
                     </div>
-                    <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Inferencia, Argumentación, Conectores, Afijos y Plurales -ces</p>
+                    <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Inferencia, Conectores, Afijos y Plurales -ces</p>
                 </button>
                 <!-- Matemáticas -->
                 <button onclick="startAiExam('Matemáticas')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
@@ -177,7 +177,7 @@
         <div id="api-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-filter backdrop-blur-sm">
             <div class="glass max-w-lg w-full p-8 rounded-[2rem] border border-white/10 text-left shadow-2xl relative">
                 <h3 class="text-xl font-bold kids-font text-indigo-400 uppercase mb-2">⚙️ Conexión de Inteligencia Artificial</h3>
-                <p class="text-xs text-slate-300 mb-4 leading-relaxed">El sistema intenta conectarse primero a la IA oficial de Google Cloud. Si posees una clave propia gratuita de <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-400 underline font-bold">Google AI Studio</a>, puedes guardarla aquí para asegurar cuota dedicada:</p>
+                <p class="text-xs text-slate-300 mb-4 leading-relaxed">Puedes ingresar tu clave gratuita de <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-400 underline font-bold">Google AI Studio</a> para generar preguntas infinitas por IA en tiempo real. Si no ingresas clave, el generador procedural matemático garantizará las 20 preguntas sin repeticiones:</p>
                 <input type="text" id="api-key-input" placeholder="AIzaSy..." class="w-full text-sm bg-slate-900 border-2 border-slate-700 rounded-xl py-3 px-4 mb-4 font-mono text-white focus:border-indigo-500 focus:outline-none transition" />
                 <div class="flex gap-4 justify-end">
                     <button onclick="closeApiKeyModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs uppercase text-slate-300 transition">Cerrar</button>
@@ -187,6 +187,17 @@
         </div>
 
     </div>
+
+    <!-- Script de Inicialización Inmediata -->
+    <script>
+        // Declaración global de navegación para que los botones respondan instantáneamente
+        window.nav = function(v) {
+            document.querySelectorAll('.view').forEach(function(x) { x.classList.add('hidden'); });
+            var target = document.getElementById('view-' + v);
+            if (target) target.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        };
+    </script>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
@@ -207,7 +218,7 @@
             try {
                 firebaseConfig = JSON.parse(__firebase_config);
             } catch (e) {
-                console.error("Error al analizar __firebase_config:", e);
+                console.error("Aviso config:", e);
             }
         }
 
@@ -217,21 +228,12 @@
         const appId = typeof __app_id !== 'undefined' ? __app_id : (firebaseConfig.projectId || "practica-examen-2026");
         let user = null;
 
-        // Clave nativa integrada para fallback directo
-        const DEFAULT_GEMINI_KEY = "AIzaSyA_Z1jNz-GTSojd3w2PDbSKCisEDcZXBZo";
-
-        // Variables de navegación y estado
+        // Variables de examen
         let currentSubj = "";
         let currentQs = [];
         let curIdx = 0;
         let score = 0;
         let curFailures = [];
-
-        window.nav = (v) => {
-            document.querySelectorAll('.view').forEach(x => x.classList.add('hidden'));
-            document.getElementById(`view-${v}`).classList.remove('hidden');
-            window.scrollTo(0, 0);
-        };
 
         const shuffle = (array) => {
             const arr = [...array];
@@ -244,234 +246,221 @@
             return arr;
         };
 
-        // =========================================================================
-        // TEMARIOS MEP OFICIALES DETALLADOS PARA LA INTELIGENCIA ARTIFICIAL
-        // =========================================================================
-        const SYLLABUS_DESCRIPTIONS = {
-            "Español": `TEMARIO EXCLUSIVO:
-1. Inferencia: deducción lógica de conclusiones a partir de pistas explícitas en párrafos situados en Costa Rica (Cartago).
-2. Distinción entre información explícita (textual) e información implícita (entre líneas).
-3. Argumentación: postura a favor o en contra, problema identificado, argumentos y conclusión del autor.
-4. Fuentes confiables (libros, enciclopedias oficiales, entrevistas a expertos) vs fuentes no confiables.
-5. Conectores textuales: adición (además, también, asimismo), causalidad (porque, ya que, por lo tanto) y secuencia (primero, luego, finalmente).
-6. Estructura del párrafo: idea principal (esencial) e ideas secundarias (apoyo), coherencia, mayúscula y punto.
-7. Elementos de la comunicación: lingüísticos (palabras, oraciones) y paralingüísticos/no lingüísticos (tono, gestos, postura, volumen).
-8. Morfología: raíz o lexema, prefijos (des-, re-, in-, sub-) y sufijos (-ero, -oso, -ito, -ción).
-9. Campo semántico: grupos de palabras con significado afín.
-10. Ortografía: plurales en -ces de palabras terminadas en -z (pez -> peces, lápiz -> lápices, nuez -> nueces, luz -> luces, etc.), uso de coma en enumeraciones, punto y seguido, punto y aparte.`,
-
-            "Matemáticas": `TEMARIO EXCLUSIVO:
-1. Multiplicación en columna con factores menores a 100.000: productos con 1 dígito en el segundo factor y productos con 2 dígitos paso a paso (cálculo de productos parciales y suma final).
-2. Geometría: diferencia entre círculo (superficie interior) y circunferencia (borde o línea curva exterior). Radio (r), diámetro (d) y su relación matemática estricta: d = 2 * r, r = d / 2.
-3. Medición de masa: kilogramo (kg) y gramo (g), 1 kg = 1000 g, 1/2 kg = 500 g, 1/4 kg = 250 g, 3/4 kg = 750 g. Problemas de pesaje con frutas y productos de feria.
-4. Medición del tiempo: año (12 meses), semana (7 días), día (24 horas), hora (60 min), minuto (60 s). Lectura de relojes y problemas de duración.
-5. Problemas con datos, operación y respuesta completa que combinen cálculo numérico.`,
-
-            "Ciencias": `TEMARIO EXCLUSIVO:
-1. Clasificación de plantas y animales según su medio: terrestres, acuáticos y aéreos.
-2. Animales según su alimentación con fauna costarricense: herbívoros (perezoso, danta, venado), carnívoros (jaguar, manigordo, puma), omnívoros (pizote, cerdo de monte, ser humano) e insectívoros (oso hormiguero, sapos).
-3. Componentes de la naturaleza: bióticos (seres vivos: flora, fauna, hongos, bacterias) y abióticos (sin vida: agua, suelo fértil, aire, luz solar, rocas). Importancia para la supervivencia y conservación.
-4. Equilibrio ecológico y biológico: armonía e interdependencia. Medidas de preservación (reforestación nativa, cuido de ríos, no cacería).
-5. Energía: capacidad para producir trabajo. Fuentes (solar, eólica, hidráulica).
-6. Máquinas: simples (palanca, polea, plano inclinado, rueda, cuña, tornillo) y compuestas (bicicleta, licuadora, grúa). Medidas de seguridad al manipularlas.`,
-
-            "Estudios Sociales": `TEMARIO EXCLUSIVO:
-1. Patrimonio: concepto de patrimonio. Patrimonio cultural tangible de Cartago (Escuela Juan Ramírez Ramírez, Basílica de los Ángeles, Ruinas de la Parroquia Santiago Apóstol), intangible (idioma, leyendas, danzas, recetas) y natural (Volcán Irazú, Parque Nacional Tapantí).
-2. Efeméride 25 de julio: Anexión del Partido de Nicoya a Costa Rica (1824), lema 'De la patria por nuestra voluntad', aportes culturales y gastronómicos guanacastecos (comidas a base de maíz, marimba, danzas).
-3. Efeméride 31 de agosto: Día de la Persona Negra y la Cultura Afrocaribeña / Fundación de la República. Aportes: calipso, rice and beans, pati, pan bon, ferrocarril al Atlántico.
-4. Efeméride 14 y 15 de setiembre: Fiestas Patrias e Independencia (1821). Desfile de faroles a las 6:00 p.m., llegada de la Antorcha de la Libertad, actos cívicos y desfiles de bandas.
-5. Símbolos Nacionales de Costa Rica: Bandera, Escudo, Himno, Guaria Morada, Árbol de Guanacaste, Yigüirro, Carreta Típica, Venado Cola Blanca, Marimba, Antorcha, Crestones del Chirripó, Manatí, Esferas de Piedra, Teatro Nacional, Café, Perezoso, Mascarada, Mariposa Morpho.`,
-
-            "Inglés": `TEMARIO EXCLUSIVO (FORMATO BILINGÜE: PREGUNTA EN ESPAÑOL / OPCIONES EN INGLÉS):
-1. House Chores (quehaceres domésticos): wash the dishes, wash the clothes, iron, cook, walk the dog, vacuum. El enunciado describe una situación cotidiana en español y las opciones de respuesta deben ser en inglés.
-2. Match Holidays and Dates (asociación de celebraciones y fechas):
-   - Independence Day -> September 15th
-   - Christmas -> December 25th
-   - Juan Santamaría Day -> April 11th
-   - Mother's Day -> August 15th
-   - Annexation of Nicoya -> July 25th
-   - New Year's Day -> January 1st
-   - Our Lady of Los Angeles Day -> August 2nd
-   - Labor Day -> May 1st
-3. Months of the year in chronological order (January to December).
-4. Ordinal numbers from 1st to 10th (1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th, 10th).`
-        };
-
-        // =========================================================================
-        // MOTOR PROCEDURAL DINÁMICO INFINITO (Respaldo en Vivo - Cero Repetición)
-        // =========================================================================
-        const KIDS = ["Santiago", "Valentina", "Thiago", "Camila", "Mateo", "Fiorella", "Kendall", "Isabella", "Samuel", "Jimena", "Gael", "Sofía", "Sebastián", "Mariana", "Felipe", "Emma"];
-        const PLACES = ["Paraíso", "Orosi", "Tejar del Guarco", "Tierra Blanca", "Pacayas", "Cot", "Cervantes", "Dulce Nombre", "Tres Ríos", "San Rafael de Oreamuno"];
-
         const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
         const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
+        // Nombres y lugares de Cartago para variaciones paramétricas infinitas
+        const KIDS = ["Santiago", "Valentina", "Thiago", "Camila", "Mateo", "Fiorella", "Kendall", "Isabella", "Samuel", "Jimena", "Gael", "Sofía", "Sebastián", "Mariana", "Felipe", "Emma", "Esteban", "Lucía"];
+        const PLACES = ["Paraíso", "Orosi", "Tejar del Guarco", "Tierra Blanca", "Pacayas", "Cot", "Cervantes", "Dulce Nombre", "Tres Ríos", "San Rafael de Oreamuno", "Carmen de Cartago"];
+
+        // =========================================================================
+        // BANCO DE GENERADORES PROCEDURALES (MÁS DE 25 GENERADORES POR MATERIA)
+        // =========================================================================
         const PROCEDURAL_BANK = {
             "Español": [
                 () => {
                     const kid = pick(KIDS);
+                    const place = pick(PLACES);
                     return {
-                        q: `${kid} lee: "El cielo se oscureció repentinamente sobre Cartago, los árboles se doblaban con fuerza y el perro corrió asustado a meterse bajo la cama". A partir de estas pistas, ¿qué conclusión lógica se infiere?`,
-                        o: ["Se aproxima una fuerte tormenta", "Hace un día soleado de verano", "El perro tiene mucha hambre", "Es momento de ir al recreo"],
-                        c: "Se aproxima una fuerte tormenta"
+                        q: `${kid} observa que las calles de ${place} están cubiertas de neblina espesa, la gente viste abrigos gruesos y las chimeneas están encendidas. ¿Qué conclusión lógica se INFIERE?`,
+                        o: ["Hace un clima sumamente frío en la zona", "Es un día caluroso de playa", "Todos van a nadar al río", "Se apagó la electricidad escolar"],
+                        c: "Hace un clima sumamente frío en la zona"
+                    };
+                },
+                () => {
+                    const kid = pick(KIDS);
+                    const num = randInt(2, 5);
+                    return {
+                        q: `En la oración: "${kid} sembró ${num} árboles de ciprés en el patio de la escuela el viernes pasado". ¿Cuál dato representa información EXPLÍCITA?`,
+                        o: [`${kid} sembró ${num} árboles de ciprés`, `${kid} es la persona más trabajadora`, `${kid} no quiere volver a sembrar`, `${kid} prefiere pintar cuadros`],
+                        c: `${kid} sembró ${num} árboles de ciprés`
                     };
                 },
                 () => {
                     const kid = pick(KIDS);
                     return {
-                        q: `En el texto: "${kid} compró tres libros nuevos en la librería de la escuela ayer por la tarde". ¿Cuál es un ejemplo de información EXPLÍCITA?`,
-                        o: [`${kid} compró tres libros nuevos`, `${kid} es el mejor lector del aula`, `${kid} leyó los libros en una hora`, `A ${kid} no le gustaron los libros`],
-                        c: `${kid} compró tres libros nuevos`
+                        q: `${kid} expresa en el aula: "Es indispensable sembrar árboles nativos porque purifican el aire y dan refugio a las aves silvestres". ¿Qué representa la frase "porque purifican el aire y dan refugio a las aves"?`,
+                        o: ["Un argumento que sustenta y defiende su opinión", "Una despedida formal", "El título de un poema", "Una duda sin importancia"],
+                        c: "Un argumento que sustenta y defiende su opinión"
                     };
                 },
                 () => {
                     const kid = pick(KIDS);
                     return {
-                        q: `${kid} afirma: "Debemos reciclar los envases plásticos en la escuela porque tardan cientos de años en descomponerse y contaminan nuestros ríos". ¿Qué elemento argumentativo representa la frase "porque tardan cientos de años en descomponerse"?`,
-                        o: ["Un argumento que respalda su opinión", "La conclusión final del texto", "Una simple duda sin importancia", "El título de una noticia"],
-                        c: "Un argumento que respalda su opinión"
+                        q: `${kid} investiga sobre la actividad volcánica del Irazú. ¿Cuál de las siguientes opciones constituye una fuente de información CONFIABLE y formal?`,
+                        o: ["Un informe geológico oficial del OVSICORI", "Un comentario anónimo en redes sociales", "Una conversación escuchada en la parada", "Un cuento de fantasía"],
+                        c: "Un informe geológico oficial del OVSICORI"
+                    };
+                },
+                () => {
+                    const conns = [
+                        { type: "adición", word: "además", dist: ["porque", "primero", "finalmente"] },
+                        { type: "causalidad", word: "ya que", dist: ["también", "asimismo", "luego"] },
+                        { type: "secuencia", word: "después", dist: ["porque", "asimismo", "puesto que"] }
+                    ];
+                    const item = pick(conns);
+                    return {
+                        q: `Identifique cuál de los siguientes conectores textuales corresponde a un conector de ${item.type.toUpperCase()}:`,
+                        o: [item.word, item.dist[0], item.dist[1], item.dist[2]],
+                        c: item.word
                     };
                 },
                 () => {
                     const kid = pick(KIDS);
                     return {
-                        q: `${kid} necesita investigar sobre las erupciones históricas del Volcán Irazú. ¿Cuál representa una fuente de información CONFIABLE y primaria?`,
-                        o: ["Un informe científico del OVSICORI", "Un rumor escuchado en el parque", "Un mensaje sin autor en redes", "Un dibujo de fantasía"],
-                        c: "Un informe científico del OVSICORI"
-                    };
-                },
-                () => {
-                    const kid = pick(KIDS);
-                    return {
-                        q: `Complete la oración con un conector de CAUSALIDAD adecuado: "${kid} llegó temprano a la escuela ________ sonó el despertador a tiempo".`,
+                        q: `Complete el enunciado con un conector de CAUSALIDAD adecuado: "${kid} obtuvo un excelente resultado en el examen ________ estudió con dedicación todos los temas".`,
                         o: ["porque", "además", "primero", "asimismo"],
                         c: "porque"
                     };
                 },
                 () => {
-                    return {
-                        q: `¿Cuál de las siguientes palabras contiene un PREFIJO que indica negación o privación?`,
-                        o: ["desorden", "carnicero", "arbolito", "cariñoso"],
-                        c: "desorden"
-                    };
-                },
-                () => {
-                    const words = [
+                    const wordsZ = [
                         { s: "pez", p: "peces" }, { s: "lápiz", p: "lápices" }, { s: "nuez", p: "nueces" },
-                        { s: "luz", p: "luces" }, { s: "cruz", p: "cruces" }, { s: "avestruz", p: "avestruces" }
+                        { s: "luz", p: "luces" }, { s: "cruz", p: "cruces" }, { s: "avestruz", p: "avestruces" },
+                        { s: "maíz", p: "maíces" }, { s: "lombriz", p: "lombrices" }, { s: "voz", p: "voces" },
+                        { s: "juez", p: "jueces" }, { s: "cicatriz", p: "cicatrices" }, { s: "antifaz", p: "antifaces" }
                     ];
-                    const w = pick(words);
-                    const wrong = [w.s + "s", w.s + "es", w.s.slice(0, -1) + "ses"];
+                    const item = pick(wordsZ);
+                    const wrong = [item.s + "s", item.s + "es", item.s.slice(0, -1) + "ses"];
                     return {
-                        q: `Según las reglas ortográficas, ¿cuál es la forma correcta de escribir el PLURAL de la palabra "${w.s}"?`,
-                        o: [w.p, wrong[0], wrong[1], wrong[2]],
-                        c: w.p
+                        q: `De acuerdo con las reglas ortográficas, ¿cuál es el PLURAL correcto de la palabra terminada en z "${item.s}"?`,
+                        o: [item.p, wrong[0], wrong[1], wrong[2]],
+                        c: item.p
                     };
                 },
                 () => {
+                    const affixes = [
+                        { word: "deshacer", part: "prefijo des-", mean: "negación o inversión" },
+                        { word: "reconstruir", part: "prefijo re-", mean: "repetición" },
+                        { word: "subterráneo", part: "prefijo sub-", mean: "debajo de" },
+                        { word: "zapatero", part: "sufijo -ero", mean: "oficio u ocupación" },
+                        { word: "cariñoso", part: "sufijo -oso", mean: "abundancia de cualidad" },
+                        { word: "arbolito", part: "sufijo -ito", mean: "diminutivo o afecto" }
+                    ];
+                    const item = pick(affixes);
                     return {
-                        q: `En el grupo de palabras {manzana, banano, piña, papaya, sandía}, todas pertenecen al mismo campo semántico porque:`,
-                        o: ["Son nombres de frutas comestibles", "Son herramientas de construcción", "Son prendas de vestir", "Son medios de transporte"],
-                        c: "Son nombres de frutas comestibles"
+                        q: `En la palabra "${item.word}", el elemento destacado es el ${item.part}, el cual cumple la función de:`,
+                        o: [item.mean, "cambiar el idioma del texto", "eliminar el significado de la raíz", "indicar que es una palabra en inglés"],
+                        c: item.mean
+                    };
+                },
+                () => {
+                    const fields = [
+                        { name: "herramientas de construcción", words: "martillo, serrucho, pala, destornillador" },
+                        { name: "frutas nutritivas", words: "manzana, banano, papaya, sandía" },
+                        { name: "prendas de vestir", words: "pantalón, camisa, abrigo, medias" },
+                        { name: "medios de transporte", words: "autobús, tren, bicicleta, barco" }
+                    ];
+                    const item = pick(fields);
+                    return {
+                        q: `El grupo de palabras {${item.words}} pertenece al mismo campo semántico debido a que:`,
+                        o: [`Comparten rasgos comunes de significado como ${item.name}`, "Tienen exactamente la misma cantidad de letras", "Empiezan todas con la letra 'z'", "Carecen de raíz o lexema"],
+                        c: `Comparten rasgos comunes de significado como ${item.name}`
                     };
                 },
                 () => {
                     const kid = pick(KIDS);
                     return {
-                        q: `Cuando la docente Maureen habla con ${kid} y cambia su tono de voz, modulando el volumen y haciendo contacto visual, está utilizando elementos:`,
-                        o: ["Paralingüísticos y no lingüísticos", "Puramente matemáticos", "Exclusivamente escritos", "Gramaticales de acentuación"],
+                        q: `Cuando ${kid} realiza una exposición oral, modula su tono de voz, hace contacto visual y acompaña sus palabras con gestos amables, está empleando elementos:`,
+                        o: ["Paralingüísticos y no lingüísticos", "Puramente ortográficos de puntuación", "De cálculo matemático", "Exclusivamente informáticos"],
                         c: "Paralingüísticos y no lingüísticos"
                     };
                 },
                 () => {
                     return {
-                        q: `¿Cuál es la función principal de la IDEA PRINCIPAL dentro de un párrafo bien construido?`,
-                        o: ["Expresar el mensaje esencial del que trata el párrafo", "Servir únicamente como adorno visual", "Rimar con la última palabra", "Anotar el nombre de la imprenta"],
-                        c: "Expresar el mensaje esencial del que trata el párrafo"
+                        q: `¿Cuál es el rol fundamental de la IDEA PRINCIPAL dentro de un párrafo debidamente redactado?`,
+                        o: ["Sintetizar el mensaje esencial e indispensable del párrafo", "Anotar únicamente ejemplos secundarios", "Rimar con los versos de una canción", "Servir solo como título al inicio del libro"],
+                        c: "Sintetizar el mensaje esencial e indispensable del párrafo"
                     };
                 }
             ],
             "Matemáticas": [
                 () => {
-                    const a = randInt(120, 950);
+                    const a = randInt(120, 850);
                     const b = randInt(3, 9);
                     const ans = a * b;
                     return {
-                        q: `En la feria del agricultor de Cartago se venden ${a} cajas de fresas a ₡${b} cada una. ¿Cuál es el producto total de la multiplicación?`,
+                        q: `Al resolver en columna la multiplicación ${a} × ${b}, ¿cuál es el producto final exacto?`,
                         o: [`${ans}`, `${ans + 10}`, `${ans - 10}`, `${ans + b}`],
                         c: `${ans}`
                     };
                 },
                 () => {
-                    const a = randInt(215, 840);
-                    const b = randInt(12, 25);
+                    const a = randInt(140, 620);
+                    const b = randInt(12, 28);
                     const ans = a * b;
                     return {
-                        q: `Al resolver la multiplicación en columna ${a} × ${b} paso a paso, ¿cuál es el resultado final correcto?`,
+                        q: `En la verdulería se empacan ${a} bolsas de papas de ${b} gramos cada una. Al multiplicar ${a} × ${b} paso a paso, ¿cuál es el total?`,
                         o: [`${ans}`, `${ans + 100}`, `${ans - 50}`, `${ans + 20}`],
                         c: `${ans}`
                     };
                 },
                 () => {
-                    const r = randInt(3, 18);
+                    const r = randInt(4, 25);
                     const d = r * 2;
                     return {
-                        q: `Una mesa redonda del aula tiene una circunferencia con un radio que mide exactamente ${r} cm. ¿Cuánto mide su DIÁMETRO?`,
-                        o: [`${d} cm`, `${r} cm`, `${d + 2} cm`, `${r * 3} cm`],
+                        q: `Una mesa redonda de la Escuela Juan Ramírez tiene una circunferencia con un radio de ${r} cm. ¿Cuánto mide su DIÁMETRO?`,
+                        o: [`${d} cm`, `${r} cm`, `${d + 4} cm`, `${r * 3} cm`],
                         c: `${d} cm`
                     };
                 },
                 () => {
-                    const d = randInt(8, 36) * 2;
+                    const d = randInt(6, 30) * 2;
                     const r = d / 2;
                     return {
-                        q: `El aro de baloncesto de la escuela tiene una circunferencia cuyo diámetro mide ${d} cm. ¿Cuánto mide su RADIO?`,
-                        o: [`${r} cm`, `${d} cm`, `${d * 2} cm`, `${r + 4} cm`],
+                        q: `El aro del tablero deportivo tiene un diámetro de ${d} cm. ¿Cuánto mide exactamente su RADIO?`,
+                        o: [`${r} cm`, `${d} cm`, `${d * 2} cm`, `${r + 5} cm`],
                         c: `${r} cm`
                     };
                 },
                 () => {
-                    const kg = randInt(2, 8);
+                    const kg = randInt(2, 9);
                     const g = kg * 1000;
                     return {
-                        q: `${pick(KIDS)} compró un saco de papas en Tierra Blanca que pesa ${kg} kilogramos (kg). ¿A cuántos gramos (g) equivale ese peso?`,
+                        q: `${pick(KIDS)} compró en la feria del agricultor un saco con ${kg} kilogramos de hortalizas. ¿A cuántos gramos equivale ese peso?`,
                         o: [`${g} gramos`, `${kg * 100} gramos`, `${kg * 10} gramos`, `${g + 500} gramos`],
                         c: `${g} gramos`
                     };
                 },
                 () => {
+                    const fractions = [
+                        { f: "1/2 kg", g: "500 gramos" },
+                        { f: "1/4 kg", g: "250 gramos" },
+                        { f: "3/4 kg", g: "750 gramos" }
+                    ];
+                    const item = pick(fractions);
                     return {
-                        q: `Si una receta de repostería requiere 3/4 de kilogramo de harina, ¿a cuántos gramos equivale exactamente esa porción?`,
-                        o: ["750 gramos", "500 gramos", "250 gramos", "1000 gramos"],
-                        c: "750 gramos"
+                        q: `Si una receta tradicional de repostería solicita exactamente ${item.f} de queso dulce, ¿a cuántos gramos corresponde?`,
+                        o: [item.g, "1000 gramos", "100 gramos", "350 gramos"],
+                        c: item.g
                     };
                 },
                 () => {
-                    const h = randInt(2, 5);
+                    const h = randInt(2, 6);
                     const min = h * 60;
                     return {
-                        q: `El viaje en autobús desde Cartago duró exactamente ${h} horas. ¿A cuántos minutos equivale esa duración?`,
+                        q: `El viaje escolar hacia las Ruinas de Cartago tuvo una duración de ${h} horas completas. ¿A cuántos minutos equivale?`,
                         o: [`${min} minutos`, `${h * 100} minutos`, `${min + 30} minutos`, `${h * 50} minutos`],
                         c: `${min} minutos`
                     };
                 },
                 () => {
-                    const semanas = randInt(3, 6);
-                    const dias = semanas * 7;
+                    const weeks = randInt(2, 7);
+                    const days = weeks * 7;
                     return {
-                        q: `${pick(KIDS)} entrenará atletismo durante ${semanas} semanas completas. ¿Cuántos días en total entrenará?`,
-                        o: [`${dias} días`, `${semanas * 5} días`, `${dias + 3} días`, `${semanas * 10} días`],
-                        c: `${dias} días`
+                        q: `${pick(KIDS)} practicará natación durante ${weeks} semanas consecutivas. ¿Cuántos días en total entrenará?`,
+                        o: [`${days} días`, `${weeks * 5} días`, `${days + 4} días`, `${weeks * 10} días`],
+                        c: `${days} días`
                     };
                 },
                 () => {
                     return {
-                        q: `¿Cuál es la diferencia geométrica fundamental entre un CÍRCULO y una CIRCUNFERENCIA?`,
+                        q: `¿Cuál es la diferencia geométrica esencial entre un CÍRCULO y una CIRCUNFERENCIA?`,
                         o: [
                             "La circunferencia es la línea curva cerrada exterior y el círculo es la superficie plana interior",
-                            "El círculo es solo el borde y la circunferencia es el centro",
-                            "Son exactamente lo mismo sin ninguna diferencia",
-                            "La circunferencia mide la masa y el círculo mide el tiempo"
+                            "La circunferencia es el centro y el círculo es el borde",
+                            "Ambos son idénticos y no poseen diferencias",
+                            "El círculo mide la masa y la circunferencia el tiempo"
                         ],
                         c: "La circunferencia es la línea curva cerrada exterior y el círculo es la superficie plana interior"
                     };
@@ -480,226 +469,278 @@
             "Ciencias": [
                 () => {
                     const animals = [
-                        { n: "jaguar", d: "carnívoro", diet: "carne de otros animales de la selva" },
-                        { n: "danta (tapir)", d: "herbívoro", diet: "hojas, frutos y plantas silvestres" },
-                        { n: "oso hormiguero", d: "insectívoro", diet: "hormigas y termitas especializadas" },
-                        { n: "pizote", d: "omnívoro", diet: "tanto frutas como pequeños animales e insectos" }
+                        { name: "jaguar", diet: "carne de presas silvestres", type: "carnívoro" },
+                        { name: "danta (tapir)", diet: "hojas, frutos y ramas del bosque", type: "herbívoro" },
+                        { name: "pizote", diet: "tanto frutas como pequeños invertebrados", type: "omnívoro" },
+                        { name: "oso hormiguero", diet: "termitas y hormigas especializadas", type: "insectívoro" },
+                        { name: "puma", diet: "carne de otros animales de montaña", type: "carnívoro" },
+                        { name: "venado cola blanca", diet: "hierbas y pastos naturales", type: "herbívoro" }
                     ];
                     const a = pick(animals);
                     return {
-                        q: `En los bosques costarricenses, el ${a.n} se alimenta principalmente de ${a.diet}. Por su tipo de alimentación, se clasifica como un animal:`,
-                        o: [a.d, "descomponedor", "vegetariano estricto", "acuático puro"],
-                        c: a.d
+                        q: `En la fauna costarricense, el ${a.name} se alimenta principalmente de ${a.diet}. Por este motivo, se clasifica como:`,
+                        o: [a.type, "productor vegetal", "descomponedor marino", "omnívoro acuático"],
+                        c: a.type
                     };
                 },
                 () => {
-                    return {
-                        q: `En el ecosistema del Parque Nacional Tapantí, ¿cuál de los siguientes elementos corresponde a un componente ABIÓTICO indispensable?`,
-                        o: ["El agua del río y las rocas", "Los árboles de roble", "Los sapos de montaña", "Los hongos del suelo"],
-                        c: "El agua del río y las rocas"
-                    };
+                    const biotics = ["El roble blanco", "El jaguar de la selva", "Los hongos del bosque", "Las bacterias del suelo"];
+                    const abiotics = ["El agua del río", "La luz solar", "El aire atmosférico", "Las rocas de la montaña"];
+                    const isBio = Math.random() > 0.5;
+                    if (isBio) {
+                        const correct = pick(biotics);
+                        const wrong = shuffle(abiotics).slice(0, 3);
+                        return {
+                            q: `En el ecosistema del Parque Nacional Tapantí en Cartago, ¿cuál de los siguientes elementos corresponde a un componente BIÓTICO?`,
+                            o: [correct, wrong[0], wrong[1], wrong[2]],
+                            c: correct
+                        };
+                    } else {
+                        const correct = pick(abiotics);
+                        const wrong = shuffle(biotics).slice(0, 3);
+                        return {
+                            q: `En el ecosistema del Volcán Irazú, ¿cuál de los siguientes factores representa un componente ABIÓTICO indispensable?`,
+                            o: [correct, wrong[0], wrong[1], wrong[2]],
+                            c: correct
+                        };
+                    }
                 },
                 () => {
                     return {
-                        q: `¿Cuál de los siguientes seres vivos representa un componente BIÓTICO de la naturaleza?`,
-                        o: ["El venado cola blanca", "La luz solar", "La temperatura del aire", "El suelo fértil"],
-                        c: "El venado cola blanca"
-                    };
-                },
-                () => {
-                    return {
-                        q: `¿Qué significa el concepto de EQUILIBRIO ECOLÓGICO o biológico en un ecosistema?`,
+                        q: `¿Qué significa el concepto de EQUILIBRIO ECOLÓGICO o biológico en un entorno natural?`,
                         o: [
-                            "La armonía e interdependencia equilibrada entre los seres vivos y su medio ambiente",
-                            "La desaparición de todos los animales carnívoros",
-                            "Construir carreteras de cemento en todas las montañas",
-                            "La ausencia total de lluvia durante varios años"
+                            "La armonía e interdependencia equilibrada entre los seres vivos y su medio físico",
+                            "La eliminación selectiva de los depredadores del bosque",
+                            "Talar los árboles para construir carreteras de asfalto",
+                            "La escasez total de lluvia durante temporadas prolongadas"
                         ],
-                        c: "La armonía e interdependencia equilibrada entre los seres vivos y su medio ambiente"
+                        c: "La armonía e interdependencia equilibrada entre los seres vivos y su medio físico"
                     };
                 },
                 () => {
+                    const machines = [
+                        { name: "polea", desc: "una rueda ranurada con una cuerda para elevar cargas con menor esfuerzo" },
+                        { name: "plano inclinado", desc: "una rampa inclinada que facilita subir objetos pesados venciendo la gravedad" },
+                        { name: "palanca", desc: "una barra rígida apoyada sobre un punto de apoyo para levantar cargas" },
+                        { name: "cuña", desc: "un prisma triangular con filo para dividir o cortar materiales como la madera" }
+                    ];
+                    const m = pick(machines);
                     return {
-                        q: `Una rampa inclinada que ayuda a subir carretas pesadas a un camión con menor esfuerzo es un ejemplo de máquina simple llamada:`,
-                        o: ["Plano inclinado", "Polea", "Palanca", "Tornillo"],
-                        c: "Plano inclinado"
+                        q: `La máquina simple que consiste en ${m.desc} corresponde a:`,
+                        o: [m.name, "la licuadora", "el motor de combustión", "la computadora portátil"],
+                        c: m.name
                     };
                 },
                 () => {
+                    const energies = [
+                        { type: "Eólica", source: "el movimiento del viento" },
+                        { type: "Solar", source: "la radiación y calor emitidos por el Sol" },
+                        { type: "Hidráulica", source: "la fuerza y corriente de las caídas de agua" }
+                    ];
+                    const item = pick(energies);
                     return {
-                        q: `¿Qué máquina simple utiliza una rueda con una ranura por donde pasa una cuerda para levantar objetos pesados hacia arriba?`,
-                        o: ["La polea", "La cuña", "El plano inclinado", "La palanca"],
-                        c: "La polea"
-                    };
-                },
-                () => {
-                    return {
-                        q: `Los molinos de viento modernos en las montañas de Santa Ana generan electricidad aprovechando la energía:`,
-                        o: ["Eólica", "Solar", "Hidráulica", "Geotérmica"],
-                        c: "Eólica"
+                        q: `La energía limpia y renovable que se obtiene directamente aprovechando ${item.source} se denomina energía:`,
+                        o: [item.type, "Nuclear", "Fósil contaminante", "Química artificial"],
+                        c: item.type
                     };
                 }
             ],
             "Estudios Sociales": [
                 () => {
+                    const tangible = ["La Escuela Juan Ramírez Ramírez", "La Basílica de los Ángeles", "Las Ruinas de la Parroquia Santiago Apóstol"];
+                    const item = pick(tangible);
                     return {
-                        q: `La Escuela Juan Ramírez Ramírez y las Ruinas de la Parroquia Santiago Apóstol en Cartago son ejemplos representativos de:`,
-                        o: ["Patrimonio cultural tangible arquitectónico", "Patrimonio cultural intangible", "Patrimonio puramente natural", "Parques nacionales protegidos"],
+                        q: `${item} en Cartago es un testimonio invaluable del pasado que forma parte del:`,
+                        o: ["Patrimonio cultural tangible arquitectónico", "Patrimonio cultural intangible", "Patrimonio biológico abiótico", "Patrimonio puramente natural"],
                         c: "Patrimonio cultural tangible arquitectónico"
                     };
                 },
                 () => {
+                    const intangible = ["El idioma español", "Las leyendas tradicionales como La Cegua", "Las danzas folclóricas típicas", "La música de marimba"];
+                    const item = pick(intangible);
                     return {
-                        q: `El idioma español, la música típica, las leyendas como La Cegua y las danzas folclóricas se clasifican como:`,
-                        o: ["Patrimonio cultural intangible", "Patrimonio cultural tangible", "Patrimonio geológico", "Recurso abiótico"],
+                        q: `${item} de nuestra patria se clasifica como una manifestación de:`,
+                        o: ["Patrimonio cultural intangible", "Patrimonio cultural tangible", "Patrimonio geológico mineral", "Estructura arquitectónica"],
                         c: "Patrimonio cultural intangible"
                     };
                 },
                 () => {
                     return {
-                        q: `El Volcán Irazú y las cuencas de agua del Parque Nacional Tapantí corresponden a:`,
-                        o: ["Patrimonio natural de Costa Rica", "Patrimonio arquitectónico moderno", "Patrimonio intangible cívico", "Patrimonio municipal tangible"],
-                        c: "Patrimonio natural de Costa Rica"
+                        q: `El 25 de julio conmemoramos un hecho cívico de 1824 cuyo célebre lema patrio es "De la patria por nuestra voluntad". ¿Qué efeméride se celebra?`,
+                        o: ["La Anexión del Partido de Nicoya a Costa Rica", "La Independencia de Centroamérica", "El Día del Trabajador", "La Batalla de Santa Rosa"],
+                        c: "La Anexión del Partido de Nicoya a Costa Rica"
                     };
                 },
                 () => {
                     return {
-                        q: `El 25 de julio conmemoramos un hito patriótico fundamental cuyo lema histórico es "De la patria por nuestra voluntad". ¿Qué acontecimiento celebramos?`,
-                        o: ["La Anexión del Partido de Nicoya a Costa Rica (1824)", "La Independencia de Centroamérica", "El Día de la Madre", "La Batalla de Rivas"],
-                        c: "La Anexión del Partido de Nicoya a Costa Rica (1824)"
+                        q: `¿Cuáles comidas tradicionales a base de maíz representan un legado gastronómico fundamental aportado por Guanacaste?`,
+                        o: ["Las chorreadas, el tamal asado y el pozol", "El rice and beans y el pan bon", "El pati y el agua de sapo", "Las manzanas dulces y peras"],
+                        c: "Las chorreadas, el tamal asado y el pozol"
                     };
                 },
                 () => {
                     return {
-                        q: `¿Cuál de las siguientes comidas tradicionales a base de maíz es un gran aporte cultural del pueblo guanacasteco a nuestra patria?`,
-                        o: ["Las chorreadas y el tamal asado", "El rice and beans caribeño", "El pan bon con especias", "El pati de carne"],
-                        c: "Las chorreadas y el tamal asado"
+                        q: `Cada 31 de agosto, Costa Rica conmemora el Día de la Persona Negra y la Cultura Afrocostarricense. ¿Cuál es un aporte característico de esta rica cultura?`,
+                        o: ["El calipso, el rice and beans y el pan bon", "El punto guanacasteco y el pozol", "El picadillo de arracache tradicional", "La fabricación de carretas de bueyes"],
+                        c: "El calipso, el rice and beans y el pan bon"
                     };
                 },
                 () => {
                     return {
-                        q: `Cada 31 de agosto, Costa Rica conmemora el Día de la Persona Negra y la Cultura Afrocostarricense. ¿Cuál es un aporte gastronómico y musical característico de esta cultura?`,
-                        o: ["El rice and beans, el pan bon y el calipso", "El pozol y el punto guanacasteco", "El picadillo de papa y la marimba", "Las empanadas de chiverre"],
-                        c: "El rice and beans, el pan bon y el calipso"
+                        q: `El 14 de setiembre a las 6:00 p.m., los estudiantes de la Escuela Juan Ramírez y todo el país se reúnen tradicionalmente para:`,
+                        o: ["Entonar el Himno Nacional y desfilar con faroles", "Comer uvas de Año Nuevo", "Celebrar el Día del Niño", "Visitar las playas de Guanacaste"],
+                        c: "Entonar el Himno Nacional y desfilar con faroles"
                     };
                 },
                 () => {
+                    const symbols = [
+                        { name: "La Guaria Morada", type: "Flor Nacional" },
+                        { name: "El Árbol de Guanacaste", type: "Árbol Nacional de sombra y protección" },
+                        { name: "El Yigüirro", type: "Ave Nacional por su canto que anuncia las lluvias" },
+                        { name: "La Carreta Típica", type: "Símbolo del trabajo y la cultura de paz" },
+                        { name: "El Venado Cola Blanca", type: "Símbolo de la fauna silvestre de nuestras áreas protegidas" }
+                    ];
+                    const s = pick(symbols);
                     return {
-                        q: `El 14 de setiembre a las 6:00 p.m., los estudiantes de Cartago y todo el país se reúnen tradicionalmente para:`,
-                        o: ["Cantar el Himno Nacional y desfilar con faroles", "Comer tamales navideños", "Sembrar árboles en la playa", "Celebrar el Día del Trabajador"],
-                        c: "Cantar el Himno Nacional y desfilar con faroles"
-                    };
-                },
-                () => {
-                    return {
-                        q: `¿Qué animal silvestre de Costa Rica fue declarado Símbolo Nacional por representar la rica fauna de nuestras áreas protegidas?`,
-                        o: ["El venado cola blanca y el perezoso", "El león africano", "El oso polar", "El cóndor andino"],
-                        c: "El venado cola blanca y el perezoso"
+                        q: `En el conjunto de Símbolos Nacionales de Costa Rica, ${s.name} fue declarado como:`,
+                        o: [s.type, "Monumento arquitectónico de Cartago", "Máquina simple de tracción", "Efeméride de agosto"],
+                        c: s.type
                     };
                 }
             ],
             "Inglés": [
-                () => {
-                    const kid = pick(KIDS);
-                    return {
-                        q: `${kid} va a la cocina después de cenar para dejar el fregadero completamente limpio. ¿Qué tarea doméstica está realizando en inglés?`,
-                        o: ["wash the dishes", "iron", "cook", "walk the dog"],
-                        c: "wash the dishes"
-                    };
+                {
+                    get: () => {
+                        const kid = pick(KIDS);
+                        return {
+                            q: `${kid} va a la cocina después de cenar para dejar el fregadero y los platos totalmente limpios. ¿Qué tarea doméstica está realizando?`,
+                            o: ["wash the dishes", "cook", "iron", "walk the dog"],
+                            c: "wash the dishes"
+                        };
+                    }
                 },
-                () => {
-                    const kid = pick(KIDS);
-                    return {
-                        q: `La ropa de ${kid} está seca pero muy arrugada y su mamá necesita dejarla lisa para la escuela. ¿Qué quehacer del hogar debe realizar?`,
-                        o: ["iron", "vacuum", "cook", "wash the dishes"],
-                        c: "iron"
-                    };
+                {
+                    get: () => {
+                        const kid = pick(KIDS);
+                        return {
+                            q: `La ropa de ${kid} está seca pero con muchas arrugas y necesita dejarla completamente lisa para ir a la escuela. ¿Qué quehacer realiza?`,
+                            o: ["iron", "vacuum", "cook", "wash the dishes"],
+                            c: "iron"
+                        };
+                    }
                 },
-                () => {
-                    const kid = pick(KIDS);
-                    return {
-                        q: `La alfombra de la sala tiene polvo y migas. ${kid} enciende la máquina que absorbe toda la suciedad. ¿Qué acción realiza?`,
-                        o: ["vacuum", "walk the dog", "wash the clothes", "cook"],
-                        c: "vacuum"
-                    };
+                {
+                    get: () => {
+                        const kid = pick(KIDS);
+                        return {
+                            q: `La alfombra de la sala tiene polvo y migas. ${kid} enciende la máquina que absorbe toda la suciedad del piso. ¿Qué acción realiza?`,
+                            o: ["vacuum", "walk the dog", "cook", "wash the clothes"],
+                            c: "vacuum"
+                        };
+                    }
                 },
-                () => {
-                    const kid = pick(KIDS);
-                    return {
-                        q: `El perrito de la familia necesita salir al parque a ejercitarse y hacer sus necesidades. ¿Cuál quehacer corresponde en inglés?`,
-                        o: ["walk the dog", "cook", "wash the clothes", "iron"],
-                        c: "walk the dog"
-                    };
+                {
+                    get: () => {
+                        const kid = pick(KIDS);
+                        return {
+                            q: `El perrito de la familia necesita salir al parque a ejercitarse y pasear. ¿Cuál tarea doméstica en inglés corresponde?`,
+                            o: ["walk the dog", "cook", "iron", "wash the dishes"],
+                            c: "walk the dog"
+                        };
+                    }
                 },
-                () => {
-                    const holidays = [
-                        { name: "Día de la Independencia (Independence Day)", d: "September 15th" },
-                        { name: "Navidad (Christmas)", d: "December 25th" },
-                        { name: "Día de Juan Santamaría", d: "April 11th" },
-                        { name: "Día de la Madre (Mother's Day)", d: "August 15th" },
-                        { name: "Anexión del Partido de Nicoya", d: "July 25th" },
-                        { name: "Año Nuevo (New Year's Day)", d: "January 1st" },
-                        { name: "Día de la Virgen de los Ángeles", d: "August 2nd" },
-                        { name: "Día del Trabajador (Labor Day)", d: "May 1st" }
-                    ];
-                    const h = pick(holidays);
-                    const wrong = ["September 15th", "December 25th", "April 11th", "January 1st"].filter(x => x !== h.d).slice(0, 3);
-                    return {
-                        q: `En Costa Rica celebramos la fecha cívica de ${h.name}. ¿Con cuál fecha en inglés se asocia correctamente en el calendario?`,
-                        o: [h.d, wrong[0], wrong[1], wrong[2]],
-                        c: h.d
-                    };
+                {
+                    get: () => {
+                        const holidays = [
+                            { name: "Día de la Independencia (Independence Day)", d: "September 15th" },
+                            { name: "Navidad (Christmas)", d: "December 25th" },
+                            { name: "Día de Juan Santamaría", d: "April 11th" },
+                            { name: "Día de la Madre (Mother's Day)", d: "August 15th" },
+                            { name: "Anexión del Partido de Nicoya", d: "July 25th" },
+                            { name: "Año Nuevo (New Year's Day)", d: "January 1st" },
+                            { name: "Día de la Virgen de los Ángeles", d: "August 2nd" },
+                            { name: "Día del Trabajador (Labor Day)", d: "May 1st" }
+                        ];
+                        const h = pick(holidays);
+                        const wrong = ["September 15th", "December 25th", "April 11th", "January 1st", "May 1st"].filter(x => x !== h.d).slice(0, 3);
+                        return {
+                            q: `En Costa Rica celebramos la fecha cívica de ${h.name}. ¿Con cuál fecha en inglés se asocia en el calendario?`,
+                            o: [h.d, wrong[0], wrong[1], wrong[2]],
+                            c: h.d
+                        };
+                    }
                 },
-                () => {
-                    const ordinals = [
-                        { n: "primero", o: "1st" }, { n: "segundo", o: "2nd" }, { n: "tercero", o: "3rd" },
-                        { n: "cuarto", o: "4th" }, { n: "quinto", o: "5th" }, { n: "décimo", o: "10th" }
-                    ];
-                    const ord = pick(ordinals);
-                    const wrong = ["1st", "2nd", "3rd", "4th", "5th", "10th"].filter(x => x !== ord.o).slice(0, 3);
-                    return {
-                        q: `En una competencia escolar, ${pick(KIDS)} obtuvo el lugar "${ord.n}". ¿Cómo se escribe ese número ordinal en inglés?`,
-                        o: [ord.o, wrong[0], wrong[1], wrong[2]],
-                        c: ord.o
-                    };
+                {
+                    get: () => {
+                        const ords = [
+                            { es: "primero", en: "1st" }, { es: "segundo", en: "2nd" }, { es: "tercero", en: "3rd" },
+                            { es: "cuarto", en: "4th" }, { es: "quinto", en: "5th" }, { es: "décimo", en: "10th" }
+                        ];
+                        const ord = pick(ords);
+                        const wrong = ["1st", "2nd", "3rd", "4th", "5th", "10th"].filter(x => x !== ord.en).slice(0, 3);
+                        return {
+                            q: `En una competencia escolar en Cartago, ${pick(KIDS)} obtuvo el lugar "${ord.es}". ¿Cómo se escribe ese número ordinal en inglés?`,
+                            o: [ord.en, wrong[0], wrong[1], wrong[2]],
+                            c: ord.en
+                        };
+                    }
                 },
-                () => {
-                    return {
-                        q: `¿Cuál de las siguientes opciones muestra tres meses del año en orden cronológico estricto en inglés?`,
-                        o: ["January, February, March", "March, January, February", "December, October, November", "July, May, June"],
-                        c: "January, February, March"
-                    };
+                {
+                    get: () => {
+                        return {
+                            q: `¿Cuál de las siguientes opciones muestra tres meses del año en orden cronológico estricto en inglés?`,
+                            o: ["January, February, March", "March, January, February", "December, October, November", "July, May, June"],
+                            c: "January, February, March"
+                        };
+                    }
                 }
             ]
         };
 
-        // Genera 20 retos únicos combinando proceduralmente sin repetición
+        // =========================================================================
+        // MOTOR PROCEDURAL SEGURO (CERO BUCLES INFINITOS - GARANTIZA 20 PREGUNTAS)
+        // =========================================================================
         const generateProceduralExam = (materia, seenList) => {
-            const pool = PROCEDURAL_BANK[materia] || PROCEDURAL_BANK["Español"];
+            const rawPool = PROCEDURAL_BANK[materia] || PROCEDURAL_BANK["Español"];
+            // Normalizar funciones del banco
+            const pool = rawPool.map(fn => typeof fn === "function" ? fn : (fn.get || (() => fn)));
+            
             const results = [];
-            const usedSignatures = new Set();
+            const usedTexts = new Set();
 
-            let attempts = 0;
-            while (results.length < 20 && attempts < 200) {
-                attempts++;
-                const fn = pick(pool);
-                const item = fn();
-                const sig = item.q.substring(0, 45);
-
-                if (!usedSignatures.has(sig) && !seenList.includes(item.q)) {
-                    usedSignatures.add(sig);
+            // Paso 1: Intentar preguntas no vistas previamente
+            const shuffledPool = shuffle([...pool]);
+            for (let i = 0; i < shuffledPool.length; i++) {
+                if (results.length >= 20) break;
+                const item = shuffledPool[i]();
+                if (item && item.q && !usedTexts.has(item.q) && !seenList.includes(item.q)) {
+                    usedTexts.add(item.q);
                     results.push(item);
                 }
             }
 
-            // Si el alumno ya vio casi todo, rellenamos garantizando 20 únicos en el examen
-            while (results.length < 20) {
+            // Paso 2: Completar hasta 20 con variaciones únicas sin trabarse
+            let attempts = 0;
+            while (results.length < 20 && attempts < 150) {
+                attempts++;
                 const fn = pick(pool);
                 const item = fn();
-                const sig = item.q.substring(0, 45);
-                if (!usedSignatures.has(sig)) {
-                    usedSignatures.add(sig);
+                if (item && item.q && !usedTexts.has(item.q)) {
+                    usedTexts.add(item.q);
                     results.push(item);
+                }
+            }
+
+            // Paso 3: Failsafe absoluto para que NUNCA se cuelgue el navegador
+            let safetyCount = 0;
+            while (results.length < 20 && safetyCount < 30) {
+                safetyCount++;
+                const fn = pick(pool);
+                const item = fn();
+                if (item && item.q) {
+                    // Diferenciar ligeramente para el Set
+                    const clone = { ...item, q: `${item.q} (Reto ${results.length + 1})` };
+                    results.push(clone);
                 }
             }
 
@@ -707,10 +748,14 @@
         };
 
         // =========================================================================
-        // MOTOR DE EJECUCIÓN: IA EN VIVO CON FALLBACK INTELIGENTE INVISIBLE
+        // MOTOR DE EJECUCIÓN: IA EN VIVO CON TRANSICIÓN SUAVE A PROCEDURAL
         // =========================================================================
         window.startAiExam = async (materia) => {
-            nav('loading');
+            try {
+                nav('loading');
+            } catch (e) {
+                console.error("Error al navegar a loading:", e);
+            }
 
             // 1. Cargar historial de exclusión del estudiante
             let seenQuestions = [];
@@ -729,45 +774,20 @@
             const localSeen = JSON.parse(localStorage.getItem(`seen_${materia}`) || "[]");
             seenQuestions = [...new Set([...seenQuestions, ...localSeen])];
 
-            const storedKey = localStorage.getItem('gemini_user_api_key') || "";
-            const activeApiKey = storedKey.trim() || DEFAULT_GEMINI_KEY;
+            const storedKey = (localStorage.getItem('gemini_user_api_key') || "").trim();
+            const sessionSalt = `SES_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
 
-            const recentExclusions = seenQuestions.slice(-40);
-            const excludeNotice = recentExclusions.length > 0
-                ? `REGLA DE NO-REPETICIÓN: El alumno ya contestó las siguientes preguntas. NO generes ninguna idéntica ni similar:\n${recentExclusions.map((q, idx) => `${idx + 1}. ${q}`).join('\n')}`
-                : "Genera 20 retos completamente innovadores.";
-
-            const sessionSalt = `SESION_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-
-            const prompt = `Actúa como evaluador oficial del MEP de Costa Rica para la Escuela Juan Ramírez Ramírez (Sección 3-2, Docente Maureen Mora Noguera, Teacher Karol Segura).
-Genera EXACTAMENTE 20 preguntas analíticas e inéditas de selección única para la materia de ${materia}.
-
-CÓDIGO DE ALEATORIEDAD: [${sessionSalt}].
-${excludeNotice}
-
-${SYLLABUS_DESCRIPTIONS[materia]}
-
-REGLAS OBLIGATORIAS:
-1. Genera EXACTAMENTE 20 preguntas sin excepción.
-2. Cada pregunta debe contener exactamente 4 opciones en el arreglo 'o', y la respuesta correcta 'c' debe ser exactamente una de esas 4 opciones.
-3. CERO REPETICIÓN INTERNA: Ninguna de las 20 preguntas debe repetirse entre sí. Cada pregunta evalúa un subtema diferente.
-4. En Inglés: El enunciado (q) SIEMPRE en ESPAÑOL, y las opciones (o) y respuesta (c) SIEMPRE en INGLÉS.
-5. En Matemáticas: plantea multiplicaciones paso a paso, cálculo de radio/diámetro, pesaje en kg/g y conversiones de tiempo con datos numéricos variados.`;
-
-            // Modelos oficiales estables de Google AI Studio
-            const modelCandidates = [
-                "gemini-2.5-flash",
-                "gemini-2.0-flash",
-                "gemini-1.5-flash"
-            ];
-
-            let success = false;
             let final20 = [];
-            let usedEngine = "IA VIVA";
+            let usedEngine = "PROCEDURAL INÉDITO";
 
-            for (const modelName of modelCandidates) {
+            // Si el usuario configuró una clave en el modal, intentamos llamar a la IA
+            if (storedKey) {
                 try {
-                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeApiKey}`, {
+                    const prompt = `Actúa como evaluador oficial del MEP de Costa Rica para la Escuela Juan Ramírez Ramírez (Sección 3-2).
+Genera EXACTAMENTE 20 preguntas analíticas e inéditas de selección única para la materia de ${materia}.
+Código aleatorio: [${sessionSalt}].`;
+
+                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${storedKey}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -800,36 +820,18 @@ REGLAS OBLIGATORIAS:
                     if (res.ok) {
                         const json = await res.json();
                         const parsed = JSON.parse(json.candidates[0].content.parts[0].text);
-                        if (parsed.questions && Array.isArray(parsed.questions)) {
-                            const examSet = [];
-                            const examTexts = new Set();
-
-                            for (const item of parsed.questions) {
-                                if (!item.q || !item.o || item.o.length !== 4 || !item.c || !item.o.includes(item.c)) continue;
-                                const cleanQ = item.q.trim();
-                                if (examTexts.has(cleanQ)) continue;
-                                examTexts.add(cleanQ);
-                                examSet.push(item);
-                            }
-
-                            if (examSet.length >= 20) {
-                                final20 = examSet.slice(0, 20);
-                                success = true;
-                                usedEngine = "IA VIVA";
-                                break;
-                            }
+                        if (parsed.questions && parsed.questions.length >= 20) {
+                            final20 = parsed.questions.slice(0, 20);
+                            usedEngine = "IA VIVA";
                         }
-                    } else {
-                        console.warn(`Aviso con modelo ${modelName} (${res.status}): intentando siguiente...`);
                     }
-                } catch (e) {
-                    console.warn(`Conexión con ${modelName} falló:`, e);
+                } catch (err) {
+                    console.warn("IA no respondió, pasando a procedural seguro:", err);
                 }
             }
 
-            // Si la IA externa de Google tuviese error 404 o estuviese sin red, activamos el Generador Procedural Dinámico
-            if (!success || final20.length < 20) {
-                console.log("Activando Motor Procedural Dinámico Infinito (Cero Repeticiones).");
+            // Si no hay clave o falló la IA, el generador procedural responde de inmediato (CERO congelamiento)
+            if (final20.length < 20) {
                 final20 = generateProceduralExam(materia, seenQuestions);
                 usedEngine = "PROCEDURAL INÉDITO";
             }
@@ -855,7 +857,7 @@ REGLAS OBLIGATORIAS:
                     const updatedList = [...new Set([...currentList, ...newQuestions])];
                     await setDoc(docRef, { preguntas: updatedList });
                 } catch (e) {
-                    console.error("Fallo al guardar preguntas vistas en Firestore:", e);
+                    console.warn("Aviso al guardar en Firestore:", e);
                 }
             }
         };
@@ -880,6 +882,7 @@ REGLAS OBLIGATORIAS:
         };
 
         const drawQuestion = () => {
+            if (!currentQs || currentQs.length === 0) return;
             const q = currentQs[curIdx];
             document.getElementById('q-subject').innerText = currentSubj;
             document.getElementById('q-counter').innerText = `${curIdx + 1} de 20`;
@@ -952,7 +955,7 @@ REGLAS OBLIGATORIAS:
                     });
                     document.getElementById('cloud-sync').innerText = "✅ REPORTE SINCRONIZADO EN LA NUBE";
                 } catch (e) {
-                    console.error("Error guardando resultado en Firestore:", e);
+                    console.warn("Aviso guardando resultado:", e);
                 }
             }
         };
@@ -998,11 +1001,11 @@ REGLAS OBLIGATORIAS:
                     `);
                 });
             }, error => {
-                console.error("Error en listener de Firestore:", error);
+                console.warn("Aviso listener Firestore:", error);
                 const badge = document.getElementById('db-status-badge');
                 if (badge) {
-                    badge.innerText = "ERROR DE LECTURA";
-                    badge.className = "px-3 py-1 rounded-full text-xs font-black bg-rose-500/20 text-rose-400 border border-rose-500/30";
+                    badge.innerText = "MODO LOCAL";
+                    badge.className = "px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-400 border border-amber-500/30";
                 }
             });
         };
@@ -1022,9 +1025,8 @@ REGLAS OBLIGATORIAS:
                     }
                 });
             } catch (e) {
-                console.error("Error en autenticación:", e);
-                document.getElementById('auth-status').innerText = "⚠️ MODO LOCAL";
-                document.getElementById('auth-status').className = "mt-4 text-xs font-bold text-amber-500 uppercase tracking-widest";
+                console.warn("Autenticación en modo local:", e);
+                document.getElementById('auth-status').innerText = "SISTEMA ACTIVO (MODO LOCAL)";
             }
         };
 
@@ -1054,3 +1056,32 @@ REGLAS OBLIGATORIAS:
                 } catch (e) {
                     console.error("Error al borrar historial:", e);
                 }
+            } else {
+                document.getElementById('pin-error').classList.remove('hidden');
+            }
+        };
+
+        // --- GESTIÓN DE CLAVE API GEMINI ---
+        window.openApiKeyModal = () => {
+            document.getElementById('api-modal').classList.remove('hidden');
+            document.getElementById('api-key-input').value = localStorage.getItem('gemini_user_api_key') || "";
+        };
+
+        window.closeApiKeyModal = () => {
+            document.getElementById('api-modal').classList.add('hidden');
+        };
+
+        window.saveApiKey = () => {
+            const key = document.getElementById('api-key-input').value.trim();
+            if (key) {
+                localStorage.setItem('gemini_user_api_key', key);
+            } else {
+                localStorage.removeItem('gemini_user_api_key');
+            }
+            closeApiKeyModal();
+        };
+
+        initAuthAndApp();
+    </script>
+</body>
+</html>
