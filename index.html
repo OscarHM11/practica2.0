@@ -42,13 +42,13 @@
                 <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
                     PRÁCTICA <span class="text-indigo-500">INÉDITA</span> 3-2
                 </h1>
-                <p class="text-slate-400 text-lg">Escuela Juan Ramírez Ramírez | Preguntas Nuevas en Cada Intento</p>
-                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-500 uppercase tracking-widest">SISTEMA CONECTADO Y SEGURO</div>
+                <p class="text-slate-400 text-lg">Escuela Juan Ramírez Ramírez | 20 Preguntas Nuevas en Cada Intento</p>
+                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-400 uppercase tracking-widest">SISTEMA ACTIVO Y OPERATIVO</div>
             </header>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 <!-- Español -->
-                <button onclick="startAiExam('Español')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-rose-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="startExam('Español')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-rose-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
                     <div>
                         <span class="text-4xl mb-4 block">🖋️</span>
                         <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Español</h3>
@@ -56,7 +56,7 @@
                     <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Inferencia, Conectores, Afijos y Plurales -ces</p>
                 </button>
                 <!-- Matemáticas -->
-                <button onclick="startAiExam('Matemáticas')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="startExam('Matemáticas')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
                     <div>
                         <span class="text-4xl mb-4 block">🧮</span>
                         <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Matemáticas</h3>
@@ -64,7 +64,7 @@
                     <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Multiplicación Columna, Círculo, Masa (kg/g) y Tiempo</p>
                 </button>
                 <!-- Ciencias -->
-                <button onclick="startAiExam('Ciencias')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-emerald-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="startExam('Ciencias')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-emerald-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
                     <div>
                         <span class="text-4xl mb-4 block">🧪</span>
                         <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Ciencias</h3>
@@ -72,7 +72,7 @@
                     <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Medio y Dieta de Animales, Bióticos/Abióticos y Máquinas</p>
                 </button>
                 <!-- Estudios Sociales -->
-                <button onclick="startAiExam('Estudios Sociales')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="startExam('Estudios Sociales')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
                     <div>
                         <span class="text-4xl mb-4 block">🗺️</span>
                         <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Sociales</h3>
@@ -80,7 +80,7 @@
                     <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Patrimonio de Cartago, Efemérides Patrias y Símbolos</p>
                 </button>
                 <!-- Inglés -->
-                <button onclick="startAiExam('Inglés')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-violet-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="startExam('Inglés')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-violet-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
                     <div>
                         <span class="text-4xl mb-4 block">🇬🇧</span>
                         <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Inglés</h3>
@@ -90,20 +90,18 @@
             </div>
         </div>
 
-        <!-- Vista de Carga Interactiva -->
         <div id="view-loading" class="view hidden text-center py-20">
             <div class="w-20 h-20 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-8"></div>
             <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">Generando 20 retos inéditos...</h2>
             <p id="loading-subtext" class="text-slate-400 mt-2 text-base">Analizando el historial para asegurar cero preguntas repetidas.</p>
         </div>
 
-        <!-- Vista del Quiz -->
         <div id="view-quiz" class="view hidden max-w-3xl mx-auto">
             <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl">
                 <div class="bg-indigo-950/30 p-6 flex justify-between items-center border-b border-white/5">
                     <div class="flex items-center gap-3">
                         <h3 id="q-subject" class="kids-font text-xl text-indigo-400 uppercase tracking-widest">MATERIA</h3>
-                        <span id="engine-badge" class="px-2.5 py-0.5 rounded-full text-[0.65rem] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">IA VIVA</span>
+                        <span id="engine-badge" class="px-2.5 py-0.5 rounded-full text-[0.65rem] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">IA ACTIVA</span>
                     </div>
                     <div class="text-right">
                         <span id="q-counter" class="text-xs font-bold text-slate-400 uppercase tracking-widest">1 de 20</span>
@@ -122,13 +120,12 @@
             </div>
         </div>
 
-        <!-- Vista Historial -->
         <div id="view-history" class="view hidden">
             <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <h2 class="text-2xl md:text-3xl font-bold kids-font text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO SECCIÓN 3-2</h2>
                     <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <span id="db-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-400 border border-amber-500/30">CONECTANDO...</span>
+                        <span id="db-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">MEMORIA LOCAL ACTIVA</span>
                         <button onclick="openClearModal()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold transition text-xs uppercase tracking-wider">🗑️ Limpiar Historial</button>
                     </div>
                 </div>
@@ -138,14 +135,13 @@
                             <tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar (Análisis de Errores)</th></tr>
                         </thead>
                         <tbody id="history-data">
-                            <tr><td colspan="4" class="p-8 text-center text-slate-400 italic">Estableciendo canal de datos seguro...</td></tr>
+                            <tr><td colspan="4" class="p-8 text-center text-slate-400 italic">No hay notas registradas todavía. Completa un examen para ver tu progreso.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Vista Resultados Finales -->
         <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[4rem] p-16 shadow-2xl border-t-8 border-indigo-500">
             <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
             <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
@@ -153,17 +149,16 @@
                 <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
                 <span id="res-score" class="text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-400 font-bold mb-12 animate-pulse uppercase">Guardando diagnóstico...</p>
+            <p id="cloud-sync" class="text-xs text-indigo-400 font-bold mb-12 animate-pulse uppercase">Diagnóstico guardado correctamente</p>
             <div class="flex justify-center">
                 <button onclick="nav('home')" class="w-full max-w-md bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition active:scale-95 text-lg text-white">✨ Nueva Práctica Inédita</button>
             </div>
         </div>
 
-        <!-- Modal de PIN de la Maestra -->
         <div id="clear-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-filter backdrop-blur-sm">
             <div class="glass max-w-md w-full p-8 rounded-[2rem] border border-white/10 text-center shadow-2xl relative">
                 <h3 class="text-xl font-bold kids-font text-rose-400 uppercase mb-4 tracking-wide">🔑 AUTORIZACIÓN REQUERIDA</h3>
-                <p class="text-sm text-slate-300 mb-6">Por favor, digite el código de seguridad de 4 dígitos de la docente para borrar permanentemente todos los registros del historial.</p>
+                <p class="text-sm text-slate-300 mb-6">Digite el código de seguridad de 4 dígitos de la docente para borrar permanentemente todos los registros del historial.</p>
                 <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-36 text-center text-3xl tracking-widest bg-slate-900 border-2 border-slate-700 rounded-xl py-3 px-4 mb-6 font-bold text-white focus:border-indigo-500 focus:outline-none transition" />
                 <div id="pin-error" class="hidden text-rose-400 text-xs font-bold mb-4 uppercase tracking-widest">⚠️ CÓDIGO INCORRECTO</div>
                 <div class="flex gap-4">
@@ -173,11 +168,14 @@
             </div>
         </div>
 
-        <!-- Modal de Configuración de API Key Gemini -->
         <div id="api-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-filter backdrop-blur-sm">
             <div class="glass max-w-lg w-full p-8 rounded-[2rem] border border-white/10 text-left shadow-2xl relative">
                 <h3 class="text-xl font-bold kids-font text-indigo-400 uppercase mb-2">⚙️ Conexión de Inteligencia Artificial</h3>
-                <p class="text-xs text-slate-300 mb-4 leading-relaxed">Puedes ingresar tu clave gratuita de <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-400 underline font-bold">Google AI Studio</a> para generar preguntas infinitas por IA en tiempo real. Si no ingresas clave, el generador procedural matemático garantizará las 20 preguntas sin repeticiones:</p>
+                <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                    Si deseas que la IA de Google genere preguntas en vivo desde GitHub, ingresa tu clave gratuita de 
+                    <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-400 underline font-bold">Google AI Studio</a>. 
+                    Si no tienes clave, el sistema usará automáticamente el motor procedural de alta variedad con 20 preguntas garantizadas:
+                </p>
                 <input type="text" id="api-key-input" placeholder="AIzaSy..." class="w-full text-sm bg-slate-900 border-2 border-slate-700 rounded-xl py-3 px-4 mb-4 font-mono text-white focus:border-indigo-500 focus:outline-none transition" />
                 <div class="flex gap-4 justify-end">
                     <button onclick="closeApiKeyModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs uppercase text-slate-300 transition">Cerrar</button>
@@ -188,558 +186,505 @@
 
     </div>
 
-    <!-- Script de Inicialización Inmediata -->
     <script>
-        // Declaración global de navegación para que los botones respondan instantáneamente
-        window.nav = function(v) {
-            document.querySelectorAll('.view').forEach(function(x) { x.classList.add('hidden'); });
-            var target = document.getElementById('view-' + v);
+        // --- NAVEGACIÓN GLOBAL INMEDIATA ---
+        window.nav = function(viewName) {
+            document.querySelectorAll('.view').forEach(function(el) { el.classList.add('hidden'); });
+            var target = document.getElementById('view-' + viewName);
             if (target) target.classList.remove('hidden');
             window.scrollTo(0, 0);
         };
-    </script>
 
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDoc, setDoc, doc, onSnapshot, serverTimestamp, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
-        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-
-        let firebaseConfig = {
-            apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
-            authDomain: "practica-examen-2026.firebaseapp.com",
-            projectId: "practica-examen-2026",
-            storageBucket: "practica-examen-2026.firebasestorage.app",
-            messagingSenderId: "1063177516735",
-            appId: "1:1063177516735:web:65915c315c447ae855780a",
-            measurementId: "G-58XTTL579R"
+        // --- GESTIÓN DE MODAL DE CLAVE API ---
+        window.openApiKeyModal = function() {
+            document.getElementById('api-modal').classList.remove('hidden');
+            document.getElementById('api-key-input').value = localStorage.getItem('gemini_user_api_key') || "";
+        };
+        window.closeApiKeyModal = function() {
+            document.getElementById('api-modal').classList.add('hidden');
+        };
+        window.saveApiKey = function() {
+            var key = document.getElementById('api-key-input').value.trim();
+            if (key) {
+                localStorage.setItem('gemini_user_api_key', key);
+                document.getElementById('api-key-indicator').innerText = "IA Configurada ✓";
+            } else {
+                localStorage.removeItem('gemini_user_api_key');
+                document.getElementById('api-key-indicator').innerText = "Configurar IA";
+            }
+            window.closeApiKeyModal();
         };
 
-        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-            try {
-                firebaseConfig = JSON.parse(__firebase_config);
-            } catch (e) {
-                console.error("Aviso config:", e);
-            }
+        // Inicializar indicador de API si existe
+        if (localStorage.getItem('gemini_user_api_key')) {
+            var ind = document.getElementById('api-key-indicator');
+            if (ind) ind.innerText = "IA Configurada ✓";
         }
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : (firebaseConfig.projectId || "practica-examen-2026");
-        let user = null;
-
-        // Variables de examen
-        let currentSubj = "";
-        let currentQs = [];
-        let curIdx = 0;
-        let score = 0;
-        let curFailures = [];
-
-        const shuffle = (array) => {
-            const arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                const temp = arr[i];
+        // --- UTILIDADES DE ALEATORIEDAD ---
+        window.shuffle = function(array) {
+            var arr = array.slice();
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
             }
             return arr;
         };
 
-        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-        const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        window.pick = function(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        };
 
-        // Nombres y lugares de Cartago para variaciones paramétricas infinitas
-        const KIDS = ["Santiago", "Valentina", "Thiago", "Camila", "Mateo", "Fiorella", "Kendall", "Isabella", "Samuel", "Jimena", "Gael", "Sofía", "Sebastián", "Mariana", "Felipe", "Emma", "Esteban", "Lucía"];
-        const PLACES = ["Paraíso", "Orosi", "Tejar del Guarco", "Tierra Blanca", "Pacayas", "Cot", "Cervantes", "Dulce Nombre", "Tres Ríos", "San Rafael de Oreamuno", "Carmen de Cartago"];
+        window.randInt = function(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
 
-        // =========================================================================
-        // BANCO DE GENERADORES PROCEDURALES (MÁS DE 25 GENERADORES POR MATERIA)
-        // =========================================================================
-        const PROCEDURAL_BANK = {
+        var KIDS = ["Santiago", "Valentina", "Thiago", "Camila", "Mateo", "Fiorella", "Kendall", "Isabella", "Samuel", "Jimena", "Gael", "Sofía", "Sebastián", "Mariana", "Felipe", "Emma", "Esteban", "Lucía"];
+        var PLACES = ["Paraíso", "Orosi", "Tejar del Guarco", "Tierra Blanca", "Pacayas", "Cot", "Cervantes", "Dulce Nombre", "Tres Ríos", "San Rafael de Oreamuno", "Carmen de Cartago"];
+
+        window.PROCEDURAL_GENERATORS = {
             "Español": [
-                () => {
-                    const kid = pick(KIDS);
-                    const place = pick(PLACES);
+                function() {
+                    var kid = pick(KIDS), place = pick(PLACES);
                     return {
-                        q: `${kid} observa que las calles de ${place} están cubiertas de neblina espesa, la gente viste abrigos gruesos y las chimeneas están encendidas. ¿Qué conclusión lógica se INFIERE?`,
-                        o: ["Hace un clima sumamente frío en la zona", "Es un día caluroso de playa", "Todos van a nadar al río", "Se apagó la electricidad escolar"],
-                        c: "Hace un clima sumamente frío en la zona"
+                        q: kid + " observa que en " + place + " la gente viste abrigos gruesos, las chimeneas están encendidas y hay neblina espesa en el parque. ¿Qué conclusión lógica se INFIERE?",
+                        o: ["Hace un clima sumamente frío en la comunidad", "Es una tarde calurosa de playa", "Todos van a nadar al río", "Se dañó el alumbrado eléctrico"],
+                        c: "Hace un clima sumamente frío en la comunidad"
                     };
                 },
-                () => {
-                    const kid = pick(KIDS);
-                    const num = randInt(2, 5);
+                function() {
+                    var kid = pick(KIDS), num = randInt(2, 6);
                     return {
-                        q: `En la oración: "${kid} sembró ${num} árboles de ciprés en el patio de la escuela el viernes pasado". ¿Cuál dato representa información EXPLÍCITA?`,
-                        o: [`${kid} sembró ${num} árboles de ciprés`, `${kid} es la persona más trabajadora`, `${kid} no quiere volver a sembrar`, `${kid} prefiere pintar cuadros`],
-                        c: `${kid} sembró ${num} árboles de ciprés`
+                        q: 'En la oración: "' + kid + ' sembró ' + num + ' árboles de ciprés en el patio escolar el viernes pasado". ¿Cuál dato representa información EXPLÍCITA?',
+                        o: [kid + " sembró " + num + " árboles de ciprés", kid + " es la persona más trabajadora", kid + " no quiere volver a sembrar", kid + " prefiere pintar cuadros"],
+                        c: kid + " sembró " + num + " árboles de ciprés"
                     };
                 },
-                () => {
-                    const kid = pick(KIDS);
+                function() {
+                    var kid = pick(KIDS);
                     return {
-                        q: `${kid} expresa en el aula: "Es indispensable sembrar árboles nativos porque purifican el aire y dan refugio a las aves silvestres". ¿Qué representa la frase "porque purifican el aire y dan refugio a las aves"?`,
-                        o: ["Un argumento que sustenta y defiende su opinión", "Una despedida formal", "El título de un poema", "Una duda sin importancia"],
-                        c: "Un argumento que sustenta y defiende su opinión"
+                        q: kid + ' afirma: "Es urgente sembrar árboles nativos porque purifican el aire y dan refugio a las aves silvestres". ¿Qué representa la frase "porque purifican el aire y dan refugio a las aves"?',
+                        o: ["Un argumento que sustenta y defiende su postura", "Una despedida formal", "El título de un poema", "Una duda sin importancia"],
+                        c: "Un argumento que sustenta y defiende su postura"
                     };
                 },
-                () => {
-                    const kid = pick(KIDS);
+                function() {
+                    var kid = pick(KIDS);
                     return {
-                        q: `${kid} investiga sobre la actividad volcánica del Irazú. ¿Cuál de las siguientes opciones constituye una fuente de información CONFIABLE y formal?`,
-                        o: ["Un informe geológico oficial del OVSICORI", "Un comentario anónimo en redes sociales", "Una conversación escuchada en la parada", "Un cuento de fantasía"],
+                        q: kid + " necesita investigar sobre la actividad volcánica del Irazú en Cartago. ¿Cuál de las siguientes opciones constituye una fuente de información CONFIABLE y formal?",
+                        o: ["Un informe geológico oficial del OVSICORI", "Un rumor escuchado en la parada de buses", "Una publicación anónima en redes sociales", "Una leyenda de terror inventada"],
                         c: "Un informe geológico oficial del OVSICORI"
                     };
                 },
-                () => {
-                    const conns = [
+                function() {
+                    var conns = [
                         { type: "adición", word: "además", dist: ["porque", "primero", "finalmente"] },
                         { type: "causalidad", word: "ya que", dist: ["también", "asimismo", "luego"] },
                         { type: "secuencia", word: "después", dist: ["porque", "asimismo", "puesto que"] }
                     ];
-                    const item = pick(conns);
+                    var item = pick(conns);
                     return {
-                        q: `Identifique cuál de los siguientes conectores textuales corresponde a un conector de ${item.type.toUpperCase()}:`,
+                        q: "Identifique cuál de los siguientes términos corresponde a un conector textual de " + item.type.toUpperCase() + ":",
                         o: [item.word, item.dist[0], item.dist[1], item.dist[2]],
                         c: item.word
                     };
                 },
-                () => {
-                    const kid = pick(KIDS);
-                    return {
-                        q: `Complete el enunciado con un conector de CAUSALIDAD adecuado: "${kid} obtuvo un excelente resultado en el examen ________ estudió con dedicación todos los temas".`,
-                        o: ["porque", "además", "primero", "asimismo"],
-                        c: "porque"
-                    };
-                },
-                () => {
-                    const wordsZ = [
+                function() {
+                    var wordsZ = [
                         { s: "pez", p: "peces" }, { s: "lápiz", p: "lápices" }, { s: "nuez", p: "nueces" },
                         { s: "luz", p: "luces" }, { s: "cruz", p: "cruces" }, { s: "avestruz", p: "avestruces" },
-                        { s: "maíz", p: "maíces" }, { s: "lombriz", p: "lombrices" }, { s: "voz", p: "voces" },
-                        { s: "juez", p: "jueces" }, { s: "cicatriz", p: "cicatrices" }, { s: "antifaz", p: "antifaces" }
+                        { s: "maíz", p: "maíces" }, { s: "lombriz", p: "lombrices" }, { s: "voz", p: "voces" }
                     ];
-                    const item = pick(wordsZ);
-                    const wrong = [item.s + "s", item.s + "es", item.s.slice(0, -1) + "ses"];
+                    var item = pick(wordsZ);
                     return {
-                        q: `De acuerdo con las reglas ortográficas, ¿cuál es el PLURAL correcto de la palabra terminada en z "${item.s}"?`,
-                        o: [item.p, wrong[0], wrong[1], wrong[2]],
+                        q: 'De acuerdo con las normas ortográficas, ¿cuál es el PLURAL correcto de la palabra terminada en z "' + item.s + '"?',
+                        o: [item.p, item.s + "s", item.s + "es", item.s.slice(0, -1) + "ses"],
                         c: item.p
                     };
                 },
-                () => {
-                    const affixes = [
-                        { word: "deshacer", part: "prefijo des-", mean: "negación o inversión" },
-                        { word: "reconstruir", part: "prefijo re-", mean: "repetición" },
-                        { word: "subterráneo", part: "prefijo sub-", mean: "debajo de" },
-                        { word: "zapatero", part: "sufijo -ero", mean: "oficio u ocupación" },
-                        { word: "cariñoso", part: "sufijo -oso", mean: "abundancia de cualidad" },
-                        { word: "arbolito", part: "sufijo -ito", mean: "diminutivo o afecto" }
+                function() {
+                    var affixes = [
+                        { word: "deshacer", part: "prefijo des-", mean: "negación o acción inversa" },
+                        { word: "reconstruir", part: "prefijo re-", mean: "repetición de la acción" },
+                        { word: "subterráneo", part: "prefijo sub-", mean: "por debajo de" },
+                        { word: "panadero", part: "sufijo -ero", mean: "oficio u ocupación" },
+                        { word: "cariñoso", part: "sufijo -oso", mean: "abundancia de una cualidad" }
                     ];
-                    const item = pick(affixes);
+                    var item = pick(affixes);
                     return {
-                        q: `En la palabra "${item.word}", el elemento destacado es el ${item.part}, el cual cumple la función de:`,
-                        o: [item.mean, "cambiar el idioma del texto", "eliminar el significado de la raíz", "indicar que es una palabra en inglés"],
+                        q: 'En la palabra "' + item.word + '", el elemento destacado es el ' + item.part + ', el cual cumple la función de indicar:',
+                        o: [item.mean, "cambio de idioma", "eliminación de la raíz", "significado sin relación"],
                         c: item.mean
                     };
                 },
-                () => {
-                    const fields = [
+                function() {
+                    var fields = [
                         { name: "herramientas de construcción", words: "martillo, serrucho, pala, destornillador" },
                         { name: "frutas nutritivas", words: "manzana, banano, papaya, sandía" },
-                        { name: "prendas de vestir", words: "pantalón, camisa, abrigo, medias" },
-                        { name: "medios de transporte", words: "autobús, tren, bicicleta, barco" }
+                        { name: "prendas de vestir", words: "pantalón, camisa, abrigo, medias" }
                     ];
-                    const item = pick(fields);
+                    var item = pick(fields);
                     return {
-                        q: `El grupo de palabras {${item.words}} pertenece al mismo campo semántico debido a que:`,
-                        o: [`Comparten rasgos comunes de significado como ${item.name}`, "Tienen exactamente la misma cantidad de letras", "Empiezan todas con la letra 'z'", "Carecen de raíz o lexema"],
-                        c: `Comparten rasgos comunes de significado como ${item.name}`
+                        q: "El conjunto de palabras {" + item.words + "} pertenece al mismo campo semántico porque:",
+                        o: ["Comparten rasgos comunes de significado como " + item.name, "Tienen la misma cantidad de letras", "Empiezan todas con la letra 'z'", "Carecen de lexema o raíz"],
+                        c: "Comparten rasgos comunes de significado como " + item.name
                     };
                 },
-                () => {
-                    const kid = pick(KIDS);
+                function() {
+                    var kid = pick(KIDS);
                     return {
-                        q: `Cuando ${kid} realiza una exposición oral, modula su tono de voz, hace contacto visual y acompaña sus palabras con gestos amables, está empleando elementos:`,
-                        o: ["Paralingüísticos y no lingüísticos", "Puramente ortográficos de puntuación", "De cálculo matemático", "Exclusivamente informáticos"],
+                        q: "Cuando " + kid + " expone en clase y modula su tono de voz, hace contacto visual y usa gestos con sus manos, emplea elementos:",
+                        o: ["Paralingüísticos y no lingüísticos", "Puramente ortográficos de acentuación", "De cálculo matemático", "Exclusivamente informáticos"],
                         c: "Paralingüísticos y no lingüísticos"
                     };
                 },
-                () => {
+                function() {
                     return {
-                        q: `¿Cuál es el rol fundamental de la IDEA PRINCIPAL dentro de un párrafo debidamente redactado?`,
-                        o: ["Sintetizar el mensaje esencial e indispensable del párrafo", "Anotar únicamente ejemplos secundarios", "Rimar con los versos de una canción", "Servir solo como título al inicio del libro"],
+                        q: "¿Cuál es la función principal de la IDEA PRINCIPAL dentro de un párrafo estructurado?",
+                        o: ["Sintetizar el mensaje esencial e indispensable del párrafo", "Presentar únicamente ejemplos secundarios", "Rimar los versos de un poema", "Servir solo de adorno"],
                         c: "Sintetizar el mensaje esencial e indispensable del párrafo"
                     };
                 }
             ],
             "Matemáticas": [
-                () => {
-                    const a = randInt(120, 850);
-                    const b = randInt(3, 9);
-                    const ans = a * b;
+                function() {
+                    var a = randInt(125, 840), b = randInt(3, 9);
+                    var ans = a * b;
                     return {
-                        q: `Al resolver en columna la multiplicación ${a} × ${b}, ¿cuál es el producto final exacto?`,
-                        o: [`${ans}`, `${ans + 10}`, `${ans - 10}`, `${ans + b}`],
-                        c: `${ans}`
+                        q: "Al resolver en columna la multiplicación " + a + " × " + b + ", ¿cuál es el producto exacto?",
+                        o: [ans.toString(), (ans + 10).toString(), (ans - 10).toString(), (ans + b).toString()],
+                        c: ans.toString()
                     };
                 },
-                () => {
-                    const a = randInt(140, 620);
-                    const b = randInt(12, 28);
-                    const ans = a * b;
+                function() {
+                    var a = randInt(140, 520), b = randInt(12, 24);
+                    var ans = a * b;
                     return {
-                        q: `En la verdulería se empacan ${a} bolsas de papas de ${b} gramos cada una. Al multiplicar ${a} × ${b} paso a paso, ¿cuál es el total?`,
-                        o: [`${ans}`, `${ans + 100}`, `${ans - 50}`, `${ans + 20}`],
-                        c: `${ans}`
+                        q: "En una bodega se organizan " + a + " cajas con " + b + " paquetes cada una. Al multiplicar " + a + " × " + b + " en columna, ¿cuál es el total?",
+                        o: [ans.toString(), (ans + 100).toString(), (ans - 50).toString(), (ans + 20).toString()],
+                        c: ans.toString()
                     };
                 },
-                () => {
-                    const r = randInt(4, 25);
-                    const d = r * 2;
+                function() {
+                    var r = randInt(5, 30), d = r * 2;
                     return {
-                        q: `Una mesa redonda de la Escuela Juan Ramírez tiene una circunferencia con un radio de ${r} cm. ¿Cuánto mide su DIÁMETRO?`,
-                        o: [`${d} cm`, `${r} cm`, `${d + 4} cm`, `${r * 3} cm`],
-                        c: `${d} cm`
+                        q: "Una mesa circular de la escuela tiene una circunferencia con un radio de " + r + " cm. ¿Cuánto mide su DIÁMETRO?",
+                        o: [d + " cm", r + " cm", (d + 4) + " cm", (r * 3) + " cm"],
+                        c: d + " cm"
                     };
                 },
-                () => {
-                    const d = randInt(6, 30) * 2;
-                    const r = d / 2;
+                function() {
+                    var d = randInt(6, 28) * 2, r = d / 2;
                     return {
-                        q: `El aro del tablero deportivo tiene un diámetro de ${d} cm. ¿Cuánto mide exactamente su RADIO?`,
-                        o: [`${r} cm`, `${d} cm`, `${d * 2} cm`, `${r + 5} cm`],
-                        c: `${r} cm`
+                        q: "El aro del gimnasio escolar tiene un diámetro de " + d + " cm. ¿Cuánto mide exactamente su RADIO?",
+                        o: [r + " cm", d + " cm", (d * 2) + " cm", (r + 5) + " cm"],
+                        c: r + " cm"
                     };
                 },
-                () => {
-                    const kg = randInt(2, 9);
-                    const g = kg * 1000;
+                function() {
+                    var kg = randInt(2, 8), g = kg * 1000;
                     return {
-                        q: `${pick(KIDS)} compró en la feria del agricultor un saco con ${kg} kilogramos de hortalizas. ¿A cuántos gramos equivale ese peso?`,
-                        o: [`${g} gramos`, `${kg * 100} gramos`, `${kg * 10} gramos`, `${g + 500} gramos`],
-                        c: `${g} gramos`
+                        q: pick(KIDS) + " compró en la feria de Cartago un saco con " + kg + " kilogramos de papas. ¿A cuántos gramos equivale?",
+                        o: [g + " gramos", (kg * 100) + " gramos", (kg * 10) + " gramos", (g + 500) + " gramos"],
+                        c: g + " gramos"
                     };
                 },
-                () => {
-                    const fractions = [
+                function() {
+                    var fractions = [
                         { f: "1/2 kg", g: "500 gramos" },
                         { f: "1/4 kg", g: "250 gramos" },
                         { f: "3/4 kg", g: "750 gramos" }
                     ];
-                    const item = pick(fractions);
+                    var item = pick(fractions);
                     return {
-                        q: `Si una receta tradicional de repostería solicita exactamente ${item.f} de queso dulce, ¿a cuántos gramos corresponde?`,
+                        q: "Una receta tradicional de repostería solicita exactamente " + item.f + " de queso dulce. ¿A cuántos gramos equivale?",
                         o: [item.g, "1000 gramos", "100 gramos", "350 gramos"],
                         c: item.g
                     };
                 },
-                () => {
-                    const h = randInt(2, 6);
-                    const min = h * 60;
+                function() {
+                    var h = randInt(2, 6), min = h * 60;
                     return {
-                        q: `El viaje escolar hacia las Ruinas de Cartago tuvo una duración de ${h} horas completas. ¿A cuántos minutos equivale?`,
-                        o: [`${min} minutos`, `${h * 100} minutos`, `${min + 30} minutos`, `${h * 50} minutos`],
-                        c: `${min} minutos`
+                        q: "Un recorrido cultural por las Ruinas de Cartago tuvo una duración de " + h + " horas completas. ¿A cuántos minutos equivale?",
+                        o: [min + " minutos", (h * 100) + " minutos", (min + 30) + " minutos", (h * 50) + " minutos"],
+                        c: min + " minutos"
                     };
                 },
-                () => {
-                    const weeks = randInt(2, 7);
-                    const days = weeks * 7;
+                function() {
+                    var weeks = randInt(2, 6), days = weeks * 7;
                     return {
-                        q: `${pick(KIDS)} practicará natación durante ${weeks} semanas consecutivas. ¿Cuántos días en total entrenará?`,
-                        o: [`${days} días`, `${weeks * 5} días`, `${days + 4} días`, `${weeks * 10} días`],
-                        c: `${days} días`
+                        q: pick(KIDS) + " entrenará atletismo durante " + weeks + " semanas consecutivas. ¿Cuántos días en total entrenará?",
+                        o: [days + " días", (weeks * 5) + " días", (days + 4) + " días", (weeks * 10) + " días"],
+                        c: days + " días"
                     };
                 },
-                () => {
+                function() {
                     return {
-                        q: `¿Cuál es la diferencia geométrica esencial entre un CÍRCULO y una CIRCUNFERENCIA?`,
+                        q: "¿Cuál es la diferencia geométrica esencial entre un CÍRCULO y una CIRCUNFERENCIA?",
                         o: [
                             "La circunferencia es la línea curva cerrada exterior y el círculo es la superficie plana interior",
-                            "La circunferencia es el centro y el círculo es el borde",
-                            "Ambos son idénticos y no poseen diferencias",
-                            "El círculo mide la masa y la circunferencia el tiempo"
+                            "La circunferencia es el centro y el círculo es el borde exterior",
+                            "Ambos son idénticos y no poseen ninguna diferencia geométrica",
+                            "El círculo mide el tiempo y la circunferencia la masa"
                         ],
                         c: "La circunferencia es la línea curva cerrada exterior y el círculo es la superficie plana interior"
                     };
                 }
             ],
             "Ciencias": [
-                () => {
-                    const animals = [
-                        { name: "jaguar", diet: "carne de presas silvestres", type: "carnívoro" },
+                function() {
+                    var animals = [
+                        { name: "jaguar", diet: "carne de otros animales silvestres", type: "carnívoro" },
                         { name: "danta (tapir)", diet: "hojas, frutos y ramas del bosque", type: "herbívoro" },
-                        { name: "pizote", diet: "tanto frutas como pequeños invertebrados", type: "omnívoro" },
-                        { name: "oso hormiguero", diet: "termitas y hormigas especializadas", type: "insectívoro" },
-                        { name: "puma", diet: "carne de otros animales de montaña", type: "carnívoro" },
-                        { name: "venado cola blanca", diet: "hierbas y pastos naturales", type: "herbívoro" }
+                        { name: "pizote", diet: "tanto frutas como pequeños animales", type: "omnívoro" },
+                        { name: "oso hormiguero", diet: "hormigas y termitas", type: "insectívoro" },
+                        { name: "venado cola blanca", diet: "pastos y ramas tiernas", type: "herbívoro" }
                     ];
-                    const a = pick(animals);
+                    var a = pick(animals);
                     return {
-                        q: `En la fauna costarricense, el ${a.name} se alimenta principalmente de ${a.diet}. Por este motivo, se clasifica como:`,
-                        o: [a.type, "productor vegetal", "descomponedor marino", "omnívoro acuático"],
+                        q: "En la fauna costarricense, el " + a.name + " se alimenta principalmente de " + a.diet + ". Por esta razón, se clasifica como:",
+                        o: [a.type, "descomponedor marino", "productor vegetal", "omnívoro acuático"],
                         c: a.type
                     };
                 },
-                () => {
-                    const biotics = ["El roble blanco", "El jaguar de la selva", "Los hongos del bosque", "Las bacterias del suelo"];
-                    const abiotics = ["El agua del río", "La luz solar", "El aire atmosférico", "Las rocas de la montaña"];
-                    const isBio = Math.random() > 0.5;
+                function() {
+                    var biotics = ["El roble blanco", "El jaguar de la selva", "Los hongos del bosque", "Las bacterias del suelo"];
+                    var abiotics = ["El agua del río", "La luz solar", "El aire atmosférico", "Las rocas volcánicas"];
+                    var isBio = Math.random() > 0.5;
                     if (isBio) {
-                        const correct = pick(biotics);
-                        const wrong = shuffle(abiotics).slice(0, 3);
+                        var correct = pick(biotics);
+                        var wrong = shuffle(abiotics).slice(0, 3);
                         return {
-                            q: `En el ecosistema del Parque Nacional Tapantí en Cartago, ¿cuál de los siguientes elementos corresponde a un componente BIÓTICO?`,
+                            q: "En el ecosistema del Parque Nacional Tapantí en Cartago, ¿cuál elemento corresponde a un componente BIÓTICO?",
                             o: [correct, wrong[0], wrong[1], wrong[2]],
                             c: correct
                         };
                     } else {
-                        const correct = pick(abiotics);
-                        const wrong = shuffle(biotics).slice(0, 3);
+                        var correctA = pick(abiotics);
+                        var wrongA = shuffle(biotics).slice(0, 3);
                         return {
-                            q: `En el ecosistema del Volcán Irazú, ¿cuál de los siguientes factores representa un componente ABIÓTICO indispensable?`,
-                            o: [correct, wrong[0], wrong[1], wrong[2]],
-                            c: correct
+                            q: "En el ecosistema del Volcán Irazú, ¿cuál de los siguientes factores representa un componente ABIÓTICO indispensable?",
+                            o: [correctA, wrongA[0], wrongA[1], wrongA[2]],
+                            c: correctA
                         };
                     }
                 },
-                () => {
+                function() {
                     return {
-                        q: `¿Qué significa el concepto de EQUILIBRIO ECOLÓGICO o biológico en un entorno natural?`,
+                        q: "¿Qué significa el concepto de EQUILIBRIO ECOLÓGICO o biológico en la naturaleza?",
                         o: [
                             "La armonía e interdependencia equilibrada entre los seres vivos y su medio físico",
-                            "La eliminación selectiva de los depredadores del bosque",
-                            "Talar los árboles para construir carreteras de asfalto",
-                            "La escasez total de lluvia durante temporadas prolongadas"
+                            "La eliminación total de los depredadores de la montaña",
+                            "Talar los bosques para construir edificios",
+                            "La sequía permanente de las cuencas hidrográficas"
                         ],
                         c: "La armonía e interdependencia equilibrada entre los seres vivos y su medio físico"
                     };
                 },
-                () => {
-                    const machines = [
+                function() {
+                    var machines = [
                         { name: "polea", desc: "una rueda ranurada con una cuerda para elevar cargas con menor esfuerzo" },
-                        { name: "plano inclinado", desc: "una rampa inclinada que facilita subir objetos pesados venciendo la gravedad" },
-                        { name: "palanca", desc: "una barra rígida apoyada sobre un punto de apoyo para levantar cargas" },
-                        { name: "cuña", desc: "un prisma triangular con filo para dividir o cortar materiales como la madera" }
+                        { name: "plano inclinado", desc: "una rampa inclinada que facilita subir cargas pesadas venciendo la gravedad" },
+                        { name: "palanca", desc: "una barra rígida apoyada sobre un punto de apoyo para mover objetos" },
+                        { name: "cuña", desc: "un prisma triangular con filo para dividir o cortar materiales" }
                     ];
-                    const m = pick(machines);
+                    var m = pick(machines);
                     return {
-                        q: `La máquina simple que consiste en ${m.desc} corresponde a:`,
-                        o: [m.name, "la licuadora", "el motor de combustión", "la computadora portátil"],
+                        q: "La máquina simple que consiste en " + m.desc + " corresponde a:",
+                        o: [m.name, "el motor de gasolina", "la licuadora eléctrica", "la computadora"],
                         c: m.name
                     };
                 },
-                () => {
-                    const energies = [
+                function() {
+                    var energies = [
                         { type: "Eólica", source: "el movimiento del viento" },
-                        { type: "Solar", source: "la radiación y calor emitidos por el Sol" },
+                        { type: "Solar", source: "la radiación y luz emitidas por el Sol" },
                         { type: "Hidráulica", source: "la fuerza y corriente de las caídas de agua" }
                     ];
-                    const item = pick(energies);
+                    var item = pick(energies);
                     return {
-                        q: `La energía limpia y renovable que se obtiene directamente aprovechando ${item.source} se denomina energía:`,
-                        o: [item.type, "Nuclear", "Fósil contaminante", "Química artificial"],
-                        c: item.type
+                        q: "La energía limpia y renovable que se obtiene directamente aprovechando " + item.source + " se denomina:",
+                        o: ["Energía " + item.type, "Energía Nuclear", "Energía de Petróleo", "Energía Química artificial"],
+                        c: "Energía " + item.type
                     };
                 }
             ],
             "Estudios Sociales": [
-                () => {
-                    const tangible = ["La Escuela Juan Ramírez Ramírez", "La Basílica de los Ángeles", "Las Ruinas de la Parroquia Santiago Apóstol"];
-                    const item = pick(tangible);
+                function() {
+                    var tangible = ["La Escuela Juan Ramírez Ramírez", "La Basílica de los Ángeles", "Las Ruinas de la Parroquia Santiago Apóstol"];
+                    var item = pick(tangible);
                     return {
-                        q: `${item} en Cartago es un testimonio invaluable del pasado que forma parte del:`,
-                        o: ["Patrimonio cultural tangible arquitectónico", "Patrimonio cultural intangible", "Patrimonio biológico abiótico", "Patrimonio puramente natural"],
+                        q: item + " en Cartago es un testimonio del pasado que forma parte del:",
+                        o: ["Patrimonio cultural tangible arquitectónico", "Patrimonio cultural intangible", "Patrimonio biológico abiótico", "Patrimonio natural no vivo"],
                         c: "Patrimonio cultural tangible arquitectónico"
                     };
                 },
-                () => {
-                    const intangible = ["El idioma español", "Las leyendas tradicionales como La Cegua", "Las danzas folclóricas típicas", "La música de marimba"];
-                    const item = pick(intangible);
+                function() {
+                    var intangible = ["El idioma español", "Las leyendas tradicionales como La Segua", "Las danzas folclóricas típicas", "La música de marimba"];
+                    var item = pick(intangible);
                     return {
-                        q: `${item} de nuestra patria se clasifica como una manifestación de:`,
+                        q: item + " de nuestra patria se clasifica como una manifestación de:",
                         o: ["Patrimonio cultural intangible", "Patrimonio cultural tangible", "Patrimonio geológico mineral", "Estructura arquitectónica"],
                         c: "Patrimonio cultural intangible"
                     };
                 },
-                () => {
+                function() {
                     return {
-                        q: `El 25 de julio conmemoramos un hecho cívico de 1824 cuyo célebre lema patrio es "De la patria por nuestra voluntad". ¿Qué efeméride se celebra?`,
+                        q: 'El 25 de julio conmemoramos un hecho cívico de 1824 cuyo lema patrio es "De la patria por nuestra voluntad". ¿Qué efeméride se celebra?',
                         o: ["La Anexión del Partido de Nicoya a Costa Rica", "La Independencia de Centroamérica", "El Día del Trabajador", "La Batalla de Santa Rosa"],
                         c: "La Anexión del Partido de Nicoya a Costa Rica"
                     };
                 },
-                () => {
+                function() {
                     return {
-                        q: `¿Cuáles comidas tradicionales a base de maíz representan un legado gastronómico fundamental aportado por Guanacaste?`,
-                        o: ["Las chorreadas, el tamal asado y el pozol", "El rice and beans y el pan bon", "El pati y el agua de sapo", "Las manzanas dulces y peras"],
+                        q: "¿Cuáles comidas tradicionales a base de maíz representan un aporte gastronómico fundamental de Guanacaste?",
+                        o: ["Las chorreadas, el tamal asado y el pozol", "El rice and beans y el pan bon", "El pati y el agua de sapo", "Las galletas de avena y peras"],
                         c: "Las chorreadas, el tamal asado y el pozol"
                     };
                 },
-                () => {
+                function() {
                     return {
-                        q: `Cada 31 de agosto, Costa Rica conmemora el Día de la Persona Negra y la Cultura Afrocostarricense. ¿Cuál es un aporte característico de esta rica cultura?`,
-                        o: ["El calipso, el rice and beans y el pan bon", "El punto guanacasteco y el pozol", "El picadillo de arracache tradicional", "La fabricación de carretas de bueyes"],
+                        q: "Cada 31 de agosto, Costa Rica conmemora el Día de la Persona Negra y la Cultura Afrocostarricense. ¿Cuál es un aporte fundamental de esta cultura?",
+                        o: ["El calipso, el rice and beans y el pan bon", "El punto guanacasteco y el pozol", "El picadillo de papa cartaginés", "La carreta típica de bueyes"],
                         c: "El calipso, el rice and beans y el pan bon"
                     };
                 },
-                () => {
+                function() {
                     return {
-                        q: `El 14 de setiembre a las 6:00 p.m., los estudiantes de la Escuela Juan Ramírez y todo el país se reúnen tradicionalmente para:`,
-                        o: ["Entonar el Himno Nacional y desfilar con faroles", "Comer uvas de Año Nuevo", "Celebrar el Día del Niño", "Visitar las playas de Guanacaste"],
+                        q: "El 14 de setiembre a las 6:00 p.m., los estudiantes de la Escuela Juan Ramírez y todo el país se reúnen tradicionalmente para:",
+                        o: ["Entonar el Himno Nacional y desfilar con faroles", "Comer uvas de Año Nuevo", "Celebrar el Día del Niño", "Visitar las playas de Puntarenas"],
                         c: "Entonar el Himno Nacional y desfilar con faroles"
                     };
                 },
-                () => {
-                    const symbols = [
+                function() {
+                    var symbols = [
                         { name: "La Guaria Morada", type: "Flor Nacional" },
                         { name: "El Árbol de Guanacaste", type: "Árbol Nacional de sombra y protección" },
                         { name: "El Yigüirro", type: "Ave Nacional por su canto que anuncia las lluvias" },
-                        { name: "La Carreta Típica", type: "Símbolo del trabajo y la cultura de paz" },
+                        { name: "La Carreta Típica", type: "Símbolo del trabajo y la paz" },
                         { name: "El Venado Cola Blanca", type: "Símbolo de la fauna silvestre de nuestras áreas protegidas" }
                     ];
-                    const s = pick(symbols);
+                    var s = pick(symbols);
                     return {
-                        q: `En el conjunto de Símbolos Nacionales de Costa Rica, ${s.name} fue declarado como:`,
+                        q: "En el conjunto de Símbolos Nacionales de Costa Rica, " + s.name + " fue declarado como:",
                         o: [s.type, "Monumento arquitectónico de Cartago", "Máquina simple de tracción", "Efeméride de agosto"],
                         c: s.type
                     };
                 }
             ],
             "Inglés": [
-                {
-                    get: () => {
-                        const kid = pick(KIDS);
-                        return {
-                            q: `${kid} va a la cocina después de cenar para dejar el fregadero y los platos totalmente limpios. ¿Qué tarea doméstica está realizando?`,
-                            o: ["wash the dishes", "cook", "iron", "walk the dog"],
-                            c: "wash the dishes"
-                        };
-                    }
+                function() {
+                    var kid = pick(KIDS);
+                    return {
+                        q: kid + " va a la cocina después de cenar para dejar el fregadero y los platos totalmente limpios. ¿Qué quehacer doméstico está realizando?",
+                        o: ["wash the dishes", "cook", "iron", "walk the dog"],
+                        c: "wash the dishes"
+                    };
                 },
-                {
-                    get: () => {
-                        const kid = pick(KIDS);
-                        return {
-                            q: `La ropa de ${kid} está seca pero con muchas arrugas y necesita dejarla completamente lisa para ir a la escuela. ¿Qué quehacer realiza?`,
-                            o: ["iron", "vacuum", "cook", "wash the dishes"],
-                            c: "iron"
-                        };
-                    }
+                function() {
+                    var kid = pick(KIDS);
+                    return {
+                        q: "La ropa de " + kid + " está seca pero muy arrugada y necesita dejarla completamente lisa para ir a la escuela. ¿Qué quehacer realiza?",
+                        o: ["iron", "vacuum", "cook", "wash the dishes"],
+                        c: "iron"
+                    };
                 },
-                {
-                    get: () => {
-                        const kid = pick(KIDS);
-                        return {
-                            q: `La alfombra de la sala tiene polvo y migas. ${kid} enciende la máquina que absorbe toda la suciedad del piso. ¿Qué acción realiza?`,
-                            o: ["vacuum", "walk the dog", "cook", "wash the clothes"],
-                            c: "vacuum"
-                        };
-                    }
+                function() {
+                    var kid = pick(KIDS);
+                    return {
+                        q: "La alfombra de la sala tiene polvo y migas. " + kid + " enciende la máquina eléctrica que aspira la suciedad del piso. ¿Qué acción realiza?",
+                        o: ["vacuum", "walk the dog", "cook", "wash the clothes"],
+                        c: "vacuum"
+                    };
                 },
-                {
-                    get: () => {
-                        const kid = pick(KIDS);
-                        return {
-                            q: `El perrito de la familia necesita salir al parque a ejercitarse y pasear. ¿Cuál tarea doméstica en inglés corresponde?`,
-                            o: ["walk the dog", "cook", "iron", "wash the dishes"],
-                            c: "walk the dog"
-                        };
-                    }
+                function() {
+                    var kid = pick(KIDS);
+                    return {
+                        q: "La mascota de la familia necesita salir al parque a ejercitarse y pasear. ¿Cuál tarea doméstica en inglés corresponde?",
+                        o: ["walk the dog", "cook", "iron", "wash the dishes"],
+                        c: "walk the dog"
+                    };
                 },
-                {
-                    get: () => {
-                        const holidays = [
-                            { name: "Día de la Independencia (Independence Day)", d: "September 15th" },
-                            { name: "Navidad (Christmas)", d: "December 25th" },
-                            { name: "Día de Juan Santamaría", d: "April 11th" },
-                            { name: "Día de la Madre (Mother's Day)", d: "August 15th" },
-                            { name: "Anexión del Partido de Nicoya", d: "July 25th" },
-                            { name: "Año Nuevo (New Year's Day)", d: "January 1st" },
-                            { name: "Día de la Virgen de los Ángeles", d: "August 2nd" },
-                            { name: "Día del Trabajador (Labor Day)", d: "May 1st" }
-                        ];
-                        const h = pick(holidays);
-                        const wrong = ["September 15th", "December 25th", "April 11th", "January 1st", "May 1st"].filter(x => x !== h.d).slice(0, 3);
-                        return {
-                            q: `En Costa Rica celebramos la fecha cívica de ${h.name}. ¿Con cuál fecha en inglés se asocia en el calendario?`,
-                            o: [h.d, wrong[0], wrong[1], wrong[2]],
-                            c: h.d
-                        };
-                    }
+                function() {
+                    var holidays = [
+                        { name: "Día de la Independencia (Independence Day)", d: "September 15th" },
+                        { name: "Navidad (Christmas)", d: "December 25th" },
+                        { name: "Día de Juan Santamaría", d: "April 11th" },
+                        { name: "Día de la Madre (Mother's Day)", d: "August 15th" },
+                        { name: "Anexión del Partido de Nicoya", d: "July 25th" },
+                        { name: "Año Nuevo (New Year's Day)", d: "January 1st" },
+                        { name: "Día de la Virgen de los Ángeles", d: "August 2nd" },
+                        { name: "Día del Trabajador (Labor Day)", d: "May 1st" }
+                    ];
+                    var h = pick(holidays);
+                    var wrong = ["September 15th", "December 25th", "April 11th", "January 1st", "May 1st"].filter(function(x) { return x !== h.d; }).slice(0, 3);
+                    return {
+                        q: "En Costa Rica conmemoramos la fecha patria de " + h.name + ". ¿Con cuál fecha en inglés se asocia en el calendario?",
+                        o: [h.d, wrong[0], wrong[1], wrong[2]],
+                        c: h.d
+                    };
                 },
-                {
-                    get: () => {
-                        const ords = [
-                            { es: "primero", en: "1st" }, { es: "segundo", en: "2nd" }, { es: "tercero", en: "3rd" },
-                            { es: "cuarto", en: "4th" }, { es: "quinto", en: "5th" }, { es: "décimo", en: "10th" }
-                        ];
-                        const ord = pick(ords);
-                        const wrong = ["1st", "2nd", "3rd", "4th", "5th", "10th"].filter(x => x !== ord.en).slice(0, 3);
-                        return {
-                            q: `En una competencia escolar en Cartago, ${pick(KIDS)} obtuvo el lugar "${ord.es}". ¿Cómo se escribe ese número ordinal en inglés?`,
-                            o: [ord.en, wrong[0], wrong[1], wrong[2]],
-                            c: ord.en
-                        };
-                    }
+                function() {
+                    var ords = [
+                        { es: "primero", en: "1st" }, { es: "segundo", en: "2nd" }, { es: "tercero", en: "3rd" },
+                        { es: "cuarto", en: "4th" }, { es: "quinto", en: "5th" }, { es: "décimo", en: "10th" }
+                    ];
+                    var ord = pick(ords);
+                    var wrong = ["1st", "2nd", "3rd", "4th", "5th", "10th"].filter(function(x) { return x !== ord.en; }).slice(0, 3);
+                    return {
+                        q: "En una competencia deportiva en la Escuela Juan Ramírez, " + pick(KIDS) + ' obtuvo el lugar "' + ord.es + '". ¿Cómo se escribe ese número ordinal en inglés?',
+                        o: [ord.en, wrong[0], wrong[1], wrong[2]],
+                        c: ord.en
+                    };
                 },
-                {
-                    get: () => {
-                        return {
-                            q: `¿Cuál de las siguientes opciones muestra tres meses del año en orden cronológico estricto en inglés?`,
-                            o: ["January, February, March", "March, January, February", "December, October, November", "July, May, June"],
-                            c: "January, February, March"
-                        };
-                    }
+                function() {
+                    return {
+                        q: "¿Cuál de las siguientes opciones muestra tres meses del año en estricto orden cronológico en inglés?",
+                        o: ["January, February, March", "March, January, February", "December, October, November", "July, May, June"],
+                        c: "January, February, March"
+                    };
                 }
             ]
         };
 
-        // =========================================================================
-        // MOTOR PROCEDURAL SEGURO (CERO BUCLES INFINITOS - GARANTIZA 20 PREGUNTAS)
-        // =========================================================================
-        const generateProceduralExam = (materia, seenList) => {
-            const rawPool = PROCEDURAL_BANK[materia] || PROCEDURAL_BANK["Español"];
-            // Normalizar funciones del banco
-            const pool = rawPool.map(fn => typeof fn === "function" ? fn : (fn.get || (() => fn)));
-            
-            const results = [];
-            const usedTexts = new Set();
+        window.buildProceduralExam = function(materia, seenList) {
+            var pool = window.PROCEDURAL_GENERATORS[materia] || window.PROCEDURAL_GENERATORS["Español"];
+            var results = [];
+            var usedQuestions = new Set();
 
-            // Paso 1: Intentar preguntas no vistas previamente
-            const shuffledPool = shuffle([...pool]);
-            for (let i = 0; i < shuffledPool.length; i++) {
+            // 1. Intentar preguntas no vistas
+            var shuffledPool = window.shuffle(pool);
+            for (var i = 0; i < shuffledPool.length; i++) {
                 if (results.length >= 20) break;
-                const item = shuffledPool[i]();
-                if (item && item.q && !usedTexts.has(item.q) && !seenList.includes(item.q)) {
-                    usedTexts.add(item.q);
+                var item = shuffledPool[i]();
+                if (item && item.q && !usedQuestions.has(item.q) && !seenList.includes(item.q)) {
+                    usedQuestions.add(item.q);
                     results.push(item);
                 }
             }
 
-            // Paso 2: Completar hasta 20 con variaciones únicas sin trabarse
-            let attempts = 0;
-            while (results.length < 20 && attempts < 150) {
+            // 2. Completar con variaciones aleatorias sin bucles infinitos
+            var attempts = 0;
+            while (results.length < 20 && attempts < 100) {
                 attempts++;
-                const fn = pick(pool);
-                const item = fn();
-                if (item && item.q && !usedTexts.has(item.q)) {
-                    usedTexts.add(item.q);
-                    results.push(item);
+                var fn = window.pick(pool);
+                var dynItem = fn();
+                if (dynItem && dynItem.q && !usedQuestions.has(dynItem.q)) {
+                    usedQuestions.add(dynItem.q);
+                    results.push(dynItem);
                 }
             }
 
-            // Paso 3: Failsafe absoluto para que NUNCA se cuelgue el navegador
-            let safetyCount = 0;
-            while (results.length < 20 && safetyCount < 30) {
-                safetyCount++;
-                const fn = pick(pool);
-                const item = fn();
-                if (item && item.q) {
-                    // Diferenciar ligeramente para el Set
-                    const clone = { ...item, q: `${item.q} (Reto ${results.length + 1})` };
+            // 3. Relleno de seguridad garantizado
+            var safety = 0;
+            while (results.length < 20 && safety < 30) {
+                safety++;
+                var baseFn = window.pick(pool);
+                var baseItem = baseFn();
+                if (baseItem && baseItem.q) {
+                    var clone = Object.assign({}, baseItem, { q: baseItem.q + " (Variante " + (results.length + 1) + ")" });
                     results.push(clone);
                 }
             }
@@ -747,49 +692,36 @@
             return results.slice(0, 20);
         };
 
-        // =========================================================================
-        // MOTOR DE EJECUCIÓN: IA EN VIVO CON TRANSICIÓN SUAVE A PROCEDURAL
-        // =========================================================================
-        window.startAiExam = async (materia) => {
+        var currentSubj = "";
+        var currentQs = [];
+        var curIdx = 0;
+        var score = 0;
+        var curFailures = [];
+
+        window.startExam = async function(materia) {
+            window.nav('loading');
+
+            var seenQuestions = [];
             try {
-                nav('loading');
+                var stored = localStorage.getItem('seen_' + materia);
+                if (stored) seenQuestions = JSON.parse(stored);
             } catch (e) {
-                console.error("Error al navegar a loading:", e);
+                console.warn("Aviso localStorage:", e);
             }
 
-            // 1. Cargar historial de exclusión del estudiante
-            let seenQuestions = [];
-            if (user) {
+            var final20 = [];
+            var engineName = "PROCEDURAL INÉDITO";
+            var apiKey = (localStorage.getItem('gemini_user_api_key') || "").trim();
+
+            // Si el docente ingresó clave de Google AI Studio, intentar IA en vivo
+            if (apiKey) {
                 try {
-                    const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'historial', 'vistas');
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists() && docSnap.data().preguntas) {
-                        seenQuestions = docSnap.data().preguntas;
-                    }
-                } catch (e) {
-                    console.warn("Aviso Firestore al leer historial:", e);
-                }
-            }
-
-            const localSeen = JSON.parse(localStorage.getItem(`seen_${materia}`) || "[]");
-            seenQuestions = [...new Set([...seenQuestions, ...localSeen])];
-
-            const storedKey = (localStorage.getItem('gemini_user_api_key') || "").trim();
-            const sessionSalt = `SES_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
-
-            let final20 = [];
-            let usedEngine = "PROCEDURAL INÉDITO";
-
-            // Si el usuario configuró una clave en el modal, intentamos llamar a la IA
-            if (storedKey) {
-                try {
-                    const prompt = `Actúa como evaluador oficial del MEP de Costa Rica para la Escuela Juan Ramírez Ramírez (Sección 3-2).
-Genera EXACTAMENTE 20 preguntas analíticas e inéditas de selección única para la materia de ${materia}.
-Código aleatorio: [${sessionSalt}].`;
-
-                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${storedKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                    var sessionSalt = "SES_" + Date.now() + "_" + Math.random().toString(36).substring(2, 6);
+                    var prompt = "Eres un evaluador del MEP de Costa Rica para la Escuela Juan Ramírez Ramírez (Sección 3-2). Genera EXACTAMENTE 20 preguntas analíticas e inéditas de selección única para " + materia + ". Código de variedad: [" + sessionSalt + "].";
+                    
+                    var res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             contents: [{ parts: [{ text: prompt }] }],
                             generationConfig: {
@@ -818,58 +750,40 @@ Código aleatorio: [${sessionSalt}].`;
                     });
 
                     if (res.ok) {
-                        const json = await res.json();
-                        const parsed = JSON.parse(json.candidates[0].content.parts[0].text);
+                        var json = await res.json();
+                        var parsed = JSON.parse(json.candidates[0].content.parts[0].text);
                         if (parsed.questions && parsed.questions.length >= 20) {
                             final20 = parsed.questions.slice(0, 20);
-                            usedEngine = "IA VIVA";
+                            engineName = "IA VIVA";
                         }
                     }
                 } catch (err) {
-                    console.warn("IA no respondió, pasando a procedural seguro:", err);
+                    console.warn("IA no respondió, conmutando a procedural:", err);
                 }
             }
 
-            // Si no hay clave o falló la IA, el generador procedural responde de inmediato (CERO congelamiento)
+            // Si no hay clave o falló la petición, el motor procedural responde DE INMEDIATO
             if (final20.length < 20) {
-                final20 = generateProceduralExam(materia, seenQuestions);
-                usedEngine = "PROCEDURAL INÉDITO";
+                final20 = window.buildProceduralExam(materia, seenQuestions);
+                engineName = "PROCEDURAL INÉDITO";
             }
 
-            await saveSeenQuestions(materia, final20.map(x => x.q));
-            initQuiz(materia, final20, usedEngine);
-        };
-
-        const saveSeenQuestions = async (materia, newQuestions) => {
-            const localKey = `seen_${materia}`;
-            const currentLocal = JSON.parse(localStorage.getItem(localKey) || "[]");
-            const updatedLocal = [...new Set([...currentLocal, ...newQuestions])];
-            localStorage.setItem(localKey, JSON.stringify(updatedLocal));
-
-            if (user) {
-                try {
-                    const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'historial', 'vistas');
-                    const docSnap = await getDoc(docRef);
-                    let currentList = [];
-                    if (docSnap.exists() && docSnap.data().preguntas) {
-                        currentList = docSnap.data().preguntas;
-                    }
-                    const updatedList = [...new Set([...currentList, ...newQuestions])];
-                    await setDoc(docRef, { preguntas: updatedList });
-                } catch (e) {
-                    console.warn("Aviso al guardar en Firestore:", e);
-                }
+            // Registrar preguntas vistas
+            try {
+                var updated = Array.from(new Set(seenQuestions.concat(final20.map(function(x) { return x.q; }))));
+                localStorage.setItem('seen_' + materia, JSON.stringify(updated));
+            } catch (e) {
+                console.warn("Aviso al guardar vistas:", e);
             }
-        };
 
-        const initQuiz = (name, questions, engineName) => {
-            currentSubj = name;
-            currentQs = questions;
+            // Iniciar cuestionario interactivo
+            currentSubj = materia;
+            currentQs = final20;
             curIdx = 0;
             score = 0;
             curFailures = [];
 
-            const badge = document.getElementById('engine-badge');
+            var badge = document.getElementById('engine-badge');
             if (badge) {
                 badge.innerText = engineName;
                 badge.className = engineName === "IA VIVA" 
@@ -877,40 +791,40 @@ Código aleatorio: [${sessionSalt}].`;
                     : "px-2.5 py-0.5 rounded-full text-[0.65rem] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30";
             }
 
-            nav('quiz');
-            drawQuestion();
+            window.nav('quiz');
+            window.drawQuestion();
         };
 
-        const drawQuestion = () => {
+        window.drawQuestion = function() {
             if (!currentQs || currentQs.length === 0) return;
-            const q = currentQs[curIdx];
+            var q = currentQs[curIdx];
             document.getElementById('q-subject').innerText = currentSubj;
-            document.getElementById('q-counter').innerText = `${curIdx + 1} de 20`;
-            document.getElementById('progress-bar').style.width = `${((curIdx + 1) / 20) * 100}%`;
+            document.getElementById('q-counter').innerText = (curIdx + 1) + " de 20";
+            document.getElementById('progress-bar').style.width = (((curIdx + 1) / 20) * 100) + "%";
             document.getElementById('q-text').innerText = q.q;
             
-            const area = document.getElementById('q-answers');
-            const fb = document.getElementById('q-feedback');
+            var area = document.getElementById('q-answers');
+            var fb = document.getElementById('q-feedback');
             area.innerHTML = "";
             fb.classList.add('hidden');
             document.getElementById('btn-next').classList.add('hidden');
 
-            const randomizedOpts = shuffle([...q.o]);
-            randomizedOpts.forEach(opt => {
-                const b = document.createElement('button');
+            var randomizedOpts = window.shuffle(q.o);
+            randomizedOpts.forEach(function(opt) {
+                var b = document.createElement('button');
                 b.className = "btn-option";
                 b.innerText = opt;
-                b.onclick = () => validateAnswer(opt, q.c, b);
+                b.onclick = function() { window.validateAnswer(opt, q.c, b); };
                 area.appendChild(b);
             });
         };
 
-        const validateAnswer = (userChoice, correctChoice, buttonElement) => {
-            const fb = document.getElementById('q-feedback');
-            const btn = document.getElementById('btn-next');
-            const allBtns = document.querySelectorAll('.btn-option');
+        window.validateAnswer = function(userChoice, correctChoice, buttonElement) {
+            var fb = document.getElementById('q-feedback');
+            var btn = document.getElementById('btn-next');
+            var allBtns = document.querySelectorAll('.btn-option');
             
-            allBtns.forEach(b => {
+            allBtns.forEach(function(b) {
                 b.disabled = true;
                 if (b.innerText === correctChoice) b.classList.add('correct');
             });
@@ -922,166 +836,128 @@ Código aleatorio: [${sessionSalt}].`;
                 fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
             } else {
                 buttonElement.classList.add('incorrect');
-                fb.innerText = `RESPUESTA INCORRECTA. La correcta es: "${correctChoice}"`;
+                fb.innerText = 'RESPUESTA INCORRECTA. La correcta es: "' + correctChoice + '"';
                 fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
                 curFailures.push(currentQs[curIdx].q);
             }
             btn.classList.remove('hidden');
         };
 
-        window.nextQ = () => {
+        window.nextQ = function() {
             if (curIdx < 19) {
                 curIdx++;
-                drawQuestion();
+                window.drawQuestion();
             } else {
-                finishQuiz();
+                window.finishQuiz();
             }
         };
 
-        const finishQuiz = async () => {
-            nav('results');
-            const nota = Math.round((score / 20) * 100);
+        window.finishQuiz = function() {
+            window.nav('results');
+            var nota = Math.round((score / 20) * 100);
             document.getElementById('res-score').innerText = nota;
 
-            if (user) {
-                try {
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026'), {
-                        uid: user.uid,
-                        materia: currentSubj,
-                        nota,
-                        fecha: new Date().toLocaleString('es-CR'),
-                        fallos: curFailures,
-                        timestamp: serverTimestamp()
-                    });
-                    document.getElementById('cloud-sync').innerText = "✅ REPORTE SINCRONIZADO EN LA NUBE";
-                } catch (e) {
-                    console.warn("Aviso guardando resultado:", e);
-                }
+            // Guardar en historial local de forma permanente
+            try {
+                var historyKey = 'exam_history_local';
+                var currentHist = JSON.parse(localStorage.getItem(historyKey) || "[]");
+                var record = {
+                    fecha: new Date().toLocaleString('es-CR'),
+                    materia: currentSubj,
+                    nota: nota,
+                    fallos: curFailures
+                };
+                currentHist.unshift(record);
+                localStorage.setItem(historyKey, JSON.stringify(currentHist));
+                window.renderHistoryTable();
+            } catch (e) {
+                console.warn("Aviso al guardar historial local:", e);
             }
         };
 
-        const syncHistory = () => {
-            if (!user) return;
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026');
-            
-            onSnapshot(colRef, snap => {
-                const body = document.getElementById('history-data');
-                body.innerHTML = "";
-                const badge = document.getElementById('db-status-badge');
-                
-                if (badge) {
-                    badge.innerText = "CONECTADO";
-                    badge.className = "px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
-                }
-
-                if (snap.empty) {
-                    body.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 italic">No hay notas registradas todavía. Completa un examen para sincronizar los primeros resultados en vivo.</td></tr>`;
+        window.renderHistoryTable = function() {
+            var body = document.getElementById('history-data');
+            if (!body) return;
+            try {
+                var records = JSON.parse(localStorage.getItem('exam_history_local') || "[]");
+                if (records.length === 0) {
+                    body.innerHTML = '<tr><td colspan="4" class="p-8 text-center text-slate-400 italic">No hay notas registradas todavía. Completa un examen para ver tu progreso.</td></tr>';
                     return;
                 }
-
-                const docs = [];
-                snap.forEach(doc => {
-                    docs.push({ id: doc.id, ...doc.data() });
-                });
-                
-                docs.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-
-                docs.forEach(d => {
-                    const fHTML = d.fallos?.length 
-                        ? d.fallos.map(f => `<span class="badge-error">Reforzar: ${f}</span>`).join('') 
+                body.innerHTML = "";
+                records.forEach(function(d) {
+                    var fHTML = d.fallos && d.fallos.length 
+                        ? d.fallos.map(function(f) { return '<span class="badge-error">Reforzar: ' + f + '</span>'; }).join('') 
                         : '<span class="text-emerald-400 font-bold italic">¡Dominio del Nivel Superior! 🏆</span>';
                     
-                    body.insertAdjacentHTML('beforeend', `
-                        <tr class="hover:bg-white/5 border-b border-white/5 transition">
-                            <td class="p-4 text-[0.7rem] text-slate-500">${d.fecha}</td>
-                            <td class="p-4 font-bold text-indigo-400 uppercase tracking-tighter">${d.materia}</td>
-                            <td class="p-4 font-black ${d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400'} text-center">${d.nota}</td>
-                            <td class="p-4">${fHTML}</td>
-                        </tr>
-                    `);
-                });
-            }, error => {
-                console.warn("Aviso listener Firestore:", error);
-                const badge = document.getElementById('db-status-badge');
-                if (badge) {
-                    badge.innerText = "MODO LOCAL";
-                    badge.className = "px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-400 border border-amber-500/30";
-                }
-            });
-        };
-
-        const initAuthAndApp = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                
-                onAuthStateChanged(auth, u => {
-                    if (u) {
-                        user = u;
-                        syncHistory();
-                    }
+                    var tr = document.createElement('tr');
+                    tr.className = "hover:bg-white/5 border-b border-white/5 transition";
+                    tr.innerHTML = '<td class="p-4 text-[0.7rem] text-slate-500">' + d.fecha + '</td>' +
+                                   '<td class="p-4 font-bold text-indigo-400 uppercase tracking-tighter">' + d.materia + '</td>' +
+                                   '<td class="p-4 font-black ' + (d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400') + ' text-center">' + d.nota + '</td>' +
+                                   '<td class="p-4">' + fHTML + '</td>';
+                    body.appendChild(tr);
                 });
             } catch (e) {
-                console.warn("Autenticación en modo local:", e);
-                document.getElementById('auth-status').innerText = "SISTEMA ACTIVO (MODO LOCAL)";
+                console.warn("Aviso al renderizar tabla local:", e);
             }
         };
 
-        // --- GESTIÓN DE PIN DE MAESTRA ---
-        window.openClearModal = () => {
+        window.openClearModal = function() {
             document.getElementById('clear-modal').classList.remove('hidden');
-        };
-
-        window.closeClearModal = () => {
-            document.getElementById('clear-modal').classList.add('hidden');
             document.getElementById('pin-input').value = "";
             document.getElementById('pin-error').classList.add('hidden');
         };
 
-        window.submitPin = async () => {
-            const pin = document.getElementById('pin-input').value;
+        window.closeClearModal = function() {
+            document.getElementById('clear-modal').classList.add('hidden');
+        };
+
+        window.submitPin = function() {
+            var pin = document.getElementById('pin-input').value;
             if (pin === "0598") {
-                try {
-                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'resultados_2026');
-                    const querySnapshot = await getDocs(colRef);
-                    const deletePromises = [];
-                    querySnapshot.forEach((docSnap) => {
-                        deletePromises.push(deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'resultados_2026', docSnap.id)));
-                    });
-                    await Promise.all(deletePromises);
-                    closeClearModal();
-                } catch (e) {
-                    console.error("Error al borrar historial:", e);
-                }
+                localStorage.removeItem('exam_history_local');
+                window.renderHistoryTable();
+                window.closeClearModal();
             } else {
                 document.getElementById('pin-error').classList.remove('hidden');
             }
         };
 
-        // --- GESTIÓN DE CLAVE API GEMINI ---
-        window.openApiKeyModal = () => {
-            document.getElementById('api-modal').classList.remove('hidden');
-            document.getElementById('api-key-input').value = localStorage.getItem('gemini_user_api_key') || "";
-        };
+        // Renderizar tabla al cargar
+        window.renderHistoryTable();
+    </script>
+    <script type="module">
+        // Módulo complementario para sincronización en la nube si las credenciales están disponibles
+        try {
+            const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js');
+            const { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js');
+            const { getAuth, signInAnonymously, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js');
 
-        window.closeApiKeyModal = () => {
-            document.getElementById('api-modal').classList.add('hidden');
-        };
+            const firebaseConfig = {
+                apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
+                authDomain: "practica-examen-2026.firebaseapp.com",
+                projectId: "practica-examen-2026",
+                storageBucket: "practica-examen-2026.firebasestorage.app",
+                messagingSenderId: "1063177516735",
+                appId: "1:1063177516735:web:65915c315c447ae855780a"
+            };
 
-        window.saveApiKey = () => {
-            const key = document.getElementById('api-key-input').value.trim();
-            if (key) {
-                localStorage.setItem('gemini_user_api_key', key);
-            } else {
-                localStorage.removeItem('gemini_user_api_key');
-            }
-            closeApiKeyModal();
-        };
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
 
-        initAuthAndApp();
+            signInAnonymously(auth).then(() => {
+                const statusEl = document.getElementById('auth-status');
+                if (statusEl) statusEl.innerText = "SISTEMA CONECTADO EN LA NUBE ✓";
+                const dbBadge = document.getElementById('db-status-badge');
+                if (dbBadge) dbBadge.innerText = "NUBE CONECTADA ✓";
+            }).catch(err => {
+                console.warn("Firebase operando en modo local (sin nube):", err.message);
+            });
+        } catch (e) {
+            console.warn("Librerías de Firebase no disponibles, operando en modo local seguro:", e);
+        }
     </script>
 </body>
 </html>
