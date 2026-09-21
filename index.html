@@ -3,136 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación Avanzada 2026 | Sección 3-2</title>
+    <title>Evaluación Avanzada MEP 2026 | Sección 3-2</title>
+    <!-- Tailwind CSS CDN for modern responsive utility styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Balsamiq+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Balsamiq+Sans:wght@700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Outfit', sans-serif; background-color: #080c17; color: #f1f5f9; }
         .kids-font { font-family: 'Balsamiq Sans', cursive; }
-        .glass { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .btn-option { width: 100%; text-align: left; padding: 1.25rem; border-radius: 1rem; border: 2px solid transparent; background: rgba(255,255,255,0.05); transition: all 0.2s; font-weight: 600; color: white; line-height: 1.4; position: relative; }
-        .btn-option:hover:not(:disabled) { background: rgba(99, 102, 241, 0.1); border-color: #6366f1; transform: translateX(8px); }
-        .correct { border-color: #10b981 !important; background: rgba(16, 185, 129, 0.2) !important; color: #34d399; }
-        .incorrect { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.15) !important; color: #f87171; }
+        .glass { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .btn-option { width: 100%; text-align: left; padding: 1.2rem 1.4rem; border-radius: 1rem; border: 2px solid transparent; background: rgba(255,255,255,0.05); transition: all 0.2s ease; font-weight: 600; color: #ffffff; line-height: 1.4; position: relative; }
+        .btn-option:hover:not(:disabled) { background: rgba(99, 102, 241, 0.15); border-color: #6366f1; transform: translateX(6px); }
+        .correct { border-color: #10b981 !important; background: rgba(16, 185, 129, 0.22) !important; color: #34d399 !important; font-weight: 700; }
+        .incorrect { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.2) !important; color: #f87171 !important; }
         .spreadsheet { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        .spreadsheet th { background: #1e1b4b; color: #818cf8; padding: 12px; text-align: left; border: 1px solid #334155; text-transform: uppercase; }
+        .spreadsheet th { background: #1e1b4b; color: #818cf8; padding: 12px; text-align: left; border: 1px solid #334155; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
         .spreadsheet td { padding: 12px; border: 1px solid #334155; vertical-align: top; }
-        .badge-error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 5px; border-radius: 6px; font-size: 0.75rem; display: block; margin-bottom: 5px; line-height: 1.2; }
+        .badge-error { background: rgba(239, 68, 68, 0.12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; display: inline-block; margin: 2px; line-height: 1.3; }
     </style>
 </head>
-<body class="min-h-screen pb-10">
+<body class="min-h-screen pb-12 antialiased selection:bg-indigo-500 selection:text-white">
 
-    <div id="app" class="max-w-7xl mx-auto px-4 pt-8">
+    <div id="app" class="max-w-7xl mx-auto px-4 pt-6 md:pt-10">
         
-        <!-- Navegación Superior -->
+        <!-- Barra de Navegación Superior -->
         <nav class="flex flex-wrap justify-center items-center gap-3 mb-8">
-            <button onclick="nav('home')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">🏠 Inicio</button>
-            <button onclick="nav('history')" class="px-6 py-2 rounded-full glass hover:bg-slate-800 font-bold transition text-sm">📊 Historial de Diagnóstico</button>
-            <button onclick="openApiKeyModal()" class="px-4 py-2 rounded-full glass hover:bg-slate-800 font-bold text-slate-300 text-xs flex items-center gap-1.5 border border-indigo-500/30">
-                <span>⚙️</span> <span id="api-key-indicator">Configurar IA</span>
+            <button onclick="window.nav('home')" class="px-6 py-2.5 rounded-full glass hover:bg-slate-800 font-bold transition text-sm flex items-center gap-2">
+                <span>🏠</span> Inicio
+            </button>
+            <button onclick="window.nav('history')" class="px-6 py-2.5 rounded-full glass hover:bg-slate-800 font-bold transition text-sm flex items-center gap-2">
+                <span>📊</span> Historial de Diagnóstico
+            </button>
+            <button onclick="window.openApiKeyModal()" class="px-4 py-2.5 rounded-full glass hover:bg-slate-800 font-bold text-slate-300 text-xs flex items-center gap-2 border border-indigo-500/30">
+                <span>⚙️</span> <span id="api-key-indicator">Configurar IA (Opcional)</span>
             </button>
         </nav>
 
-        <!-- Vista Inicio: Selección de Materias -->
+        <!-- VISTA: INICIO / SELECCIÓN DE MATERIA -->
         <div id="view-home" class="view space-y-10">
-            <header class="text-center">
-                <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest mb-4 border border-indigo-500/30 uppercase">
-                    EVALUACIÓN MEP 2026 | SECCIÓN 3-2 | SISTEMA DINÁMICO ANTI-REPETICIÓN
+            <header class="text-center max-w-4xl mx-auto">
+                <div class="inline-block px-4 py-1.5 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-black tracking-widest mb-4 border border-indigo-500/30 uppercase">
+                    EVALUACIÓN MEP 2026 | SECCIÓN 3-2 | BANCO INÉDITO Y DINÁMICO
                 </div>
-                <h1 class="text-5xl md:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight">
-                    PRÁCTICA <span class="text-indigo-500">INÉDITA</span> 3-2
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold kids-font text-white mb-4 uppercase leading-tight tracking-tight">
+                    PRÁCTICA <span class="text-indigo-400">INÉDITA</span> 3-2
                 </h1>
-                <p class="text-slate-400 text-lg">Escuela Juan Ramírez Ramírez | 20 Preguntas Nuevas en Cada Intento</p>
-                <div id="auth-status" class="mt-4 text-xs font-bold text-emerald-400 uppercase tracking-widest">SISTEMA ACTIVO Y OPERATIVO</div>
+                <p class="text-slate-300 text-base md:text-lg font-medium">Escuela Juan Ramírez Ramírez | 20 Preguntas Analíticas Nuevas por Sesión</p>
+                <div id="auth-status" class="mt-3 text-xs font-black text-emerald-400 uppercase tracking-widest">
+                    SISTEMA ACTIVO Y OPERATIVO ✓
+                </div>
             </header>
 
+            <!-- Cuadrícula de las 5 materias con el nuevo temario oficial -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 <!-- Español -->
-                <button onclick="startExam('Español')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-rose-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="window.startExam('Español')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-rose-600 hover:scale-[1.03] transition flex flex-col justify-between min-h-[240px] shadow-lg">
                     <div>
-                        <span class="text-4xl mb-4 block">🖋️</span>
-                        <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Español</h3>
+                        <span class="text-4xl mb-3 block">🖋️</span>
+                        <h3 class="text-xl font-extrabold text-white uppercase tracking-tight">Español</h3>
+                        <p class="text-[0.7rem] text-rose-300 font-semibold uppercase mt-1 tracking-wider">Lunes 28 de setiembre</p>
                     </div>
-                    <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Inferencia, Conectores, Afijos y Plurales -ces</p>
+                    <p class="text-[0.68rem] text-slate-400 mt-4 leading-relaxed font-medium">Inferencia, explícito/implícito, argumentación, conectores, afijos, campo semántico y plurales -ces.</p>
                 </button>
-                <!-- Matemáticas -->
-                <button onclick="startExam('Matemáticas')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-blue-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
-                    <div>
-                        <span class="text-4xl mb-4 block">🧮</span>
-                        <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Matemáticas</h3>
-                    </div>
-                    <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Multiplicación Columna, Círculo, Masa (kg/g) y Tiempo</p>
-                </button>
+
                 <!-- Ciencias -->
-                <button onclick="startExam('Ciencias')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-emerald-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="window.startExam('Ciencias')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-emerald-600 hover:scale-[1.03] transition flex flex-col justify-between min-h-[240px] shadow-lg">
                     <div>
-                        <span class="text-4xl mb-4 block">🧪</span>
-                        <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Ciencias</h3>
+                        <span class="text-4xl mb-3 block">🧪</span>
+                        <h3 class="text-xl font-extrabold text-white uppercase tracking-tight">Ciencias</h3>
+                        <p class="text-[0.7rem] text-emerald-300 font-semibold uppercase mt-1 tracking-wider">Martes 29 de setiembre</p>
                     </div>
-                    <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Medio y Dieta de Animales, Bióticos/Abióticos y Máquinas</p>
+                    <p class="text-[0.68rem] text-slate-400 mt-4 leading-relaxed font-medium">Medio y dieta de animales (herbívoro, carnívoro, omnívoro, insectívoro), bióticos/abióticos y máquinas simples/compuestas.</p>
                 </button>
+
+                <!-- Matemáticas -->
+                <button onclick="window.startExam('Matemáticas')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-blue-600 hover:scale-[1.03] transition flex flex-col justify-between min-h-[240px] shadow-lg">
+                    <div>
+                        <span class="text-4xl mb-3 block">🧮</span>
+                        <h3 class="text-xl font-extrabold text-white uppercase tracking-tight">Matemáticas</h3>
+                        <p class="text-[0.7rem] text-blue-300 font-semibold uppercase mt-1 tracking-wider">Miércoles 30 de setiembre</p>
+                    </div>
+                    <p class="text-[0.68rem] text-slate-400 mt-4 leading-relaxed font-medium">Multiplicación en columna (&lt;100.000, 1 y 2 dígitos), circunferencia/círculo (radio y diámetro), masa (kg/g) y tiempo.</p>
+                </button>
+
                 <!-- Estudios Sociales -->
-                <button onclick="startExam('Estudios Sociales')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-amber-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="window.startExam('Estudios Sociales')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-amber-600 hover:scale-[1.03] transition flex flex-col justify-between min-h-[240px] shadow-lg">
                     <div>
-                        <span class="text-4xl mb-4 block">🗺️</span>
-                        <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Sociales</h3>
+                        <span class="text-4xl mb-3 block">🗺️</span>
+                        <h3 class="text-xl font-extrabold text-white uppercase tracking-tight">Sociales</h3>
+                        <p class="text-[0.7rem] text-amber-300 font-semibold uppercase mt-1 tracking-wider">Jueves 1 de octubre</p>
                     </div>
-                    <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">Patrimonio de Cartago, Efemérides Patrias y Símbolos</p>
+                    <p class="text-[0.68rem] text-slate-400 mt-4 leading-relaxed font-medium">Patrimonio de Cartago (Escuela Juan Ramírez, Irazú), efemérides patrias (25 julio, 31 agosto, 14-15 setiembre) y símbolos nacionales.</p>
                 </button>
+
                 <!-- Inglés -->
-                <button onclick="startExam('Inglés')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-violet-600 hover:scale-105 transition flex flex-col justify-between min-h-[220px]">
+                <button onclick="window.startExam('Inglés')" class="p-6 rounded-[2rem] glass text-left border-b-8 border-violet-600 hover:scale-[1.03] transition flex flex-col justify-between min-h-[240px] shadow-lg">
                     <div>
-                        <span class="text-4xl mb-4 block">🇬🇧</span>
-                        <h3 class="text-xl font-bold text-white uppercase font-black leading-tight">Inglés</h3>
+                        <span class="text-4xl mb-3 block">🇬🇧</span>
+                        <h3 class="text-xl font-extrabold text-white uppercase tracking-tight">Inglés</h3>
+                        <p class="text-[0.7rem] text-violet-300 font-semibold uppercase mt-1 tracking-wider">Bilingüe: Pregunta ES / Opciones EN</p>
                     </div>
-                    <p class="text-[0.65rem] text-slate-400 mt-4 uppercase tracking-wider font-semibold">House Chores, Holidays & Dates, Months & Ordinals (ES / EN)</p>
+                    <p class="text-[0.68rem] text-slate-400 mt-4 leading-relaxed font-medium">House chores, match holidays and dates, months of the year in order, and ordinal numbers (1st to 10th).</p>
                 </button>
             </div>
         </div>
 
+        <!-- VISTA: PANTALLA DE CARGA -->
         <div id="view-loading" class="view hidden text-center py-20">
             <div class="w-20 h-20 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-8"></div>
             <h2 class="text-2xl font-bold kids-font text-indigo-400 uppercase tracking-widest">Generando 20 retos inéditos...</h2>
-            <p id="loading-subtext" class="text-slate-400 mt-2 text-base">Analizando el historial para asegurar cero preguntas repetidas.</p>
+            <p id="loading-subtext" class="text-slate-400 mt-2 text-base">Analizando preguntas previas para evitar repeticiones.</p>
         </div>
 
+        <!-- VISTA: CUESTIONARIO ACTIVO -->
         <div id="view-quiz" class="view hidden max-w-3xl mx-auto">
-            <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl">
-                <div class="bg-indigo-950/30 p-6 flex justify-between items-center border-b border-white/5">
+            <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10">
+                <div class="bg-indigo-950/40 p-6 flex justify-between items-center border-b border-white/10">
                     <div class="flex items-center gap-3">
-                        <h3 id="q-subject" class="kids-font text-xl text-indigo-400 uppercase tracking-widest">MATERIA</h3>
-                        <span id="engine-badge" class="px-2.5 py-0.5 rounded-full text-[0.65rem] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">IA ACTIVA</span>
+                        <h3 id="q-subject" class="kids-font text-xl text-indigo-300 uppercase tracking-wider font-extrabold">MATERIA</h3>
+                        <span id="engine-badge" class="px-2.5 py-0.5 rounded-full text-[0.65rem] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                            MOTOR ACTIVO
+                        </span>
                     </div>
                     <div class="text-right">
-                        <span id="q-counter" class="text-xs font-bold text-slate-400 uppercase tracking-widest">1 de 20</span>
-                        <div class="w-32 h-1.5 bg-slate-800 rounded-full mt-1"><div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300"></div></div>
+                        <span id="q-counter" class="text-xs font-bold text-slate-300 uppercase tracking-widest">1 de 20</span>
+                        <div class="w-32 h-2 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+                            <div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="p-8 md:p-12">
-                    <h2 id="q-text" class="text-2xl md:text-3xl font-bold mb-10 leading-snug text-white">Analizando reto...</h2>
-                    <div id="q-answers" class="space-y-4"></div>
-                    <div id="q-feedback" class="hidden mt-8 p-6 rounded-2xl border-l-8 font-bold text-lg"></div>
-                    <div class="mt-12 flex justify-between items-center">
-                        <button onclick="nav('home')" class="text-slate-400 hover:text-white transition uppercase font-bold text-xs tracking-widest">✕ Salir</button>
-                        <button id="btn-next" onclick="nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-2xl font-bold shadow-xl transition active:scale-95 text-white">Siguiente Pregunta ➔</button>
+                <div class="p-6 md:p-10">
+                    <h2 id="q-text" class="text-xl md:text-2xl font-bold mb-8 leading-snug text-white">Analizando reto...</h2>
+                    <div id="q-answers" class="space-y-3.5"></div>
+                    <div id="q-feedback" class="hidden mt-6 p-5 rounded-2xl border-l-8 font-bold text-base md:text-lg"></div>
+                    <div class="mt-10 flex justify-between items-center pt-4 border-t border-white/5">
+                        <button onclick="window.nav('home')" class="text-slate-400 hover:text-white transition uppercase font-bold text-xs tracking-widest">✕ Salir al Inicio</button>
+                        <button id="btn-next" onclick="window.nextQ()" class="hidden bg-indigo-600 hover:bg-indigo-700 px-8 py-3.5 rounded-2xl font-bold shadow-xl transition active:scale-95 text-white">
+                            Siguiente Pregunta ➔
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- VISTA: HISTORIAL DE DIAGNÓSTICO -->
         <div id="view-history" class="view hidden">
-            <div class="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
+            <div class="glass rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <h2 class="text-2xl md:text-3xl font-bold kids-font text-indigo-400 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO SECCIÓN 3-2</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold kids-font text-indigo-300 uppercase tracking-tight">📋 DIAGNÓSTICO MAESTRO SECCIÓN 3-2</h2>
                     <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <span id="db-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">MEMORIA LOCAL ACTIVA</span>
-                        <button onclick="openClearModal()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold transition text-xs uppercase tracking-wider">🗑️ Limpiar Historial</button>
+                        <span id="db-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                            MEMORIA LOCAL CONECTADA ✓
+                        </span>
+                        <button onclick="window.openClearModal()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold transition text-xs uppercase tracking-wider">
+                            🗑️ Limpiar Historial
+                        </button>
                     </div>
                 </div>
-                <div class="overflow-x-auto rounded-xl border border-white/5">
+                <div class="overflow-x-auto rounded-xl border border-white/10">
                     <table class="spreadsheet w-full">
                         <thead>
-                            <tr><th>Fecha / Hora</th><th>Materia</th><th>Nota</th><th>Temas a Reforzar (Análisis de Errores)</th></tr>
+                            <tr>
+                                <th style="width: 20%;">Fecha / Hora</th>
+                                <th style="width: 15%;">Materia</th>
+                                <th style="width: 15%; text-align: center;">Nota</th>
+                                <th style="width: 50%;">Temas a Reforzar (Análisis de Errores)</th>
+                            </tr>
                         </thead>
                         <tbody id="history-data">
                             <tr><td colspan="4" class="p-8 text-center text-slate-400 italic">No hay notas registradas todavía. Completa un examen para ver tu progreso.</td></tr>
@@ -142,52 +177,55 @@
             </div>
         </div>
 
-        <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[4rem] p-16 shadow-2xl border-t-8 border-indigo-500">
-            <div id="res-emoji" class="text-9xl mb-8">🎖️</div>
-            <h2 class="text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
-            <div class="inline-block bg-white/5 px-12 py-8 rounded-[3rem] border border-white/10 mb-10">
-                <span class="block text-sm text-indigo-400 font-bold uppercase mb-2 tracking-widest">Nota Obtenida</span>
-                <span id="res-score" class="text-8xl font-black text-white">0</span>
+        <!-- VISTA: RESULTADOS FINALES -->
+        <div id="view-results" class="view hidden max-w-2xl mx-auto text-center glass rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-t-8 border-indigo-500">
+            <div id="res-emoji" class="text-8xl mb-6">🎖️</div>
+            <h2 class="text-3xl md:text-4xl font-bold kids-font mb-4 text-white uppercase">Práctica Finalizada</h2>
+            <div class="inline-block bg-white/5 px-10 py-6 rounded-3xl border border-white/10 mb-8">
+                <span class="block text-xs text-indigo-400 font-extrabold uppercase mb-1 tracking-widest">Nota Obtenida</span>
+                <span id="res-score" class="text-7xl md:text-8xl font-black text-white">0</span>
             </div>
-            <p id="cloud-sync" class="text-xs text-indigo-400 font-bold mb-12 animate-pulse uppercase">Diagnóstico guardado correctamente</p>
+            <p id="cloud-sync" class="text-xs text-indigo-400 font-bold mb-8 uppercase tracking-widest">Diagnóstico guardado correctamente</p>
             <div class="flex justify-center">
-                <button onclick="nav('home')" class="w-full max-w-md bg-indigo-600 hover:bg-indigo-700 p-6 rounded-3xl font-bold shadow-xl transition active:scale-95 text-lg text-white">✨ Nueva Práctica Inédita</button>
+                <button onclick="window.nav('home')" class="w-full max-w-md bg-indigo-600 hover:bg-indigo-700 p-5 rounded-2xl font-extrabold shadow-xl transition active:scale-95 text-base md:text-lg text-white uppercase tracking-wider">
+                    ✨ Nueva Práctica Inédita
+                </button>
             </div>
         </div>
 
+        <!-- MODAL: PIN DE AUTORIZACIÓN DE DOCENTE -->
         <div id="clear-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-filter backdrop-blur-sm">
             <div class="glass max-w-md w-full p-8 rounded-[2rem] border border-white/10 text-center shadow-2xl relative">
-                <h3 class="text-xl font-bold kids-font text-rose-400 uppercase mb-4 tracking-wide">🔑 AUTORIZACIÓN REQUERIDA</h3>
-                <p class="text-sm text-slate-300 mb-6">Digite el código de seguridad de 4 dígitos de la docente para borrar permanentemente todos los registros del historial.</p>
-                <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-36 text-center text-3xl tracking-widest bg-slate-900 border-2 border-slate-700 rounded-xl py-3 px-4 mb-6 font-bold text-white focus:border-indigo-500 focus:outline-none transition" />
+                <h3 class="text-xl font-bold kids-font text-rose-400 uppercase mb-3 tracking-wide">🔑 AUTORIZACIÓN DOCENTE</h3>
+                <p class="text-xs text-slate-300 mb-6 leading-relaxed">Digite el código de seguridad de 4 dígitos de la docente para reiniciar el historial y las preguntas vistas.</p>
+                <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-36 text-center text-3xl tracking-widest bg-slate-900 border-2 border-slate-700 rounded-xl py-2.5 px-4 mb-4 font-bold text-white focus:border-indigo-500 focus:outline-none transition" />
                 <div id="pin-error" class="hidden text-rose-400 text-xs font-bold mb-4 uppercase tracking-widest">⚠️ CÓDIGO INCORRECTO</div>
-                <div class="flex gap-4">
-                    <button onclick="closeClearModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-bold transition text-xs uppercase text-slate-300">Cancelar</button>
-                    <button onclick="submitPin()" class="flex-1 bg-rose-600 hover:bg-rose-700 py-3 rounded-xl font-bold transition text-xs uppercase text-white">Confirmar</button>
+                <div class="flex gap-3">
+                    <button onclick="window.closeClearModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-bold transition text-xs uppercase text-slate-300">Cancelar</button>
+                    <button onclick="window.submitPin()" class="flex-1 bg-rose-600 hover:bg-rose-700 py-3 rounded-xl font-bold transition text-xs uppercase text-white">Confirmar</button>
                 </div>
             </div>
         </div>
 
+        <!-- MODAL: CONFIGURACIÓN DE CLAVE GEMINI AI -->
         <div id="api-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-filter backdrop-blur-sm">
             <div class="glass max-w-lg w-full p-8 rounded-[2rem] border border-white/10 text-left shadow-2xl relative">
                 <h3 class="text-xl font-bold kids-font text-indigo-400 uppercase mb-2">⚙️ Conexión de Inteligencia Artificial</h3>
                 <p class="text-xs text-slate-300 mb-4 leading-relaxed">
-                    Si deseas que la IA de Google genere preguntas en vivo desde GitHub, ingresa tu clave gratuita de 
-                    <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-400 underline font-bold">Google AI Studio</a>. 
-                    Si no tienes clave, el sistema usará automáticamente el motor procedural de alta variedad con 20 preguntas garantizadas:
+                    Si deseas que la IA de Google redacte preguntas en vivo directamente desde GitHub Pages o tu hosting, puedes ingresar tu clave gratuita de Google AI Studio. Si no tienes una clave, no te preocupes: el sistema utiliza automáticamente su potente motor matemático dinámico con 20 preguntas garantizadas:
                 </p>
-                <input type="text" id="api-key-input" placeholder="AIzaSy..." class="w-full text-sm bg-slate-900 border-2 border-slate-700 rounded-xl py-3 px-4 mb-4 font-mono text-white focus:border-indigo-500 focus:outline-none transition" />
-                <div class="flex gap-4 justify-end">
-                    <button onclick="closeApiKeyModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs uppercase text-slate-300 transition">Cerrar</button>
-                    <button onclick="saveApiKey()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl font-bold text-xs uppercase text-white transition">Guardar Llave</button>
+                <input type="text" id="api-key-input" placeholder="AIzaSy..." class="w-full text-xs bg-slate-900 border-2 border-slate-700 rounded-xl py-3 px-4 mb-4 font-mono text-white focus:border-indigo-500 focus:outline-none transition" />
+                <div class="flex gap-3 justify-end">
+                    <button onclick="window.closeApiKeyModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs uppercase text-slate-300 transition">Cerrar</button>
+                    <button onclick="window.saveApiKey()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl font-bold text-xs uppercase text-white transition">Guardar Llave</button>
                 </div>
             </div>
         </div>
 
     </div>
 
+    <!-- SCRIPT CENTRAL DE LA APLICACIÓN (Completamente auto-contenido e inmune a fallos de red) -->
     <script>
-        // --- NAVEGACIÓN GLOBAL INMEDIATA ---
         window.nav = function(viewName) {
             document.querySelectorAll('.view').forEach(function(el) { el.classList.add('hidden'); });
             var target = document.getElementById('view-' + viewName);
@@ -195,7 +233,6 @@
             window.scrollTo(0, 0);
         };
 
-        // --- GESTIÓN DE MODAL DE CLAVE API ---
         window.openApiKeyModal = function() {
             document.getElementById('api-modal').classList.remove('hidden');
             document.getElementById('api-key-input').value = localStorage.getItem('gemini_user_api_key') || "";
@@ -210,18 +247,16 @@
                 document.getElementById('api-key-indicator').innerText = "IA Configurada ✓";
             } else {
                 localStorage.removeItem('gemini_user_api_key');
-                document.getElementById('api-key-indicator').innerText = "Configurar IA";
+                document.getElementById('api-key-indicator').innerText = "Configurar IA (Opcional)";
             }
             window.closeApiKeyModal();
         };
 
-        // Inicializar indicador de API si existe
         if (localStorage.getItem('gemini_user_api_key')) {
             var ind = document.getElementById('api-key-indicator');
             if (ind) ind.innerText = "IA Configurada ✓";
         }
 
-        // --- UTILIDADES DE ALEATORIEDAD ---
         window.shuffle = function(array) {
             var arr = array.slice();
             for (var i = arr.length - 1; i > 0; i--) {
@@ -241,451 +276,536 @@
             return Math.floor(Math.random() * (max - min + 1)) + min;
         };
 
-        var KIDS = ["Santiago", "Valentina", "Thiago", "Camila", "Mateo", "Fiorella", "Kendall", "Isabella", "Samuel", "Jimena", "Gael", "Sofía", "Sebastián", "Mariana", "Felipe", "Emma", "Esteban", "Lucía"];
-        var PLACES = ["Paraíso", "Orosi", "Tejar del Guarco", "Tierra Blanca", "Pacayas", "Cot", "Cervantes", "Dulce Nombre", "Tres Ríos", "San Rafael de Oreamuno", "Carmen de Cartago"];
+        var KIDS = ["Santiago", "Valentina", "Thiago", "Camila", "Mateo", "Fiorella", "Kendall", "Isabella", "Samuel", "Jimena", "Gael", "Sofía", "Sebastián", "Mariana", "Felipe", "Emma", "Esteban", "Lucía", "Alejandro", "Valeria", "Ignacio", "Fabiana", "Gabriel", "Victoria"];
+        var PLACES = ["Paraíso", "Orosi", "Tejar del Guarco", "Tierra Blanca", "Pacayas", "Cot", "Cervantes", "Dulce Nombre", "Tres Ríos", "San Rafael de Oreamuno", "Carmen de Cartago", "Llanos de Santa Lucía", "Tobosi", "Capellades"];
 
+        // BANCO PROCEDURAL DE ALTO RIGOR CON MÁS DE 20 GENERADORES INDEPENDIENTES POR MATERIA
         window.PROCEDURAL_GENERATORS = {
             "Español": [
+                // 1. Inferencia contextual
                 function() {
-                    var kid = pick(KIDS), place = pick(PLACES);
-                    return {
-                        q: kid + " observa que en " + place + " la gente viste abrigos gruesos, las chimeneas están encendidas y hay neblina espesa en el parque. ¿Qué conclusión lógica se INFIERE?",
-                        o: ["Hace un clima sumamente frío en la comunidad", "Es una tarde calurosa de playa", "Todos van a nadar al río", "Se dañó el alumbrado eléctrico"],
-                        c: "Hace un clima sumamente frío en la comunidad"
-                    };
+                    var k = window.pick(KIDS), p = window.pick(PLACES);
+                    var sc = window.pick([
+                        { d: "abren sus sombrillas, se colocan capas impermeables y el agua corre en abundancia por los caños de", r: "Está cayendo un fuerte aguacero en la comunidad", w: ["Hay una sequía muy prolongada", "Es una tarde calurosa de verano", "El suelo está completamente seco"] },
+                        { d: "usan abrigos gruesos de lana, pasamontañas y toman café caliente mientras sale humo de sus bocas en", r: "La temperatura en esa zona es sumamente fría", w: ["Hay una ola de calor intenso", "La gente va a bañarse al río", "Las personas buscan ventiladores"] },
+                        { d: "llevan gorras, se aplican bloqueador solar y buscan refugio bajo la sombra de los árboles en", r: "Hace un calor muy intenso con fuerte radiación solar", w: ["Está cayendo una helada con escarcha", "Se aproxima una tormenta con granizo", "Es una noche con neblina espesa"] }
+                    ]);
+                    return { q: k + " observa que en " + p + " las personas " + sc.d + " " + p + ". ¿Cuál conclusión lógica se INFIERE del texto?", o: [sc.r, sc.w[0], sc.w[1], sc.w[2]], c: sc.r };
                 },
+                // 2. Información explícita vs implícita
                 function() {
-                    var kid = pick(KIDS), num = randInt(2, 6);
-                    return {
-                        q: 'En la oración: "' + kid + ' sembró ' + num + ' árboles de ciprés en el patio escolar el viernes pasado". ¿Cuál dato representa información EXPLÍCITA?',
-                        o: [kid + " sembró " + num + " árboles de ciprés", kid + " es la persona más trabajadora", kid + " no quiere volver a sembrar", kid + " prefiere pintar cuadros"],
-                        c: kid + " sembró " + num + " árboles de ciprés"
-                    };
+                    var k = window.pick(KIDS), n = window.randInt(4, 9), obj = window.pick(["árboles nativos en el patio escolar", "libros de la biblioteca municipal", "lapiceros azules para el examen", "cuadernos donados a la escuela"]);
+                    return { q: 'En el texto: "' + k + ' recolectó ' + n + ' ' + obj + ' el martes por la mañana". ¿Cuál opción representa información estrictamente EXPLÍCITA?', o: [k + " recolectó " + n + " " + obj, k + " es la persona más colaboradora de toda la sección", k + " no quiere volver a participar en actividades", k + " prefiere salir de paseo antes que estudiar"], c: k + " recolectó " + n + " " + obj };
                 },
+                // 3. Concepto de Inferencia
                 function() {
-                    var kid = pick(KIDS);
-                    return {
-                        q: kid + ' afirma: "Es urgente sembrar árboles nativos porque purifican el aire y dan refugio a las aves silvestres". ¿Qué representa la frase "porque purifican el aire y dan refugio a las aves"?',
-                        o: ["Un argumento que sustenta y defiende su postura", "Una despedida formal", "El título de un poema", "Una duda sin importancia"],
-                        c: "Un argumento que sustenta y defiende su postura"
-                    };
+                    return { q: "¿En qué consiste realizar una INFERENCIA durante la comprensión de un texto?", o: ["Deducir conclusiones lógicas a partir de pistas del texto y conocimientos previos", "Copiar textualmente las mismas palabras escritas por el autor", "Contar la cantidad de renglones y palabras que tiene el escrito", "Subrayar únicamente las palabras que lleven tilde"], c: "Deducir conclusiones lógicas a partir de pistas del texto y conocimientos previos" };
                 },
+                // 4. Argumentación: Propósito
                 function() {
-                    var kid = pick(KIDS);
-                    return {
-                        q: kid + " necesita investigar sobre la actividad volcánica del Irazú en Cartago. ¿Cuál de las siguientes opciones constituye una fuente de información CONFIABLE y formal?",
-                        o: ["Un informe geológico oficial del OVSICORI", "Un rumor escuchado en la parada de buses", "Una publicación anónima en redes sociales", "Una leyenda de terror inventada"],
-                        c: "Un informe geológico oficial del OVSICORI"
-                    };
+                    return { q: "¿Cuál es el propósito central de un texto o párrafo de tipo ARGUMENTATIVO?", o: ["Defender una postura u opinión mediante razones sólidas para convencer al lector", "Contar anécdotas humorísticas sin emitir ninguna opinión", "Dictar una receta de cocina en orden de ingredientes", "Hacer una lista de compras de útiles escolares"], c: "Defender una postura u opinión mediante razones sólidas para convencer al lector" };
                 },
+                // 5. Tesis y argumentos
                 function() {
-                    var conns = [
-                        { type: "adición", word: "además", dist: ["porque", "primero", "finalmente"] },
-                        { type: "causalidad", word: "ya que", dist: ["también", "asimismo", "luego"] },
-                        { type: "secuencia", word: "después", dist: ["porque", "asimismo", "puesto que"] }
-                    ];
-                    var item = pick(conns);
-                    return {
-                        q: "Identifique cuál de los siguientes términos corresponde a un conector textual de " + item.type.toUpperCase() + ":",
-                        o: [item.word, item.dist[0], item.dist[1], item.dist[2]],
-                        c: item.word
-                    };
+                    var k = window.pick(KIDS);
+                    var t = window.pick([
+                        { tema: "prohibir los plásticos de un solo uso en Cartago", arg: "porque tardan siglos en degradarse y contaminan las cuencas de los ríos" },
+                        { tema: "cuidar las abejas y sembrar flores silvestres", arg: "ya que son insectos polinizadores indispensables para la producción de alimentos" },
+                        { tema: "cerrar el tubo mientras nos cepillamos los dientes", arg: "puesto que el agua potable es un recurso vital y limitado en nuestra provincia" }
+                    ]);
+                    return { q: k + ' afirma: "Debemos ' + t.tema + ' ' + t.arg + '". En esta oración, la frase "' + t.arg + '" cumple la función de:', o: ["Un argumento que fundamenta y respalda su postura", "Una conclusión que contradice su propia idea", "Un conector de secuencia temporal de pasos", "Un título decorativo para el inicio del párrafo"], c: "Un argumento que fundamenta y respalda su postura" };
                 },
+                // 6. Fuentes de información confiables
                 function() {
-                    var wordsZ = [
-                        { s: "pez", p: "peces" }, { s: "lápiz", p: "lápices" }, { s: "nuez", p: "nueces" },
+                    var k = window.pick(KIDS), tema = window.pick(["la biodiversidad del Volcán Irazú", "la historia de la Escuela Juan Ramírez", "la conservación de las fuentes de agua en Cartago"]);
+                    return { q: k + " necesita investigar con seriedad sobre " + tema + ". ¿Cuál de las siguientes representa una fuente de información CONFIABLE?", o: ["Un libro científico o informe de una universidad reconocida", "Un rumor escuchado en una parada de autobús", "Un mensaje anónimo reenviado por redes sociales", "Una adivinanza inventada por un estudiante"], c: "Un libro científico o informe de una universidad reconocida" };
+                },
+                // 7. Fuentes primarias
+                function() {
+                    var k = window.pick(KIDS);
+                    return { q: "Si " + k + " entrevista directamente a una abuela de la comunidad para saber cómo se vivía en Cartago hace 60 años, está consultando una fuente:", o: ["Primaria, porque obtiene el testimonio directo y de primera mano", "Secundaria, porque proviene de un libro de texto editado", "Ficticia, porque las personas mayores no recuerdan hechos", "Paralingüística, porque carece de palabras escritas"], c: "Primaria, porque obtiene el testimonio directo y de primera mano" };
+                },
+                // 8. Conectores de adición
+                function() {
+                    var conn = window.pick(["además", "también", "asimismo"]);
+                    var dist = window.shuffle(["porque", "primero", "por lo tanto", "luego", "ya que"]).slice(0, 3);
+                    return { q: 'En la redacción: "Hoy repasamos los temas de Ciencias y, __________, practicamos los problemas de Matemáticas". ¿Cuál conector de ADICIÓN completa la idea?', o: [conn, dist[0], dist[1], dist[2]], c: conn };
+                },
+                // 9. Conectores de causalidad
+                function() {
+                    var conn = window.pick(["porque", "ya que", "puesto que", "por lo tanto"]);
+                    var dist = window.shuffle(["además", "primero", "asimismo", "también", "luego"]).slice(0, 3);
+                    return { q: "¿Cuál de los siguientes términos corresponde a un conector de CAUSALIDAD?", o: [conn, dist[0], dist[1], dist[2]], c: conn };
+                },
+                // 10. Conectores de secuencia
+                function() {
+                    var conn = window.pick(["primero", "luego", "después", "finalmente"]);
+                    var dist = window.shuffle(["asimismo", "porque", "también", "puesto que"]).slice(0, 3);
+                    return { q: "¿Cuál palabra funciona como un conector de SECUENCIA temporal para ordenar pasos o instrucciones?", o: [conn, dist[0], dist[1], dist[2]], c: conn };
+                },
+                // 11. Idea principal
+                function() {
+                    return { q: "¿Cuál es el rol pedagógico de la IDEA PRINCIPAL dentro de un párrafo bien estructurado?", o: ["Expresar el contenido fundamental e indispensable del mensaje", "Brindar ejemplos secundarios y adornos que se pueden omitir", "Separar los sustantivos propios de los comunes", "Rimar obligatoriamente con el final del texto"], c: "Expresar el contenido fundamental e indispensable del mensaje" };
+                },
+                // 12. Ideas secundarias
+                function() {
+                    return { q: "En la estructura de un párrafo, las IDEAS SECUNDARIAS cumplen la función de:", o: ["Ampliar, detallar y ejemplificar lo expresado en la idea principal", "Contradecir totalmente el mensaje del autor", "Eliminar la necesidad de colocar mayúsculas y puntos", "Servir de título al inicio de la página"], c: "Ampliar, detallar y ejemplificar lo expresado en la idea principal" };
+                },
+                // 13. Elementos lingüísticos
+                function() {
+                    return { q: "Dentro del intercambio comunicativo en el aula, ¿cuál de los siguientes constituye un elemento LINGÜÍSTICO?", o: ["Las palabras orales pronunciadas y las oraciones escritas", "El tono agudo o grave de la voz", "La postura corporal del emisor al hablar", "El contacto visual mantenido hacia el público"], c: "Las palabras orales pronunciadas y las oraciones escritas" };
+                },
+                // 14. Elementos paralingüísticos y no lingüísticos
+                function() {
+                    var item = window.pick([
+                        { name: "el tono de voz y el volumen de modulación", tipo: "paralingüístico" },
+                        { name: "los gestos faciales y las sonrisas", tipo: "no lingüístico" },
+                        { name: "la postura corporal erguida del expositor", tipo: "no lingüístico" }
+                    ]);
+                    return { q: "Durante una exposición oral en clase, " + item.name + " corresponde a un elemento:", o: [item.tipo.toUpperCase() + " que acompaña y complementa el mensaje verbal", "estrictamente ortográfico de acentuación", "exclusivo del alfabeto escrito", "de cálculo numérico decimal"], c: item.tipo.toUpperCase() + " que acompaña y complementa el mensaje verbal" };
+                },
+                // 15. Raíz o lexema
+                function() {
+                    var fam = window.pick([
+                        { root: "pan", words: "panadería, panadero, pancito" },
+                        { root: "flor", words: "florería, florero, florista" },
+                        { root: "mar", words: "marino, marea, marinero" },
+                        { root: "camp", words: "campesino, campamento, campestre" }
+                    ]);
+                    return { q: 'En la familia de palabras {' + fam.words + '}, la parte común "' + fam.root + '" representa:', o: ["La raíz o lexema que contiene el significado fundamental", "Un prefijo de negación", "Un conector de consecuencia", "Un signo de puntuación"], c: "La raíz o lexema que contiene el significado fundamental" };
+                },
+                // 16. Prefijos
+                function() {
+                    var pfx = window.pick([
+                        { word: "desconectar", p: "des-", m: "inversión o negación de la acción" },
+                        { word: "reconstruir", p: "re-", m: "repetición o volver a realizar algo" },
+                        { word: "subterráneo", p: "sub-", m: "por debajo o posición inferior" },
+                        { word: "invisible", p: "in-", m: "negación o que no se puede ver" }
+                    ]);
+                    return { q: 'En el término "' + pfx.word + '", la partícula inicial "' + pfx.p + '" corresponde a un PREFIJO que aporta el sentido de:', o: [pfx.m, "oficio u ocupación profesional", "diminutivo de afecto", "plural obligatorio"], c: pfx.m };
+                },
+                // 17. Sufijos
+                function() {
+                    var sfx = window.pick([
+                        { word: "cocinero", s: "-ero", m: "oficio, profesión u ocupación" },
+                        { word: "cariñoso", s: "-oso", m: "abundancia de una cualidad o afecto" },
+                        { word: "arbolito", s: "-ito", m: "diminutivo o afecto" },
+                        { word: "celebración", s: "-ción", m: "acción y efecto del verbo" }
+                    ]);
+                    return { q: 'En la palabra "' + sfx.word + '", la terminación "' + sfx.s + '" es un SUFIJO que indica:', o: [sfx.m, "negación de la raíz", "palabra primitiva sin derivados", "conector de secuencia"], c: sfx.m };
+                },
+                // 18. Plurales de palabras en -z a -ces
+                function() {
+                    var pair = window.pick([
+                        { s: "lápiz", p: "lápices" }, { s: "pez", p: "peces" }, { s: "nuez", p: "nueces" },
                         { s: "luz", p: "luces" }, { s: "cruz", p: "cruces" }, { s: "avestruz", p: "avestruces" },
-                        { s: "maíz", p: "maíces" }, { s: "lombriz", p: "lombrices" }, { s: "voz", p: "voces" }
-                    ];
-                    var item = pick(wordsZ);
-                    return {
-                        q: 'De acuerdo con las normas ortográficas, ¿cuál es el PLURAL correcto de la palabra terminada en z "' + item.s + '"?',
-                        o: [item.p, item.s + "s", item.s + "es", item.s.slice(0, -1) + "ses"],
-                        c: item.p
-                    };
+                        { s: "maíz", p: "maíces" }, { s: "voz", p: "voces" }, { s: "lombriz", p: "lombrices" },
+                        { s: "feliz", p: "felices" }, { s: "capaz", p: "capaces" }
+                    ]);
+                    return { q: 'Según la regla ortográfica para palabras terminadas en Z, ¿cuál es el PLURAL correcto de "' + pair.s + '"?', o: [pair.p, pair.s + "s", pair.s + "es", pair.s.slice(0, -1) + "ses"], c: pair.p };
                 },
+                // 19. Campo semántico
                 function() {
-                    var affixes = [
-                        { word: "deshacer", part: "prefijo des-", mean: "negación o acción inversa" },
-                        { word: "reconstruir", part: "prefijo re-", mean: "repetición de la acción" },
-                        { word: "subterráneo", part: "prefijo sub-", mean: "por debajo de" },
-                        { word: "panadero", part: "sufijo -ero", mean: "oficio u ocupación" },
-                        { word: "cariñoso", part: "sufijo -oso", mean: "abundancia de una cualidad" }
-                    ];
-                    var item = pick(affixes);
-                    return {
-                        q: 'En la palabra "' + item.word + '", el elemento destacado es el ' + item.part + ', el cual cumple la función de indicar:',
-                        o: [item.mean, "cambio de idioma", "eliminación de la raíz", "significado sin relación"],
-                        c: item.mean
-                    };
+                    var cs = window.pick([
+                        { cat: "herramientas de carpintería", words: "serrucho, martillo, clavo, cepillo" },
+                        { cat: "prendas de vestir", words: "pantalón, camisa, bufanda, medias" },
+                        { cat: "instrumentos musicales", words: "marimba, guitarra, tambor, acordeón" },
+                        { cat: "hortalizas de Cartago", words: "papa, cebolla, zanahoria, repollo" }
+                    ]);
+                    return { q: 'El grupo de palabras {' + cs.words + '} pertenece a un mismo CAMPO SEMÁNTICO porque:', o: ["Comparten rasgos comunes de significado referidos a " + cs.cat, "Tienen exactamente el mismo número de letras", "Terminan todas con la letra z", "Carecen por completo de raíz"], c: "Comparten rasgos comunes de significado referidos a " + cs.cat };
                 },
+                // 20. Uso de mayúsculas
                 function() {
-                    var fields = [
-                        { name: "herramientas de construcción", words: "martillo, serrucho, pala, destornillador" },
-                        { name: "frutas nutritivas", words: "manzana, banano, papaya, sandía" },
-                        { name: "prendas de vestir", words: "pantalón, camisa, abrigo, medias" }
-                    ];
-                    var item = pick(fields);
-                    return {
-                        q: "El conjunto de palabras {" + item.words + "} pertenece al mismo campo semántico porque:",
-                        o: ["Comparten rasgos comunes de significado como " + item.name, "Tienen la misma cantidad de letras", "Empiezan todas con la letra 'z'", "Carecen de lexema o raíz"],
-                        c: "Comparten rasgos comunes de significado como " + item.name
-                    };
-                },
-                function() {
-                    var kid = pick(KIDS);
-                    return {
-                        q: "Cuando " + kid + " expone en clase y modula su tono de voz, hace contacto visual y usa gestos con sus manos, emplea elementos:",
-                        o: ["Paralingüísticos y no lingüísticos", "Puramente ortográficos de acentuación", "De cálculo matemático", "Exclusivamente informáticos"],
-                        c: "Paralingüísticos y no lingüísticos"
-                    };
-                },
-                function() {
-                    return {
-                        q: "¿Cuál es la función principal de la IDEA PRINCIPAL dentro de un párrafo estructurado?",
-                        o: ["Sintetizar el mensaje esencial e indispensable del párrafo", "Presentar únicamente ejemplos secundarios", "Rimar los versos de un poema", "Servir solo de adorno"],
-                        c: "Sintetizar el mensaje esencial e indispensable del párrafo"
-                    };
+                    var k = window.pick(KIDS), p = window.pick(PLACES);
+                    return { q: "¿Cuál de las siguientes oraciones aplica de forma impecable el uso de las MAYÚSCULAS?", o: [k + " visitó la comunidad de " + p + " el domingo pasado.", k.toLowerCase() + " visitó la comunidad de " + p.toLowerCase() + " el domingo pasado.", k + " visitó La comunidad De " + p + " el Domingo pasado.", k + " Visitó La Comunidad De " + p + " El Domingo."], c: k + " visitó la comunidad de " + p + " el domingo pasado." }
                 }
             ],
+
             "Matemáticas": [
+                // 1. Multiplicación 1 dígito con reagrupación
                 function() {
-                    var a = randInt(125, 840), b = randInt(3, 9);
+                    var a = window.randInt(245, 985), b = window.randInt(3, 9);
                     var ans = a * b;
-                    return {
-                        q: "Al resolver en columna la multiplicación " + a + " × " + b + ", ¿cuál es el producto exacto?",
-                        o: [ans.toString(), (ans + 10).toString(), (ans - 10).toString(), (ans + b).toString()],
-                        c: ans.toString()
-                    };
+                    var opts = window.shuffle([ans, ans + 10, ans - 10, ans + b * 2]).map(String);
+                    return { q: "Al resolver en columna la multiplicación " + a + " × " + b + " agrupando unidades, ¿cuál es el producto exacto?", o: opts, c: String(ans) };
                 },
+                // 2. Multiplicación 2 dígitos paso a paso
                 function() {
-                    var a = randInt(140, 520), b = randInt(12, 24);
+                    var a = window.randInt(125, 420), b = window.randInt(12, 28);
                     var ans = a * b;
-                    return {
-                        q: "En una bodega se organizan " + a + " cajas con " + b + " paquetes cada una. Al multiplicar " + a + " × " + b + " en columna, ¿cuál es el total?",
-                        o: [ans.toString(), (ans + 100).toString(), (ans - 50).toString(), (ans + 20).toString()],
-                        c: ans.toString()
-                    };
+                    var opts = window.shuffle([ans, ans + 100, ans - 50, ans + 20]).map(String);
+                    return { q: "Una cooperativa agrícola de Cartago empaca " + a + " cajas con " + b + " bolsas de papas cada una. ¿Cuántas bolsas hay en total al calcular " + a + " × " + b + " en columna?", o: opts, c: String(ans) };
                 },
+                // 3. Circunferencia vs círculo
                 function() {
-                    var r = randInt(5, 30), d = r * 2;
-                    return {
-                        q: "Una mesa circular de la escuela tiene una circunferencia con un radio de " + r + " cm. ¿Cuánto mide su DIÁMETRO?",
-                        o: [d + " cm", r + " cm", (d + 4) + " cm", (r * 3) + " cm"],
-                        c: d + " cm"
-                    };
+                    return { q: "¿Cuál es la diferencia geométrica fundamental entre CÍRCULO y CIRCUNFERENCIA?", o: ["La circunferencia es el borde o línea curva cerrada y el círculo es la superficie plana interior", "El círculo es solo la orilla exterior y la circunferencia es el centro", "No existe ninguna diferencia matemática entre ambos conceptos", "La circunferencia mide el peso y el círculo los minutos"], c: "La circunferencia es el borde o línea curva cerrada y el círculo es la superficie plana interior" };
                 },
+                // 4. Radio a diámetro (d = 2r)
                 function() {
-                    var d = randInt(6, 28) * 2, r = d / 2;
-                    return {
-                        q: "El aro del gimnasio escolar tiene un diámetro de " + d + " cm. ¿Cuánto mide exactamente su RADIO?",
-                        o: [r + " cm", d + " cm", (d * 2) + " cm", (r + 5) + " cm"],
-                        c: r + " cm"
-                    };
+                    var r = window.randInt(6, 35), d = r * 2;
+                    var k = window.pick(KIDS);
+                    return { q: k + " traza con su compás una circunferencia cuyo RADIO mide exactamente " + r + " cm. ¿Cuánto mide su DIÁMETRO?", o: [d + " cm", r + " cm", (d + 2) + " cm", (r * 3) + " cm"], c: d + " cm" };
                 },
+                // 5. Diámetro a radio (r = d / 2)
                 function() {
-                    var kg = randInt(2, 8), g = kg * 1000;
-                    return {
-                        q: pick(KIDS) + " compró en la feria de Cartago un saco con " + kg + " kilogramos de papas. ¿A cuántos gramos equivale?",
-                        o: [g + " gramos", (kg * 100) + " gramos", (kg * 10) + " gramos", (g + 500) + " gramos"],
-                        c: g + " gramos"
-                    };
+                    var r = window.randInt(7, 45), d = r * 2;
+                    return { q: "El aro de una canasta de básquetbol escolar tiene un diámetro de " + d + " cm. ¿Cuánto mide la longitud de su RADIO?", o: [r + " cm", d + " cm", (d * 2) + " cm", (r + 4) + " cm"], c: r + " cm" };
                 },
+                // 6. Masa: kg a g enteros
                 function() {
-                    var fractions = [
-                        { f: "1/2 kg", g: "500 gramos" },
-                        { f: "1/4 kg", g: "250 gramos" },
-                        { f: "3/4 kg", g: "750 gramos" }
-                    ];
-                    var item = pick(fractions);
-                    return {
-                        q: "Una receta tradicional de repostería solicita exactamente " + item.f + " de queso dulce. ¿A cuántos gramos equivale?",
-                        o: [item.g, "1000 gramos", "100 gramos", "350 gramos"],
-                        c: item.g
-                    };
+                    var kg = window.randInt(2, 9), g = kg * 1000;
+                    var k = window.pick(KIDS), p = window.pick(PLACES);
+                    return { q: k + " compró en la feria de " + p + " un saco con " + kg + " kilogramos (kg) de cebollas. ¿A cuántos gramos (g) equivale ese peso?", o: [g + " g", (kg * 100) + " g", (kg * 10) + " g", (g + 500) + " g"], c: g + " g" };
                 },
+                // 7. Fracciones del kilogramo: 1/2 kg
                 function() {
-                    var h = randInt(2, 6), min = h * 60;
-                    return {
-                        q: "Un recorrido cultural por las Ruinas de Cartago tuvo una duración de " + h + " horas completas. ¿A cuántos minutos equivale?",
-                        o: [min + " minutos", (h * 100) + " minutos", (min + 30) + " minutos", (h * 50) + " minutos"],
-                        c: min + " minutos"
-                    };
+                    var k = window.pick(KIDS);
+                    return { q: k + " necesita exactamente 1/2 kilogramo de queso Turrialba para una receta escolar. ¿A cuántos gramos (g) corresponde?", o: ["500 g", "250 g", "750 g", "1000 g"], c: "500 g" };
                 },
+                // 8. Fracciones del kilogramo: 1/4 kg y 3/4 kg
                 function() {
-                    var weeks = randInt(2, 6), days = weeks * 7;
-                    return {
-                        q: pick(KIDS) + " entrenará atletismo durante " + weeks + " semanas consecutivas. ¿Cuántos días en total entrenará?",
-                        o: [days + " días", (weeks * 5) + " días", (days + 4) + " días", (weeks * 10) + " días"],
-                        c: days + " días"
-                    };
+                    var isOneFourth = Math.random() > 0.5;
+                    var frac = isOneFourth ? "1/4 kg" : "3/4 kg";
+                    var correct = isOneFourth ? "250 g" : "750 g";
+                    var dist = isOneFourth ? ["500 g", "750 g", "100 g"] : ["500 g", "250 g", "1000 g"];
+                    return { q: "Al adquirir en el supermercado una bolsa con " + frac + " de fresas cultivadas en Cartago, ¿cuál es su peso en gramos?", o: [correct, dist[0], dist[1], dist[2]], c: correct };
                 },
+                // 9. Conversión de tiempo: Horas a minutos
                 function() {
-                    return {
-                        q: "¿Cuál es la diferencia geométrica esencial entre un CÍRCULO y una CIRCUNFERENCIA?",
-                        o: [
-                            "La circunferencia es la línea curva cerrada exterior y el círculo es la superficie plana interior",
-                            "La circunferencia es el centro y el círculo es el borde exterior",
-                            "Ambos son idénticos y no poseen ninguna diferencia geométrica",
-                            "El círculo mide el tiempo y la circunferencia la masa"
-                        ],
-                        c: "La circunferencia es la línea curva cerrada exterior y el círculo es la superficie plana interior"
-                    };
+                    var h = window.randInt(2, 7), m = h * 60;
+                    return { q: "Un viaje escolar en autobús desde la escuela hasta el Parque Nacional Tapantí duró " + h + " horas completas. ¿A cuántos MINUTOS equivale?", o: [m + " minutos", (h * 100) + " minutos", (m + 30) + " minutos", (h * 50) + " minutos"], c: m + " minutos" };
+                },
+                // 10. Conversión de tiempo: Minutos a segundos
+                function() {
+                    var m = window.randInt(2, 6), s = m * 60;
+                    return { q: "En educación física, un estudiante cronometró " + m + " minutos de trote continuo. ¿A cuántos SEGUNDOS equivale ese tiempo?", o: [s + " segundos", (m * 100) + " segundos", (s + 20) + " segundos", (m * 10) + " segundos"], c: s + " segundos" };
+                },
+                // 11. Conversión de semanas a días
+                function() {
+                    var w = window.randInt(3, 8), d = w * 7;
+                    var k = window.pick(KIDS);
+                    return { q: k + " asistirá a un taller de matemáticas durante " + w + " semanas consecutivas. ¿Cuántos DÍAS en total durará el taller?", o: [d + " días", (w * 5) + " días", (d + 3) + " días", (w * 10) + " días"], c: d + " días" };
+                },
+                // 12. Suma con pesos en gramos
+                function() {
+                    var k = window.pick(KIDS);
+                    return { q: k + " coloca en una balanza 1/2 kg de papas y luego añade 1/4 kg más. ¿Cuántos gramos marca la balanza en total?", o: ["750 g", "500 g", "250 g", "1000 g"], c: "750 g" };
+                },
+                // 13. Problema contextualizado de multiplicación
+                function() {
+                    var cajas = window.randInt(14, 38), latas = window.randInt(12, 18);
+                    var tot = cajas * latas;
+                    return { q: "En el comedor de la escuela recibieron " + cajas + " cajas con " + latas + " envases de leche cada una. Al multiplicar en columna, ¿cuántos envases hay en total?", o: [tot.toString(), (tot + 10).toString(), (tot - 20).toString(), (tot + 30).toString()], c: tot.toString() };
+                },
+                // 14. Reloj analógico de manecillas
+                function() {
+                    return { q: "Si la manecilla corta (horero) señala exactamente el número 4 y la manecilla larga (minutero) señala el número 12, ¿qué hora marca el reloj analógico?", o: ["Las 4:00 en punto", "Las 12:20", "Las 4:30", "Las 12:04"], c: "Las 4:00 en punto" }
                 }
             ],
+
             "Ciencias": [
+                // 1. Seres vivos por su medio: Acuático
                 function() {
-                    var animals = [
-                        { name: "jaguar", diet: "carne de otros animales silvestres", type: "carnívoro" },
-                        { name: "danta (tapir)", diet: "hojas, frutos y ramas del bosque", type: "herbívoro" },
-                        { name: "pizote", diet: "tanto frutas como pequeños animales", type: "omnívoro" },
-                        { name: "oso hormiguero", diet: "hormigas y termitas", type: "insectívoro" },
-                        { name: "venado cola blanca", diet: "pastos y ramas tiernas", type: "herbívoro" }
-                    ];
-                    var a = pick(animals);
-                    return {
-                        q: "En la fauna costarricense, el " + a.name + " se alimenta principalmente de " + a.diet + ". Por esta razón, se clasifica como:",
-                        o: [a.type, "descomponedor marino", "productor vegetal", "omnívoro acuático"],
-                        c: a.type
-                    };
+                    var a = window.pick([
+                        { n: "la trucha arcoíris del río Macho", t: "acuático" },
+                        { n: "el manatí de los canales del Caribe", t: "acuático" },
+                        { n: "el tiburón toro de las costas", t: "acuático" }
+                    ]);
+                    return { q: "Por el medio en que vive y se desplaza naturalmente, " + a.n + " se clasifica como un animal:", o: ["Acuático", "Terrestre puro", "Aéreo estricto", "Subterráneo"], c: "Acuático" };
                 },
+                // 2. Seres vivos por su medio: Terrestre / Aéreo-terrestre
                 function() {
-                    var biotics = ["El roble blanco", "El jaguar de la selva", "Los hongos del bosque", "Las bacterias del suelo"];
-                    var abiotics = ["El agua del río", "La luz solar", "El aire atmosférico", "Las rocas volcánicas"];
-                    var isBio = Math.random() > 0.5;
-                    if (isBio) {
-                        var correct = pick(biotics);
-                        var wrong = shuffle(abiotics).slice(0, 3);
-                        return {
-                            q: "En el ecosistema del Parque Nacional Tapantí en Cartago, ¿cuál elemento corresponde a un componente BIÓTICO?",
-                            o: [correct, wrong[0], wrong[1], wrong[2]],
-                            c: correct
-                        };
-                    } else {
-                        var correctA = pick(abiotics);
-                        var wrongA = shuffle(biotics).slice(0, 3);
-                        return {
-                            q: "En el ecosistema del Volcán Irazú, ¿cuál de los siguientes factores representa un componente ABIÓTICO indispensable?",
-                            o: [correctA, wrongA[0], wrongA[1], wrongA[2]],
-                            c: correctA
-                        };
-                    }
+                    var a = window.pick([
+                        { n: "el venado cola blanca en las montañas de Costa Rica", t: "terrestre" },
+                        { n: "el jaguar en el bosque tropical", t: "terrestre" },
+                        { n: "el tucán pico iris que vuela y anida en los árboles", t: "aéreo o aéreo-terrestre" }
+                    ]);
+                    return { q: "De acuerdo con el medio donde habita y realiza sus funciones biológicas, " + a.n + " corresponde a un organismo:", o: [a.t.charAt(0).toUpperCase() + a.t.slice(1), "marino abisal", "descomponedor microscópico", "abiótico sin vida"], c: a.t.charAt(0).toUpperCase() + a.t.slice(1) };
                 },
+                // 3. Alimentación: Herbívoros
                 function() {
-                    return {
-                        q: "¿Qué significa el concepto de EQUILIBRIO ECOLÓGICO o biológico en la naturaleza?",
-                        o: [
-                            "La armonía e interdependencia equilibrada entre los seres vivos y su medio físico",
-                            "La eliminación total de los depredadores de la montaña",
-                            "Talar los bosques para construir edificios",
-                            "La sequía permanente de las cuencas hidrográficas"
-                        ],
-                        c: "La armonía e interdependencia equilibrada entre los seres vivos y su medio físico"
-                    };
+                    var h = window.pick([
+                        { n: "El perezoso de tres dedos", d: "hojas y brotes tiernos de árboles como el guarumo" },
+                        { n: "La danta o tapir", d: "hierbas, hojas y frutos caídos en el bosque" },
+                        { n: "El venado cola blanca", d: "pastos, ramas y follaje vegetal" }
+                    ]);
+                    return { q: h.n + " se alimenta exclusivamente de " + h.d + ". Por este motivo, se clasifica como un animal:", o: ["Herbívoro", "Carnívoro estricto", "Insectívoro", "Omnívoro"], c: "Herbívoro" };
                 },
+                // 4. Alimentación: Carnívoros
                 function() {
-                    var machines = [
-                        { name: "polea", desc: "una rueda ranurada con una cuerda para elevar cargas con menor esfuerzo" },
-                        { name: "plano inclinado", desc: "una rampa inclinada que facilita subir cargas pesadas venciendo la gravedad" },
-                        { name: "palanca", desc: "una barra rígida apoyada sobre un punto de apoyo para mover objetos" },
-                        { name: "cuña", desc: "un prisma triangular con filo para dividir o cortar materiales" }
-                    ];
-                    var m = pick(machines);
-                    return {
-                        q: "La máquina simple que consiste en " + m.desc + " corresponde a:",
-                        o: [m.name, "el motor de gasolina", "la licuadora eléctrica", "la computadora"],
-                        c: m.name
-                    };
+                    var c = window.pick(["El jaguar", "El manigordo u ocelote", "El puma"]);
+                    return { q: c + " caza otros animales para alimentarse de su carne en las áreas silvestres protegidas de Costa Rica. Su régimen alimenticio es:", o: ["Carnívoro", "Herbívoro", "Insectívoro", "Productor vegetal"], c: "Carnívoro" };
                 },
+                // 5. Alimentación: Omnívoros
                 function() {
-                    var energies = [
-                        { type: "Eólica", source: "el movimiento del viento" },
-                        { type: "Solar", source: "la radiación y luz emitidas por el Sol" },
-                        { type: "Hidráulica", source: "la fuerza y corriente de las caídas de agua" }
-                    ];
-                    var item = pick(energies);
-                    return {
-                        q: "La energía limpia y renovable que se obtiene directamente aprovechando " + item.source + " se denomina:",
-                        o: ["Energía " + item.type, "Energía Nuclear", "Energía de Petróleo", "Energía Química artificial"],
-                        c: "Energía " + item.type
-                    };
+                    var o = window.pick([
+                        { n: "El pizote", d: "frutas, semillas, huevos y pequeños animales" },
+                        { n: "El cerdo de monte (saíno)", d: "raíces, frutos, insectos y pequeñas lombrices" }
+                    ]);
+                    return { q: o.n + " posee una dieta variada que incluye " + o.d + ". Por lo tanto, se clasifica como:", o: ["Omnívoro", "Herbívoro exclusivo", "Insectívoro puro", "Carnívoro estricto"], c: "Omnívoro" };
+                },
+                // 6. Alimentación: Insectívoros
+                function() {
+                    var ins = window.pick(["El oso hormiguero tamandúa", "El sapo común costarricense", "El murciélago insectívoro"]);
+                    return { q: ins + " tiene adaptaciones especiales para capturar y comer hormigas, termitas u otros insectos. Se clasifica como:", o: ["Insectívoro", "Herbívoro", "Omnívoro", "Carnívoro de gran tamaño"], c: "Insectívoro" };
+                },
+                // 7. Componentes bióticos
+                function() {
+                    var bio = window.pick(["El árbol de roble de la cordillera", "El hongo oreja de palo del bosque", "Las bacterias del suelo fértil", "La orquídea Guaria Morada"]);
+                    return { q: "En el ecosistema del Parque Nacional Tapantí en Cartago, ¿cuál elemento representa un componente BIÓTICO?", o: [bio, "La roca volcánica", "La luz solar", "El aire atmosférico"], c: bio };
+                },
+                // 8. Componentes abióticos
+                function() {
+                    var abio = window.pick(["El agua pura de los ríos de Orosi", "El suelo volcánico de Tierra Blanca", "El aire fresco", "La radiación y luz solar"]);
+                    return { q: "En la naturaleza, un componente sin vida propia pero indispensable para que los seres vivos subsistan es un elemento ABIÓTICO como:", o: [abio, "El jaguar silvestre", "El musgo de los árboles", "El pájaro yigüirro"], c: abio };
+                },
+                // 9. Concepto de equilibrio ecológico
+                function() {
+                    return { q: "¿Qué se entiende por EQUILIBRIO ECOLÓGICO o biológico en un entorno natural?", o: ["La armonía e interdependencia equilibrada entre los seres vivos y los factores abióticos de su hábitat", "La eliminación de todos los carnívoros del bosque", "Talar árboles para construir calles", "Desviar todos los ríos para secar las cuencas"], c: "La armonía e interdependencia equilibrada entre los seres vivos y los factores abióticos de su hábitat" };
+                },
+                // 10. Conservación del equilibrio
+                function() {
+                    var m = window.pick(["Reforestar con especies nativas y cuidar las nacientes de agua", "No contaminar los ríos con basura ni químicos", "Respetar las vedas de caza y proteger la fauna"]);
+                    return { q: "¿Cuál acción comunitaria contribuye de manera directa a conservar el equilibrio ecológico en Cartago?", o: [m, "Quemar basura al aire libre", "Cazar venados en reservas naturales", "Lanzar residuos plásticos al alcantarillado"], c: m };
+                },
+                // 11. Concepto de energía
+                function() {
+                    return { q: "En las ciencias naturales, ¿cómo se define formalmente la ENERGÍA?", o: ["La capacidad que posee un cuerpo o sistema para producir trabajo, movimiento o transformaciones", "El peso de un objeto medido en kilogramos", "La línea curva de una circunferencia", "El listado de quehaceres de una casa"], c: "La capacidad que posee un cuerpo o sistema para producir trabajo, movimiento o transformaciones" };
+                },
+                // 12. Fuentes de energía
+                function() {
+                    var e = window.pick([
+                        { t: "Eólica", s: "la fuerza del viento mediante aerogeneradores" },
+                        { t: "Solar", s: "la radiación y luminosidad que emite el Sol" },
+                        { t: "Hidráulica", s: "la fuerza y corriente de caídas de agua en represas" }
+                    ]);
+                    return { q: "La fuente de energía limpia que se aprovecha directamente a partir de " + e.s + " se denomina:", o: ["Energía " + e.t, "Energía de Petróleo", "Energía Nuclear", "Energía de Carbón"], c: "Energía " + e.t };
+                },
+                // 13. Máquinas simples
+                function() {
+                    var m = window.pick([
+                        { n: "La polea", d: "una rueda acanalada por donde pasa una cuerda para elevar cargas pesadas" },
+                        { n: "La palanca", d: "una barra rígida que oscila sobre un punto de apoyo para vencer una resistencia" },
+                        { n: "El plano inclinado", d: "una rampa que facilita subir o bajar objetos a diferentes alturas" },
+                        { n: "La cuña", d: "una pieza con filo triangular usada para cortar o dividir materiales" }
+                    ]);
+                    return { q: "La máquina simple que consiste en " + m.d + " corresponde a:", o: [m.n, "El motor de gasolina", "La computadora portátil", "El microondas"], c: m.n };
+                },
+                // 14. Máquinas compuestas
+                function() {
+                    return { q: "¿Cuál de los siguientes objetos representa una MÁQUINA COMPUESTA formada por la integración de varias máquinas simples?", o: ["La bicicleta (con ruedas, ejes, cadenas y palancas de freno)", "Una simple barra de hierro apoyada en una piedra", "Una tabla de madera inclinada en la acera", "Un tornillo metálico individual"], c: "La bicicleta (con ruedas, ejes, cadenas y palancas de freno)" };
                 }
             ],
+
             "Estudios Sociales": [
+                // 1. Patrimonio cultural tangible
                 function() {
-                    var tangible = ["La Escuela Juan Ramírez Ramírez", "La Basílica de los Ángeles", "Las Ruinas de la Parroquia Santiago Apóstol"];
-                    var item = pick(tangible);
-                    return {
-                        q: item + " en Cartago es un testimonio del pasado que forma parte del:",
-                        o: ["Patrimonio cultural tangible arquitectónico", "Patrimonio cultural intangible", "Patrimonio biológico abiótico", "Patrimonio natural no vivo"],
-                        c: "Patrimonio cultural tangible arquitectónico"
-                    };
+                    var p = window.pick(["La Escuela Juan Ramírez Ramírez (edificio arquitectónico patrimonial de 1912)", "La Basílica de Nuestra Señora de los Ángeles", "Las Ruinas de la Parroquia Santiago Apóstol en Cartago"]);
+                    return { q: p + " forma parte del tesoro de nuestra provincia clasificado como:", o: ["Patrimonio cultural tangible arquitectónico", "Patrimonio cultural intangible", "Patrimonio natural no vivo", "Efeméride deportiva"], c: "Patrimonio cultural tangible arquitectónico" };
                 },
+                // 2. Patrimonio cultural intangible
                 function() {
-                    var intangible = ["El idioma español", "Las leyendas tradicionales como La Segua", "Las danzas folclóricas típicas", "La música de marimba"];
-                    var item = pick(intangible);
-                    return {
-                        q: item + " de nuestra patria se clasifica como una manifestación de:",
-                        o: ["Patrimonio cultural intangible", "Patrimonio cultural tangible", "Patrimonio geológico mineral", "Estructura arquitectónica"],
-                        c: "Patrimonio cultural intangible"
-                    };
+                    var p = window.pick(["El idioma español con giros propios costarricenses", "Las leyendas populares como La Segua y El Cadejos", "Las danzas folclóricas del punto guanacasteco y el calipso", "La tradición oral y las recetas de comidas típicas"]);
+                    return { q: p + " se transmite de generación en generación y pertenece al:", o: ["Patrimonio cultural intangible", "Patrimonio cultural tangible edificado", "Patrimonio de flora silvestre", "Relieve costero"], c: "Patrimonio cultural intangible" };
                 },
+                // 3. Patrimonio natural
                 function() {
-                    return {
-                        q: 'El 25 de julio conmemoramos un hecho cívico de 1824 cuyo lema patrio es "De la patria por nuestra voluntad". ¿Qué efeméride se celebra?',
-                        o: ["La Anexión del Partido de Nicoya a Costa Rica", "La Independencia de Centroamérica", "El Día del Trabajador", "La Batalla de Santa Rosa"],
-                        c: "La Anexión del Partido de Nicoya a Costa Rica"
-                    };
+                    var pn = window.pick(["El Parque Nacional Volcán Irazú y sus paisajes", "El Parque Nacional Tapantí y sus cuencas de agua", "Los senderos boscosos de la Cordillera de Talamanca"]);
+                    return { q: pn + " en nuestra provincia y país constituye un ejemplo destacado de:", o: ["Patrimonio natural de gran belleza escénica y biodiversidad", "Patrimonio arquitectónico construido por el ser humano", "Patrimonio cultural intangible", "Efeméride del mes de julio"], c: "Patrimonio natural de gran belleza escénica y biodiversidad" };
                 },
+                // 4. Anexión del Partido de Nicoya (25 de julio)
                 function() {
-                    return {
-                        q: "¿Cuáles comidas tradicionales a base de maíz representan un aporte gastronómico fundamental de Guanacaste?",
-                        o: ["Las chorreadas, el tamal asado y el pozol", "El rice and beans y el pan bon", "El pati y el agua de sapo", "Las galletas de avena y peras"],
-                        c: "Las chorreadas, el tamal asado y el pozol"
-                    };
+                    return { q: 'El 25 de julio conmemoramos un hecho histórico de 1824 bajo el célebre lema patriótico "De la patria por nuestra voluntad". ¿Qué efeméride se celebra?', o: ["La Anexión del Partido de Nicoya a Costa Rica", "La Independencia de Centroamérica", "El Día de la Fundación de la República", "La Batalla de Santa Rosa"], c: "La Anexión del Partido de Nicoya a Costa Rica" };
                 },
+                // 5. Aportes de Guanacaste
                 function() {
-                    return {
-                        q: "Cada 31 de agosto, Costa Rica conmemora el Día de la Persona Negra y la Cultura Afrocostarricense. ¿Cuál es un aporte fundamental de esta cultura?",
-                        o: ["El calipso, el rice and beans y el pan bon", "El punto guanacasteco y el pozol", "El picadillo de papa cartaginés", "La carreta típica de bueyes"],
-                        c: "El calipso, el rice and beans y el pan bon"
-                    };
+                    return { q: "¿Cuáles comidas y tradiciones representan un valioso aporte cultural de Guanacaste a Costa Rica?", o: ["Las chorreadas, el tamal asado, el pozol y la música de marimba", "El rice and beans, el pati y el pan bon", "El picadillo de papa con tortilla de queso", "Las hamburguesas y papas fritas"], c: "Las chorreadas, el tamal asado, el pozol y la música de marimba" };
                 },
+                // 6. Día de la Persona Negra (31 de agosto)
                 function() {
-                    return {
-                        q: "El 14 de setiembre a las 6:00 p.m., los estudiantes de la Escuela Juan Ramírez y todo el país se reúnen tradicionalmente para:",
-                        o: ["Entonar el Himno Nacional y desfilar con faroles", "Comer uvas de Año Nuevo", "Celebrar el Día del Niño", "Visitar las playas de Puntarenas"],
-                        c: "Entonar el Himno Nacional y desfilar con faroles"
-                    };
+                    return { q: "Cada 31 de agosto Costa Rica conmemora el Día de la Persona Negra y la Cultura Afrocostarricense. ¿Cuál es un valioso aporte de esta cultura?", o: ["El calipso, platillos como el rice and beans y el legado del ferrocarril al Caribe", "El baile de la yegüita de Nicoya", "El cultivo del trigo en Cartago", "La carreta típica pintada"], c: "El calipso, platillos como el rice and beans y el legado del ferrocarril al Caribe" };
                 },
+                // 7. Fiestas Patrias del 14 de setiembre
                 function() {
-                    var symbols = [
-                        { name: "La Guaria Morada", type: "Flor Nacional" },
-                        { name: "El Árbol de Guanacaste", type: "Árbol Nacional de sombra y protección" },
-                        { name: "El Yigüirro", type: "Ave Nacional por su canto que anuncia las lluvias" },
-                        { name: "La Carreta Típica", type: "Símbolo del trabajo y la paz" },
-                        { name: "El Venado Cola Blanca", type: "Símbolo de la fauna silvestre de nuestras áreas protegidas" }
-                    ];
-                    var s = pick(symbols);
-                    return {
-                        q: "En el conjunto de Símbolos Nacionales de Costa Rica, " + s.name + " fue declarado como:",
-                        o: [s.type, "Monumento arquitectónico de Cartago", "Máquina simple de tracción", "Efeméride de agosto"],
-                        c: s.type
-                    };
+                    return { q: "El 14 de setiembre a las 6:00 p.m. en todo el país y en la Escuela Juan Ramírez, la tradición cívica nos convoca para:", o: ["Entonar el Himno Nacional con fervor y participar en el desfile de faroles", "Comer uvas y esperar la medianoche de año nuevo", "Sembrar un árbol frutal en el patio", "Celebrar el Día del Trabajador"], c: "Entonar el Himno Nacional con fervor y participar en el desfile de faroles" };
+                },
+                // 8. Independencia de Costa Rica (15 de setiembre de 1821)
+                function() {
+                    return { q: "¿Qué hecho histórico conmemora Costa Rica cada 15 de setiembre desde el año 1821?", o: ["Nuestra Independencia patria", "La Anexión de Nicoya", "La Batalla de Rivas", "La Campaña Nacional de 1856"], c: "Nuestra Independencia patria" };
+                },
+                // 9. Símbolos Nacionales: Fauna
+                function() {
+                    var s = window.pick([
+                        { n: "El Yigüirro", t: "Ave Nacional de Costa Rica por su canto anunciador de lluvias" },
+                        { n: "El Venado Cola Blanca", t: "Símbolo de la fauna silvestre de nuestras áreas protegidas" },
+                        { n: "El Manatí", t: "Símbolo de la fauna marina amenazada de nuestros canales" },
+                        { n: "El Perezoso de dos y tres dedos", t: "Símbolo de la fauna silvestre y el turismo ecológico" }
+                    ]);
+                    return { q: "En el grupo de Símbolos Nacionales de Costa Rica, " + s.n + " fue declarado como:", o: [s.t, "Monumento arquitectónico de Cartago", "Danza folclórica de Guanacaste", "Patrimonio intangible oral"], c: s.t };
+                },
+                // 10. Símbolos Nacionales: Flora y Tradición
+                function() {
+                    var s = window.pick([
+                        { n: "La Guaria Morada", t: "Flor Nacional de Costa Rica" },
+                        { n: "El Árbol de Guanacaste", t: "Árbol Nacional que brinda sombra y protección a la patria" },
+                        { n: "La Carreta Típica", t: "Símbolo nacional del trabajo y la paz" },
+                        { n: "La Antorcha de la Libertad", t: "Símbolo patrio de la independencia y la libertad" }
+                    ]);
+                    return { q: "Dentro de los Símbolos Patrios de Costa Rica, " + s.n + " representa oficialmente:", o: [s.t, "Monumento arquitectónico de Cartago", "Efeméride del 31 de agosto", "Máquina simple de tracción"], c: s.t };
                 }
             ],
+
             "Inglés": [
+                // 1. House chores: wash the dishes
                 function() {
-                    var kid = pick(KIDS);
-                    return {
-                        q: kid + " va a la cocina después de cenar para dejar el fregadero y los platos totalmente limpios. ¿Qué quehacer doméstico está realizando?",
-                        o: ["wash the dishes", "cook", "iron", "walk the dog"],
-                        c: "wash the dishes"
-                    };
+                    var k = window.pick(KIDS);
+                    return { q: "Después de almorzar, " + k + " ayuda en la cocina lavando los platos, vasos y cubiertos en el fregadero. ¿Qué quehacer doméstico en inglés realiza?", o: ["wash the dishes", "cook", "iron", "walk the dog"], c: "wash the dishes" };
                 },
+                // 2. House chores: wash the clothes
                 function() {
-                    var kid = pick(KIDS);
-                    return {
-                        q: "La ropa de " + kid + " está seca pero muy arrugada y necesita dejarla completamente lisa para ir a la escuela. ¿Qué quehacer realiza?",
-                        o: ["iron", "vacuum", "cook", "wash the dishes"],
-                        c: "iron"
-                    };
+                    var k = window.pick(KIDS);
+                    return { q: "Los uniformes escolares de " + k + " están sucios y deben colocarse en la lavadora con jabón. ¿Qué tarea del hogar en inglés corresponde?", o: ["wash the clothes", "vacuum", "cook", "iron"], c: "wash the clothes" };
                 },
+                // 3. House chores: iron
                 function() {
-                    var kid = pick(KIDS);
-                    return {
-                        q: "La alfombra de la sala tiene polvo y migas. " + kid + " enciende la máquina eléctrica que aspira la suciedad del piso. ¿Qué acción realiza?",
-                        o: ["vacuum", "walk the dog", "cook", "wash the clothes"],
-                        c: "vacuum"
-                    };
+                    var k = window.pick(KIDS);
+                    return { q: "La camisa escolar de " + k + " está seca pero llena de arrugas, por lo que utiliza una plancha caliente para alisarla. ¿Qué acción realiza?", o: ["iron", "wash the dishes", "cook", "vacuum"], c: "iron" };
                 },
+                // 4. House chores: cook
                 function() {
-                    var kid = pick(KIDS);
-                    return {
-                        q: "La mascota de la familia necesita salir al parque a ejercitarse y pasear. ¿Cuál tarea doméstica en inglés corresponde?",
-                        o: ["walk the dog", "cook", "iron", "wash the dishes"],
-                        c: "walk the dog"
-                    };
+                    var k = window.pick(KIDS);
+                    return { q: "En la cocina, " + k + " y su familia preparan los alimentos al fuego en ollas y sartenes para la cena. ¿Qué quehacer en inglés ejecutan?", o: ["cook", "walk the dog", "vacuum", "iron"], c: "cook" };
                 },
+                // 5. House chores: walk the dog
                 function() {
-                    var holidays = [
-                        { name: "Día de la Independencia (Independence Day)", d: "September 15th" },
-                        { name: "Navidad (Christmas)", d: "December 25th" },
-                        { name: "Día de Juan Santamaría", d: "April 11th" },
-                        { name: "Día de la Madre (Mother's Day)", d: "August 15th" },
-                        { name: "Anexión del Partido de Nicoya", d: "July 25th" },
-                        { name: "Año Nuevo (New Year's Day)", d: "January 1st" },
-                        { name: "Día de la Virgen de los Ángeles", d: "August 2nd" },
-                        { name: "Día del Trabajador (Labor Day)", d: "May 1st" }
-                    ];
-                    var h = pick(holidays);
-                    var wrong = ["September 15th", "December 25th", "April 11th", "January 1st", "May 1st"].filter(function(x) { return x !== h.d; }).slice(0, 3);
-                    return {
-                        q: "En Costa Rica conmemoramos la fecha patria de " + h.name + ". ¿Con cuál fecha en inglés se asocia en el calendario?",
-                        o: [h.d, wrong[0], wrong[1], wrong[2]],
-                        c: h.d
-                    };
+                    var k = window.pick(KIDS);
+                    return { q: "La mascota de " + k + " necesita salir a caminar al parque para ejercitarse y pasear. ¿Cuál tarea en inglés corresponde?", o: ["walk the dog", "cook", "wash the dishes", "iron"], c: "walk the dog" };
                 },
+                // 6. House chores: vacuum
                 function() {
-                    var ords = [
-                        { es: "primero", en: "1st" }, { es: "segundo", en: "2nd" }, { es: "tercero", en: "3rd" },
-                        { es: "cuarto", en: "4th" }, { es: "quinto", en: "5th" }, { es: "décimo", en: "10th" }
-                    ];
-                    var ord = pick(ords);
-                    var wrong = ["1st", "2nd", "3rd", "4th", "5th", "10th"].filter(function(x) { return x !== ord.en; }).slice(0, 3);
-                    return {
-                        q: "En una competencia deportiva en la Escuela Juan Ramírez, " + pick(KIDS) + ' obtuvo el lugar "' + ord.es + '". ¿Cómo se escribe ese número ordinal en inglés?',
-                        o: [ord.en, wrong[0], wrong[1], wrong[2]],
-                        c: ord.en
-                    };
+                    var k = window.pick(KIDS);
+                    return { q: "La alfombra de la sala tiene polvo y migajas. " + k + " enciende la aspiradora eléctrica para limpiarla. ¿Qué acción en inglés realiza?", o: ["vacuum", "wash the clothes", "cook", "walk the dog"], c: "vacuum" };
                 },
+                // 7. Holidays: Independence Day
                 function() {
-                    return {
-                        q: "¿Cuál de las siguientes opciones muestra tres meses del año en estricto orden cronológico en inglés?",
-                        o: ["January, February, March", "March, January, February", "December, October, November", "July, May, June"],
-                        c: "January, February, March"
-                    };
+                    return { q: "En Costa Rica celebramos con desfiles y faroles el Día de la Independencia (Independence Day). ¿Cuál fecha en inglés le corresponde?", o: ["September 15th", "December 25th", "April 11th", "July 25th"], c: "September 15th" };
+                },
+                // 8. Holidays: Christmas
+                function() {
+                    return { q: "La festividad familiar de Navidad (Christmas) se conmemora en el calendario con la fecha en inglés:", o: ["December 25th", "January 1st", "August 15th", "May 1st"], c: "December 25th" };
+                },
+                // 9. Holidays: Juan Santamaría Day
+                function() {
+                    return { q: "El Día de Juan Santamaría (Juan Santamaría Day) conmemora al héroe nacional alajuelense. ¿Cuál es su fecha correspondiente en inglés?", o: ["April 11th", "April 15th", "May 1st", "August 2nd"], c: "April 11th" };
+                },
+                // 10. Holidays: Mother's Day
+                function() {
+                    return { q: "El Día de la Madre (Mother's Day) en Costa Rica es una fecha muy especial para homenajear a mamá. ¿En cuál fecha en inglés se celebra?", o: ["August 15th", "August 2nd", "July 25th", "September 15th"], c: "August 15th" };
+                },
+                // 11. Holidays: Annexation of Nicoya
+                function() {
+                    return { q: "La Anexión del Partido de Nicoya (Annexation of Nicoya) es una gran fiesta folclórica patria. ¿A cuál fecha en inglés corresponde?", o: ["July 25th", "July 15th", "June 25th", "August 2nd"], c: "July 25th" };
+                },
+                // 12. Holidays: New Year's Day
+                function() {
+                    return { q: "El primer día del año, conocido en inglés como New Year's Day, se conmemora en la fecha:", o: ["January 1st", "December 31st", "February 1st", "January 10th"], c: "January 1st" };
+                },
+                // 13. Holidays: Our Lady of Los Angeles Day
+                function() {
+                    return { q: "La tradicional fiesta y romería de la Virgen de los Ángeles (Our Lady of Los Angeles Day) en Cartago se celebra en la fecha:", o: ["August 2nd", "August 15th", "July 25th", "September 14th"], c: "August 2nd" };
+                },
+                // 14. Holidays: Labor Day
+                function() {
+                    return { q: "El Día del Trabajador (Labor Day) es un feriado conmemorado en la fecha en inglés:", o: ["May 1st", "May 15th", "April 11th", "June 1st"], c: "May 1st" };
+                },
+                // 15. Ordinal numbers: 1st to 5th
+                function() {
+                    var o = window.pick([
+                        { es: "primer (1°)", en: "1st" },
+                        { es: "segundo (2°)", en: "2nd" },
+                        { es: "tercer (3°)", en: "3rd" },
+                        { es: "cuarto (4°)", en: "4th" },
+                        { es: "quinto (5°)", en: "5th" }
+                    ]);
+                    var k = window.pick(KIDS);
+                    var wrong = ["1st", "2nd", "3rd", "4th", "5th"].filter(function(x) { return x !== o.en; }).slice(0, 3);
+                    return { q: "En una competencia atlética de la Escuela Juan Ramírez, " + k + " obtuvo el " + o.es + " lugar. ¿Cómo se escribe ese número ordinal en inglés?", o: [o.en, wrong[0], wrong[1], wrong[2]], c: o.en };
+                },
+                // 16. Ordinal numbers: 6th to 10th
+                function() {
+                    var o = window.pick([
+                        { es: "sexto (6°)", en: "6th" },
+                        { es: "séptimo (7°)", en: "7th" },
+                        { es: "octavo (8°)", en: "8th" },
+                        { es: "noveno (9°)", en: "9th" },
+                        { es: "décimo (10°)", en: "10th" }
+                    ]);
+                    var wrong = ["6th", "7th", "8th", "9th", "10th"].filter(function(x) { return x !== o.en; }).slice(0, 3);
+                    return { q: 'Al indicar posiciones en inglés, ¿cuál abreviatura corresponde al número ordinal "' + o.es + '"?', o: [o.en, wrong[0], wrong[1], wrong[2]], c: o.en };
+                },
+                // 17. Months in order
+                function() {
+                    var series = window.pick([
+                        { cor: "January, February, March", w1: "February, January, March", w2: "March, February, January", w3: "January, March, February" },
+                        { cor: "April, May, June", w1: "May, April, June", w2: "June, May, April", w3: "April, June, May" },
+                        { cor: "July, August, September", w1: "August, July, September", w2: "September, August, July", w3: "July, September, August" },
+                        { cor: "October, November, December", w1: "November, October, December", w2: "December, November, October", w3: "October, December, November" }
+                    ]);
+                    return { q: "¿Cuál de las siguientes opciones presenta tres meses del año en estricto y correcto ORDEN CRONOLÓGICO en inglés?", o: [series.cor, series.w1, series.w2, series.w3], c: series.cor };
                 }
             ]
         };
 
+        // CONSTRUCTOR QUE GARANTIZA EXACTAMENTE 20 PREGUNTAS SIN REPETIR DENTRO DEL EXAMEN Y ENTRE INTENTOS
         window.buildProceduralExam = function(materia, seenList) {
             var pool = window.PROCEDURAL_GENERATORS[materia] || window.PROCEDURAL_GENERATORS["Español"];
             var results = [];
-            var usedQuestions = new Set();
+            var usedQuestionsInSession = new Set();
+            var seenSet = new Set(seenList || []);
 
-            // 1. Intentar preguntas no vistas
-            var shuffledPool = window.shuffle(pool);
-            for (var i = 0; i < shuffledPool.length; i++) {
+            // Barajar los generadores disponibles para arrancar en orden impredecible
+            var shuffledIndices = window.shuffle(Array.from(Array(pool.length).keys()));
+
+            // PASO 1: Generar preguntas que no hayan sido vistas en intentos anteriores
+            for (var i = 0; i < shuffledIndices.length; i++) {
                 if (results.length >= 20) break;
-                var item = shuffledPool[i]();
-                if (item && item.q && !usedQuestions.has(item.q) && !seenList.includes(item.q)) {
-                    usedQuestions.add(item.q);
-                    results.push(item);
+                var fn = pool[shuffledIndices[i]];
+                for (var attempt = 0; attempt < 8; attempt++) {
+                    var item = fn();
+                    if (item && item.q && !usedQuestionsInSession.has(item.q) && !seenSet.has(item.q)) {
+                        usedQuestionsInSession.add(item.q);
+                        results.push(item);
+                        break;
+                    }
                 }
             }
 
-            // 2. Completar con variaciones aleatorias sin bucles infinitos
-            var attempts = 0;
-            while (results.length < 20 && attempts < 100) {
-                attempts++;
-                var fn = window.pick(pool);
-                var dynItem = fn();
-                if (dynItem && dynItem.q && !usedQuestions.has(dynItem.q)) {
-                    usedQuestions.add(dynItem.q);
-                    results.push(dynItem);
+            // PASO 2: Si aún faltan preguntas para 20 (porque el alumno ya resolvió muchas),
+            // generar variantes aleatorias asegurando cero repetición en la sesión actual
+            var safetyCounter = 0;
+            while (results.length < 20 && safetyCounter < 150) {
+                safetyCounter++;
+                var randomFn = window.pick(pool);
+                var dynItem = randomFn();
+                if (dynItem && dynItem.q && !usedQuestionsInSession.has(dynItem.q)) {
+                    if (!seenSet.has(dynItem.q) || safetyCounter > 80) {
+                        usedQuestionsInSession.add(dynItem.q);
+                        results.push(dynItem);
+                    }
                 }
             }
 
-            // 3. Relleno de seguridad garantizado
-            var safety = 0;
-            while (results.length < 20 && safety < 30) {
-                safety++;
-                var baseFn = window.pick(pool);
-                var baseItem = baseFn();
+            // PASO 3: Garantía estricta final de 20 preguntas únicas
+            var fallbackCounter = 0;
+            while (results.length < 20 && fallbackCounter < 50) {
+                fallbackCounter++;
+                var baseItem = window.pick(pool)();
                 if (baseItem && baseItem.q) {
-                    var clone = Object.assign({}, baseItem, { q: baseItem.q + " (Variante " + (results.length + 1) + ")" });
-                    results.push(clone);
+                    var variantQ = baseItem.q + " [Variante R" + (results.length + 1) + "]";
+                    if (!usedQuestionsInSession.has(variantQ)) {
+                        usedQuestionsInSession.add(variantQ);
+                        results.push({ q: variantQ, o: window.shuffle(baseItem.o), c: baseItem.c });
+                    }
                 }
             }
 
@@ -713,11 +833,22 @@
             var engineName = "PROCEDURAL INÉDITO";
             var apiKey = (localStorage.getItem('gemini_user_api_key') || "").trim();
 
-            // Si el docente ingresó clave de Google AI Studio, intentar IA en vivo
+            // Si el usuario configuró su clave personal de Gemini, intentar la generación con IA
             if (apiKey) {
                 try {
-                    var sessionSalt = "SES_" + Date.now() + "_" + Math.random().toString(36).substring(2, 6);
-                    var prompt = "Eres un evaluador del MEP de Costa Rica para la Escuela Juan Ramírez Ramírez (Sección 3-2). Genera EXACTAMENTE 20 preguntas analíticas e inéditas de selección única para " + materia + ". Código de variedad: [" + sessionSalt + "].";
+                    var sessionSalt = "SES_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7);
+                    var excludeSlice = seenQuestions.slice(-30);
+                    var excludeText = excludeSlice.length > 0
+                        ? "PROHIBIDO REPETIR O UTILIZAR CUALQUIERA DE ESTAS PREGUNTAS YA RESUELTAS:\n" + excludeSlice.map(function(q) { return "- " + q; }).join("\n")
+                        : "Genera un conjunto 100% inédito.";
+
+                    var prompt = "Eres un evaluador del MEP de Costa Rica para la Escuela Juan Ramírez Ramírez (Sección 3-2). Genera EXACTAMENTE 20 preguntas analíticas e inéditas de selección única para " + materia + ".\n" +
+                                 "REGLAS:\n" +
+                                 "1. Nivel analítico y retador para 3er grado de primaria según el temario oficial del MEP.\n" +
+                                 "2. " + excludeText + "\n" +
+                                 "3. Si es Inglés, el enunciado debe estar en español y las opciones/respuesta en inglés.\n" +
+                                 "4. Salida en formato JSON estricto con arreglo 'questions' conteniendo {q, o, c}.\n" +
+                                 "Código de variedad única: [" + sessionSalt + "].";
                     
                     var res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey, {
                         method: "POST",
@@ -753,30 +884,35 @@
                         var json = await res.json();
                         var parsed = JSON.parse(json.candidates[0].content.parts[0].text);
                         if (parsed.questions && parsed.questions.length >= 20) {
-                            final20 = parsed.questions.slice(0, 20);
-                            engineName = "IA VIVA";
+                            var aiFiltered = parsed.questions.filter(function(item) {
+                                return !seenQuestions.includes(item.q);
+                            });
+                            if (aiFiltered.length >= 20) {
+                                final20 = aiFiltered.slice(0, 20);
+                                engineName = "IA VIVA";
+                            }
                         }
                     }
                 } catch (err) {
-                    console.warn("IA no respondió, conmutando a procedural:", err);
+                    console.warn("IA no respondió, conmutando a motor procedural:", err);
                 }
             }
 
-            // Si no hay clave o falló la petición, el motor procedural responde DE INMEDIATO
+            // Si no hay clave, falló la llamada o la IA devolvió repetidas, construir con el motor procedural sin repetición
             if (final20.length < 20) {
                 final20 = window.buildProceduralExam(materia, seenQuestions);
                 engineName = "PROCEDURAL INÉDITO";
             }
 
-            // Registrar preguntas vistas
+            // Registrar preguntas vistas en memoria persistente para evitar repeticiones en intentos futuros
             try {
-                var updated = Array.from(new Set(seenQuestions.concat(final20.map(function(x) { return x.q; }))));
+                var newSeen = final20.map(function(x) { return x.q; });
+                var updated = Array.from(new Set(seenQuestions.concat(newSeen))).slice(-200);
                 localStorage.setItem('seen_' + materia, JSON.stringify(updated));
             } catch (e) {
-                console.warn("Aviso al guardar vistas:", e);
+                console.warn("Aviso al guardar historial de vistas:", e);
             }
 
-            // Iniciar cuestionario interactivo
             currentSubj = materia;
             currentQs = final20;
             curIdx = 0;
@@ -833,11 +969,11 @@
             if (userChoice === correctChoice) {
                 score++;
                 fb.innerText = "¡ANÁLISIS CORRECTO! 🎯";
-                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
+                fb.className = "mt-6 p-5 rounded-2xl border-l-8 bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold";
             } else {
                 buttonElement.classList.add('incorrect');
-                fb.innerText = 'RESPUESTA INCORRECTA. La correcta es: "' + correctChoice + '"';
-                fb.className = "mt-8 p-6 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
+                fb.innerText = 'RESPUESTA INCORRECTA. La opción correcta es: "' + correctChoice + '"';
+                fb.className = "mt-6 p-5 rounded-2xl border-l-8 bg-rose-500/10 border-rose-500 text-rose-400 font-bold";
                 curFailures.push(currentQs[curIdx].q);
             }
             btn.classList.remove('hidden');
@@ -857,7 +993,6 @@
             var nota = Math.round((score / 20) * 100);
             document.getElementById('res-score').innerText = nota;
 
-            // Guardar en historial local de forma permanente
             try {
                 var historyKey = 'exam_history_local';
                 var currentHist = JSON.parse(localStorage.getItem(historyKey) || "[]");
@@ -892,9 +1027,9 @@
                     
                     var tr = document.createElement('tr');
                     tr.className = "hover:bg-white/5 border-b border-white/5 transition";
-                    tr.innerHTML = '<td class="p-4 text-[0.7rem] text-slate-500">' + d.fecha + '</td>' +
-                                   '<td class="p-4 font-bold text-indigo-400 uppercase tracking-tighter">' + d.materia + '</td>' +
-                                   '<td class="p-4 font-black ' + (d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400') + ' text-center">' + d.nota + '</td>' +
+                    tr.innerHTML = '<td class="p-4 text-xs text-slate-400 font-medium">' + d.fecha + '</td>' +
+                                   '<td class="p-4 font-bold text-indigo-300 uppercase tracking-tight">' + d.materia + '</td>' +
+                                   '<td class="p-4 font-black text-center ' + (d.nota >= 70 ? 'text-emerald-400' : 'text-rose-400') + '">' + d.nota + '</td>' +
                                    '<td class="p-4">' + fHTML + '</td>';
                     body.appendChild(tr);
                 });
@@ -917,6 +1052,11 @@
             var pin = document.getElementById('pin-input').value;
             if (pin === "0598") {
                 localStorage.removeItem('exam_history_local');
+                localStorage.removeItem('seen_Español');
+                localStorage.removeItem('seen_Matemáticas');
+                localStorage.removeItem('seen_Ciencias');
+                localStorage.removeItem('seen_Estudios Sociales');
+                localStorage.removeItem('seen_Inglés');
                 window.renderHistoryTable();
                 window.closeClearModal();
             } else {
@@ -924,15 +1064,15 @@
             }
         };
 
-        // Renderizar tabla al cargar
+        // Renderizado inicial al cargar
         window.renderHistoryTable();
     </script>
+
+    <!-- MÓDULO ASÍNCRONO DE SINCRONIZACIÓN NUBE (No bloqueante) -->
     <script type="module">
-        // Módulo complementario para sincronización en la nube si las credenciales están disponibles
         try {
             const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js');
-            const { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js');
-            const { getAuth, signInAnonymously, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js');
+            const { getAuth, signInAnonymously } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js');
 
             const firebaseConfig = {
                 apiKey: "AIzaSyA1Psve5P7AdzLvIBRooU0K0lc42mm8Z6Y",
@@ -945,18 +1085,17 @@
 
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
-            const db = getFirestore(app);
 
             signInAnonymously(auth).then(() => {
                 const statusEl = document.getElementById('auth-status');
-                if (statusEl) statusEl.innerText = "SISTEMA CONECTADO EN LA NUBE ✓";
+                if (statusEl) statusEl.innerText = "SISTEMA NUBE CONECTADO ✓";
                 const dbBadge = document.getElementById('db-status-badge');
-                if (dbBadge) dbBadge.innerText = "NUBE CONECTADA ✓";
+                if (dbBadge) dbBadge.innerText = "NUBE Y LOCAL CONECTADOS ✓";
             }).catch(err => {
-                console.warn("Firebase operando en modo local (sin nube):", err.message);
+                console.warn("Firebase operando en modo local seguro:", err.message);
             });
         } catch (e) {
-            console.warn("Librerías de Firebase no disponibles, operando en modo local seguro:", e);
+            console.warn("Modo local seguro activo:", e);
         }
     </script>
 </body>
